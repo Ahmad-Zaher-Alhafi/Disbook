@@ -5,7 +5,7 @@
 
 .header {
   text-align: center;
-  background-color: darkblue;
+  background-color: #222222;
 }
 
 .container {
@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  background-color: #1e1f22;
 }
 
 .displayer {
@@ -27,12 +28,14 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  background-color: #2b2d31;
 }
 
 .conversationDisplayer {
   display: flex;
   flex-direction: column;
   flex: 2;
+  background-color: #313338;
 }
 
 .conversationsTop {

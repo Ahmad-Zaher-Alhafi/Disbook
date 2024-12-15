@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <header className="header">
+        <h1>Disbook</h1>
+      </header>
+
+      <div className="container">
+        <div className="leftBar">
+          <button>Conversations</button>
+          <button>Feed</button>
+          <button>Group 1</button>
+          <button>Group 2</button>
+          <button>Group 3</button>
+        </div>
+        <div className="displayer">
+          <div className="conversationsSection">
+            <div className="conversationsTop">
+              <input
+                type="text"
+                className="searchConversation"
+                placeholder="Find or start a conversation"
+              />
+            </div>
+            <div className="conversationsMiddle">
+              <div className="directConversations">
+                <button>Conversation 1</button>
+                <button>Conversation 2</button>
+                <button>Conversation 3</button>
+              </div>
+            </div>
+            <div className="conversationsBottom">
+              <img src="" alt="Profile picture" />
+              <button className="mic">Mic</button>
+              <button className="headset">Headset</button>
+              <button className="settings">Settings</button>
+            </div>
+          </div>
+          <div className="conversationDisplayer">
+            <div className="conversationTop">
+              <div>User conversation name and its picture if valid</div>
+            </div>
+            <div className="conversationMiddle">
+              <div className="messagingSection">
+                <div className="message">
+                  <img src="" alt="Sender picture" />
+                  <div className="senderName">Sender name</div>
+                  <div className="messageSendDate">Message send date</div>
+                  <div className="messageContent">Message content</div>
+                </div>
+              </div>
+              <div className="conversationDetailsSection">
+                This might exist and include the user information you talk with
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

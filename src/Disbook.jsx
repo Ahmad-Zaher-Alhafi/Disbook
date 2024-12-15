@@ -1,8 +1,8 @@
-import "./App.css";
+import "./disbook.css";
 
-function App() {
+function Disbook() {
   return (
-    <>
+    <div className="disbook">
       <header className="header">
         <div className="title">Disbook</div>
       </header>
@@ -59,8 +59,8 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-export default App;
+export default Disbook;

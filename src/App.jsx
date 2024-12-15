@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <header className="header">
-        <h1>Disbook</h1>
+        <div className="title">Disbook</div>
       </header>
 
       <div className="container">
@@ -26,6 +26,7 @@ function App() {
             </div>
             <div className="conversationsMiddle">
               <div className="directConversations">
+                <div>Direct conversations</div>
                 <button>Conversation 1</button>
                 <button>Conversation 2</button>
                 <button>Conversation 3</button>

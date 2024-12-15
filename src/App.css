@@ -1,15 +1,25 @@
+body{
+  margin: 0;
+}
+
 #root {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .header {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #222222;
+  flex: 1;
+  max-height: 20px;
 }
 
 .container {
   display: flex;
+  flex: 2;
 }
 
 .leftBar {
@@ -17,6 +27,9 @@
   flex-direction: column;
   flex: 1;
   background-color: #1e1f22;
+  max-width: 50px;
+  padding: 10px;
+  gap: 10px;
 }
 
 .displayer {
@@ -31,6 +44,26 @@
   background-color: #2b2d31;
 }
 
+.conversationsTop {
+  padding: 10px;
+  height: 30px;
+  box-shadow: 0 1px 1px black;
+}
+
+.conversationsMiddle {
+  padding: 10px;
+  flex: 2;
+}
+
+.directConversations {
+  display: flex;
+  flex-direction: column;
+}
+
+.conversationsBottom {
+  padding: 10px;
+}
+
 .conversationDisplayer {
   display: flex;
   flex-direction: column;
@@ -38,14 +71,12 @@
   background-color: #313338;
 }
 
-.conversationsTop {
-  flex: 1;
+.conversationTop {
+  padding: 10px;
+  height: 30px;
+  box-shadow: 0 1px 1px black;
 }
 
-.conversationsMiddle {
-  flex: 2;
-}
-
-.conversationsBottom {
-  flex: 1;
+.conversationMiddle {
+  padding: 10px;
 }

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -14,6 +14,7 @@ function Signup() {
 
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,8 +36,7 @@ function Signup() {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(disbookApiUrl + "/signup", {
+    const response = await fetch(disbookApiUrl + "/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,10 @@ function Signup() {
 
     if (!response.ok) {
       console.error("Could not signup");
+      return;
     }
+
+    navigate("/");
   };
 
   return (

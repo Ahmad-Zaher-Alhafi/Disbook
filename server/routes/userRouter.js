@@ -8,6 +8,6 @@ userRouter.get("/", (req, res) => {
   res.end();
 });
 
-userRouter.post("/signup", userController.addUser);
+userRouter.post("/users", userController.addUser);
 
 module.exports = userRouter;

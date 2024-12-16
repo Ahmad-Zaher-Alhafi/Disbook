@@ -1,16 +1,70 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
+const tockenStorageKey = "token";
 
 function Login() {
+  const [formData, SetFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    SetFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(disbookApiUrl + "/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).catch((err) => {
+      throw new Error("Could not login", err);
+    });
+
+    if (!response.ok) {
+      console.error("Could not login");
+      return;
+    }
+
+    const token = await response.json();
+    localStorage.setItem(tockenStorageKey, token);
+
+    navigate("/");
+  };
+
   return (
     <div className="login">
       <div>Login</div>
 
-      <form action="/login" method="post">
+      <form onSubmit={handleLoginSubmit}>
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" required />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          onChange={handleInputChange}
+        />
 
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" required />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          onChange={handleInputChange}
+        />
 
         <button>Login</button>
       </form>

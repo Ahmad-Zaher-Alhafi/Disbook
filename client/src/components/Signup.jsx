@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
@@ -12,16 +12,30 @@ function Signup() {
     confirmPassword: "",
   });
 
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     SetFormData({
       ...formData,
       [name]: value,
     });
+
+    cehckPasswordMatch();
   };
+
+  function cehckPasswordMatch() {
+    if (passwordRef.current.value === confirmPasswordRef.current.value) {
+      confirmPasswordRef.current.setCustomValidity("");
+    } else {
+      confirmPasswordRef.current.setCustomValidity("Passwords do not match.");
+    }
+  }
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
     const response = await fetch(disbookApiUrl + "/signup", {
       method: "POST",
       headers: {
@@ -71,6 +85,7 @@ function Signup() {
 
         <label htmlFor="password">Password</label>
         <input
+          ref={passwordRef}
           type="password"
           id="password"
           name="password"
@@ -80,6 +95,7 @@ function Signup() {
 
         <label htmlFor="confirmPassword">Confirm password</label>
         <input
+          ref={confirmPasswordRef}
           type="password"
           id="confirmPassword"
           name="confirmPassword"

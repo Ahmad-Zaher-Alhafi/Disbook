@@ -5,6 +5,8 @@ async function addUser(req, res) {
   await userDB
     .addUser(username, password, fullName, email)
     .catch((err) => console.log(err));
+
+  res.end();
 }
 
 module.exports = {

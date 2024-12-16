@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function addUser(username, password, fullName, email) {
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         username: username,
         password: password,
@@ -12,6 +12,8 @@ async function addUser(username, password, fullName, email) {
         email: email,
       },
     });
+
+    return user;
   } catch (error) {
     await onPrismaException(error);
   }
@@ -53,4 +55,6 @@ async function onPrismaException(error) {
 
 module.exports = {
   addUser,
+  getUserById,
+  getUserByUsername,
 };

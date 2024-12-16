@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const userController = require("../controllers/userController");
+const passport = require("passport");
 
 const userRouter = Router();
 
@@ -8,6 +9,11 @@ userRouter.get("/", (req, res) => {
   res.end();
 });
 
-userRouter.post("/users", userController.addUser);
+userRouter.post("/users", userController.signup);
+userRouter.post("/users/login", userController.login);
+userRouter.get("/profile", passport.authenticate("jwt"), (req, res) => {
+  console.log("Profile accessed");
+  res.end();
+});
 
 module.exports = userRouter;

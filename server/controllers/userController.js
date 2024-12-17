@@ -31,6 +31,12 @@ function generateToken(id) {
 
 async function signup(req, res) {
   const { username, password, fullName, email } = req.body;
+  const existingUser = await getUserByUsername(username);
+
+  if (existingUser) {
+    return res.status(409).json({ message: "Username is alread taken" });
+  }
+
   const hasedPassword = await bcrypt.hash(password, 10);
 
   const user = await userDB
@@ -49,19 +55,23 @@ async function login(req, res) {
     );
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return LoginFailedResponse(res);
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return LoginFailedResponse(res);
     }
 
     const token = generateToken(user.id);
     res.json({ token });
   } catch (error) {
-    return res.status(400).json({ message: "Invalid credentials" });
+    return LoginFailedResponse(res);
   }
+}
+
+function LoginFailedResponse(res) {
+  return res.status(400).json({ message: "Wrong username or password" });
 }
 
 module.exports = {

@@ -41,7 +41,13 @@ function Conversations() {
           <div className="directConversations">
             <div>Direct conversations</div>
             {users.map((user) => {
-              return <User key={user.id} fullName={user.fullName}></User>;
+              return (
+                <User
+                  key={user.id}
+                  username={user.username}
+                  fullName={user.fullName}
+                ></User>
+              );
             })}
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import * as storage from "../storage";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const tockenStorageKey = "token";
 
 function Signup() {
   const [formData, SetFormData] = useState({
@@ -56,7 +56,7 @@ function Signup() {
     }
 
     const token = (await response.json()).token;
-    localStorage.setItem(tockenStorageKey, token);
+    storage.setToken(token);
 
     navigate("/");
   };

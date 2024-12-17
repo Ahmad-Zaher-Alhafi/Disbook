@@ -11,9 +11,12 @@ userRouter.get("/", (req, res) => {
 
 userRouter.post("/users", userController.signup);
 userRouter.post("/users/login", userController.login);
-userRouter.get("/profile", passport.authenticate("jwt"), (req, res) => {
-  console.log("Profile accessed");
-  res.end();
-});
+userRouter.get(
+  "/users/isAuthorised",
+  passport.authenticate("jwt"),
+  (req, res) => {
+    res.json("User is Authorised");
+  }
+);
 
 module.exports = userRouter;

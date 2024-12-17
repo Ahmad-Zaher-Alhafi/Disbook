@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as storage from "./storage";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
+import Conversations from "./components/Conversations";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -64,47 +65,7 @@ function Disbook() {
           <button>Group 3</button>
         </div>
         <div className="displayer">
-          <div className="conversationsSection">
-            <div className="conversationsTop">
-              <input
-                type="text"
-                className="searchConversation"
-                placeholder="Find or start a conversation"
-              />
-            </div>
-            <div className="conversationsMiddle">
-              <div className="directConversations">
-                <div>Direct conversations</div>
-                <button>Conversation 1</button>
-                <button>Conversation 2</button>
-                <button>Conversation 3</button>
-              </div>
-            </div>
-            <div className="conversationsBottom">
-              <img src="" alt="Profile picture" />
-              <button className="mic">Mic</button>
-              <button className="headset">Headset</button>
-              <button className="settings">Settings</button>
-            </div>
-          </div>
-          <div className="conversationDisplayer">
-            <div className="conversationTop">
-              <div>User conversation name and its picture if valid</div>
-            </div>
-            <div className="conversationMiddle">
-              <div className="messagingSection">
-                <div className="message">
-                  <img src="" alt="Sender picture" />
-                  <div className="senderName">Sender name</div>
-                  <div className="messageSendDate">Message send date</div>
-                  <div className="messageContent">Message content</div>
-                </div>
-              </div>
-              <div className="conversationDetailsSection">
-                This might exist and include the user information you talk with
-              </div>
-            </div>
-          </div>
+          <Conversations></Conversations>
         </div>
       </div>
     </div>

@@ -1,6 +1,32 @@
+import { useEffect, useState } from "react";
 import User from "./User";
 
+const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
+
 function Conversations() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchusers = async () => {
+      const response = await fetch(disbookApiUrl + "/users", {
+        method: "GET",
+        "Content-Type": "application/json",
+      }).catch((err) => {
+        console.error("Could not fetch users", err);
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+      }
+
+      const users = await response.json();
+      setUsers(users);
+    };
+
+    fetchusers();
+  }, []);
+
   return (
     <div className="conversations">
       <div className="conversationsSection">
@@ -14,9 +40,9 @@ function Conversations() {
         <div className="conversationsMiddle">
           <div className="directConversations">
             <div>Direct conversations</div>
-            <User></User>
-            <User></User>
-            <User></User>
+            {users.map((user) => {
+              return <User key={user.id} fullName={user.fullName}></User>;
+            })}
           </div>
         </div>
         <div className="conversationsBottom">

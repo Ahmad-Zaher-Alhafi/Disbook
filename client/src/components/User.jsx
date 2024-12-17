@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import styles from "../styles/user.module.css";
+import defaultUserImage from "../assets/defaultUserImage.png";
 
-function User({
-  fullName = "User",
-  imgUrl = "../assets/defaultUserImage.png",
-}) {
+function User({ fullName = "User", imgUrl = defaultUserImage }) {
   return (
     <div className={styles.user}>
       <img className={styles.userImg} src={imgUrl} alt="User image" />

@@ -1,4 +1,15 @@
 .user {
   display: flex;
   gap: 10px;
+  align-items: center;
+  background-color: none;
+}
+
+.user:hover {
+  background-color: gray;
+}
+
+.userImg {
+  max-height: 40px;
+  max-width: 40px;
 }

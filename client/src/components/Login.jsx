@@ -10,6 +10,8 @@ function Login() {
     password: "",
   });
 
+  const [loginError, setLoginError] = useState();
+
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -33,7 +35,8 @@ function Login() {
     });
 
     if (!response.ok) {
-      console.error("Could not login");
+      const error = await response.json();
+      setLoginError(error.message);
       return;
     }
 
@@ -68,6 +71,10 @@ function Login() {
 
         <button>Login</button>
       </form>
+
+      {loginError !== undefined ? (
+        <div className="loginError">{loginError}</div>
+      ) : null}
 
       <div>
         Or crete a new account <Link to={"/signup"}>Create account</Link>

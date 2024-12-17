@@ -13,6 +13,8 @@ function Signup() {
     confirmPassword: "",
   });
 
+  const [signupError, setSignupError] = useState();
+
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const navigate = useNavigate();
@@ -48,7 +50,8 @@ function Signup() {
     });
 
     if (!response.ok) {
-      console.error("Could not signup");
+      const error = await response.json();
+      setSignupError(error.message);
       return;
     }
 
@@ -112,6 +115,10 @@ function Signup() {
 
         <button>Signup</button>
       </form>
+
+      {signupError !== undefined ? (
+        <div className="signupError">{signupError}</div>
+      ) : null}
 
       <div>
         Already have an account? <Link to={"/login"}>Login</Link>

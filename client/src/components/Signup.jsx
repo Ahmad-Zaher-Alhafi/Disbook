@@ -55,7 +55,7 @@ function Signup() {
       return;
     }
 
-    const token = await response.json();
+    const token = (await response.json()).token;
     localStorage.setItem(tockenStorageKey, token);
 
     navigate("/");

@@ -19,6 +19,18 @@ async function addUser(username, password, fullName, email) {
   }
 }
 
+async function addUsers(usersData) {
+  try {
+    const users = await prisma.user.createMany({
+      data: usersData,
+    });
+
+    return users;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function getUserById(id) {
   try {
     const user = await prisma.user.findUnique({
@@ -47,6 +59,15 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUsersCount() {
+  try {
+    const count = await prisma.user.count();
+    return count;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -55,6 +76,8 @@ async function onPrismaException(error) {
 
 module.exports = {
   addUser,
+  addUsers,
   getUserById,
   getUserByUsername,
+  getUsersCount,
 };

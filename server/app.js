@@ -10,6 +10,8 @@ const dotenv = require("dotenv");
 const userRouter = require("./routes/userRouter");
 const userController = require("./controllers/userController");
 
+require("./fakeUserGenerator");
+
 const envFile =
   process.env.NODE_ENV === "production"
     ? ".env.production"

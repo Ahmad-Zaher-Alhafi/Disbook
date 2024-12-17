@@ -21,6 +21,14 @@ async function getUserByUsername(username) {
   return user;
 }
 
+async function getUsers(req, res) {
+  const users = await userDB
+    .getUsers()
+    .catch((err) => console.error("No users", err));
+
+  res.json(users);
+}
+
 function generateToken(id) {
   const token = jwt.sign({ id }, jwtSecret, {
     expiresIn: jwtExpiresIn,
@@ -79,4 +87,5 @@ module.exports = {
   getUserById,
   getUserByUsername,
   login,
+  getUsers,
 };

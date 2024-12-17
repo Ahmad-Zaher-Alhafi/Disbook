@@ -68,6 +68,15 @@ async function getUsersCount() {
   }
 }
 
+async function getUsers() {
+  try {
+    const users = await prisma.user.findMany();
+    return users;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -80,4 +89,5 @@ module.exports = {
   getUserById,
   getUserByUsername,
   getUsersCount,
+  getUsers,
 };

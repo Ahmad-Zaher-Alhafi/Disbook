@@ -14,15 +14,27 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  username     String        @unique
-  password     String
-  fullName     String
-  email        String
-  interactions Interaction[]
+  id               Int           @id @default(autoincrement())
+  username         String        @unique
+  password         String
+  fullName         String
+  email            String
+  interactions     Interaction[]
+  messagesSent     Message[]     @relation("SentMessages")
+  messagesRecieved Message[]     @relation("RecievedMessages")
 }
 
 model Interaction {
   id    Int    @id @default(autoincrement())
   users User[]
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now())
+  senderID   Int
+  recieverID Int
+  sender     User     @relation("SentMessages", fields: [senderID], references: [id])
+  reciever   User     @relation("RecievedMessages", fields: [recieverID], references: [id])
 }

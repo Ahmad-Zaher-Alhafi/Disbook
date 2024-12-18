@@ -146,6 +146,41 @@ async function addUserInteraction(userId, interactedWithUserId) {
   }
 }
 
+async function addMessage(senderId, recieverId, content) {
+  try {
+    await prisma.message.create({
+      data: {
+        senderID: senderId,
+        recieverID: recieverId,
+        content: content,
+      },
+    });
+  } catch (error) {
+    await onPrismaException(err);
+  }
+}
+
+async function getMessagesBetweenTwoUsers(firstUserId, secondUserId) {
+  try {
+    const messages = await prisma.message.findMany({
+      where: {
+        OR: [
+          { senderID: firstUserId, recieverID: secondUserId },
+          { senderID: secondUserId, recieverID: firstUserId },
+        ],
+      },
+      include: {
+        sender: true,
+        reciever: true,
+      },
+    });
+
+    return messages;
+  } catch (error) {
+    await onPrismaException(err);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -162,4 +197,6 @@ module.exports = {
   getUsersInteractedWith,
   addUserInteraction,
   getUserInteractedWith,
+  addMessage,
+  getMessagesBetweenTwoUsers,
 };

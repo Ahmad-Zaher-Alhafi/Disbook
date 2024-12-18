@@ -98,6 +98,10 @@ async function signup(req, res) {
 }
 
 async function login(req, res) {
+  function LoginFailedResponse(res) {
+    return res.status(400).json({ message: "Wrong username or password" });
+  }
+
   try {
     const { username, password } = req.body;
     const user = await getUserByUsername(username).catch((err) =>
@@ -120,8 +124,29 @@ async function login(req, res) {
   }
 }
 
-function LoginFailedResponse(res) {
-  return res.status(400).json({ message: "Wrong username or password" });
+async function addMessage(req, res) {
+  try {
+    const senderId = req.user.id;
+    const { recieverId, content } = req.body;
+    await userDB.addMessage(senderId, recieverId, content);
+    res.end();
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+}
+
+async function getMessagesBetweenTwoUsers(req, res) {
+  try {
+    const firstUserId = req.user.id;
+    const secondUserId = parseInt(req.params.recieverId);
+    const messages = await userDB.getMessagesBetweenTwoUsers(
+      firstUserId,
+      secondUserId
+    );
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
 }
 
 module.exports = {
@@ -132,4 +157,6 @@ module.exports = {
   getUsers,
   getUsersInteractedWith,
   addUserInteraction,
+  addMessage,
+  getMessagesBetweenTwoUsers,
 };

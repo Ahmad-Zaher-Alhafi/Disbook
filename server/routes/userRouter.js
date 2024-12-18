@@ -21,6 +21,17 @@ userRouter.post(
   userController.addUserInteraction
 );
 
+userRouter.get(
+  "/users/me/messages/:recieverId",
+  passport.authenticate("jwt", { session: false }),
+  userController.getMessagesBetweenTwoUsers
+);
+userRouter.post(
+  "/users/me/messages",
+  passport.authenticate("jwt", { session: false }),
+  userController.addMessage
+);
+
 userRouter.post("/users", userController.signup);
 userRouter.post("/users/login", userController.login);
 

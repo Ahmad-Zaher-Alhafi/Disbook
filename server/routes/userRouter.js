@@ -15,6 +15,12 @@ userRouter.get(
   userController.getUsersInteractedWith
 );
 
+userRouter.post(
+  "/users/me/interactedWith",
+  passport.authenticate("jwt", { session: false }),
+  userController.addUserInteraction
+);
+
 userRouter.post("/users", userController.signup);
 userRouter.post("/users/login", userController.login);
 

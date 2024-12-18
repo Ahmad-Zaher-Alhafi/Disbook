@@ -101,6 +101,51 @@ async function getUsersInteractedWith(userId) {
   }
 }
 
+async function getUserInteractedWith(userId, userInteractedWithId) {
+  try {
+    const user = await prisma.interaction.findFirst({
+      where: {
+        AND: [
+          {
+            users: {
+              some: {
+                id: userId,
+              },
+            },
+          },
+          {
+            users: {
+              some: {
+                id: userInteractedWithId,
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    return user;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function addUserInteraction(userId, interactedWithUserId) {
+  try {
+    const interaction = await prisma.interaction.create({
+      data: {
+        users: {
+          connect: [{ id: userId }, { id: interactedWithUserId }],
+        },
+      },
+    });
+
+    return interaction;
+  } catch (error) {
+    await onPrismaException(err);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -115,4 +160,6 @@ module.exports = {
   getUsersCount,
   getUsers,
   getUsersInteractedWith,
+  addUserInteraction,
+  getUserInteractedWith,
 };

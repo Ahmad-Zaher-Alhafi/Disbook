@@ -38,6 +38,39 @@ async function getUsersInteractedWith(req, res) {
   res.json(users);
 }
 
+async function addUserInteraction(req, res) {
+  const userID = req.user.id;
+  try {
+    const userInteractedWith = await getUserByUsername(req.body.username);
+    if (!userInteractedWith) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    if (userID === userInteractedWith.id) {
+      res
+        .status(409)
+        .json({ message: "Can not start a conversation with yourself" });
+      return;
+    }
+
+    const existingUser = await userDB.getUserInteractedWith(
+      userID,
+      userInteractedWith.id
+    );
+
+    if (existingUser) {
+      res.status(409).json({ message: "Interaction already exists" });
+      return;
+    }
+
+    await userDB.addUserInteraction(userID, userInteractedWith.id);
+    res.json(userInteractedWith);
+  } catch (error) {
+    res.status(404).json({ message: "User not found" });
+  }
+}
+
 function generateToken(id) {
   const token = jwt.sign({ id }, jwtSecret, {
     expiresIn: jwtExpiresIn,
@@ -98,4 +131,5 @@ module.exports = {
   login,
   getUsers,
   getUsersInteractedWith,
+  addUserInteraction,
 };

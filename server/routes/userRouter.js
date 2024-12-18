@@ -4,6 +4,11 @@ const passport = require("passport");
 
 const userRouter = Router();
 
+userRouter.get("/", (req, res) => {
+  res.send("<h1>Welcome to Disbook server</h1>");
+  res.end();
+});
+
 userRouter.get(
   "/users/me/interactedWith",
   passport.authenticate("jwt", { session: false }),

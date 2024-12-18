@@ -3,6 +3,7 @@ import User from "./User";
 import * as storage from "../storage";
 import styles from "../styles/conversations.module.css";
 import AddConversation from "./AddConversation";
+import Conversation from "./Conversation";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
@@ -12,12 +13,18 @@ function Conversations() {
   const [addConversationPanelShown, setAddConversationPanelShown] =
     useState(false);
 
+  const [conversationUserId, setConversationUserId] = useState();
+
+  const handleUserClicked = (userId) => {
+    setConversationUserId(userId);
+  };
+
   document.addEventListener("click", () => {
     setAddConversationPanelShown(false);
   });
 
   useEffect(() => {
-    const fetchusers = async () => {
+    const fetchUsers = async () => {
       const response = await fetch(disbookApiUrl + "/users/me/interactedWith", {
         method: "GET",
         headers: {
@@ -30,13 +37,14 @@ function Conversations() {
       if (!response.ok) {
         const error = await response.json();
         console.error(error);
+        return;
       }
 
       const users = await response.json();
       setUsersInteractedWith(users);
     };
 
-    fetchusers();
+    fetchUsers();
   }, []);
 
   const handleAddConversationButton = (e) => {
@@ -76,8 +84,10 @@ function Conversations() {
               return (
                 <User
                   key={user.id}
+                  id={user.id}
                   username={user.username}
                   fullName={user.fullName}
+                  onClick={handleUserClicked}
                 ></User>
               );
             })}
@@ -96,12 +106,9 @@ function Conversations() {
         </div>
         <div className="conversationMiddle">
           <div className="messagingSection">
-            <div className="message">
-              <img src="" alt="Sender picture" />
-              <div className="senderName">Sender name</div>
-              <div className="messageSendDate">Message send date</div>
-              <div className="messageContent">Message content</div>
-            </div>
+            {conversationUserId ? (
+              <Conversation recieverId={conversationUserId}></Conversation>
+            ) : null}
           </div>
           <div className="conversationDetailsSection">
             This might exist and include the user information you talk with

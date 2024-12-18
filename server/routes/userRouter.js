@@ -4,21 +4,20 @@ const passport = require("passport");
 
 const userRouter = Router();
 
-userRouter.get("/", (req, res) => {
-  res.send("<h1> Hey there</h1>");
-  res.end();
-});
+userRouter.get(
+  "/users/me/interactedWith",
+  passport.authenticate("jwt", { session: false }),
+  userController.getUsersInteractedWith
+);
 
-userRouter.get("/users", userController.getUsers);
 userRouter.post("/users", userController.signup);
 userRouter.post("/users/login", userController.login);
 
 userRouter.get(
   "/users/isAuthorised",
-  passport.authenticate("jwt"),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.json("User is Authorised");
+    res.end();
   }
 );
-
 module.exports = userRouter;

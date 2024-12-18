@@ -77,6 +77,30 @@ async function getUsers() {
   }
 }
 
+async function getUsersInteractedWith(userId) {
+  try {
+    const interactions = await prisma.interaction.findMany({
+      where: {
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      include: {
+        users: true,
+      },
+    });
+
+    const usersExceptMe = interactions.flatMap((interaction) =>
+      interaction.users.filter((user) => user.id !== userId)
+    );
+    return usersExceptMe;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -90,4 +114,5 @@ module.exports = {
   getUserByUsername,
   getUsersCount,
   getUsers,
+  getUsersInteractedWith,
 };

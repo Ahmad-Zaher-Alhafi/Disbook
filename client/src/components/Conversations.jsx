@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import User from "./User";
+import * as storage from "../storage";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
+const token = storage.getToken();
 
 function Conversations() {
-  const [users, setUsers] = useState([]);
+  const [usersInteractedWith, setUsersInteractedWith] = useState([]);
 
   useEffect(() => {
     const fetchusers = async () => {
-      const response = await fetch(disbookApiUrl + "/users", {
+      const response = await fetch(disbookApiUrl + "/users/me/interactedWith", {
         method: "GET",
-        "Content-Type": "application/json",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }).catch((err) => {
         console.error("Could not fetch users", err);
       });
@@ -21,7 +25,7 @@ function Conversations() {
       }
 
       const users = await response.json();
-      setUsers(users);
+      setUsersInteractedWith(users);
     };
 
     fetchusers();
@@ -40,7 +44,8 @@ function Conversations() {
         <div className="conversationsMiddle">
           <div className="directConversations">
             <div>Direct conversations</div>
-            {users.map((user) => {
+
+            {usersInteractedWith.map((user) => {
               return (
                 <User
                   key={user.id}

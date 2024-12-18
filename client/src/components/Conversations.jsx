@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import User from "./User";
 import * as storage from "../storage";
+import styles from "../styles/conversations.module.css";
+import AddConversation from "./AddConversation";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
 
 function Conversations() {
   const [usersInteractedWith, setUsersInteractedWith] = useState([]);
+  const [addConversationPanelShown, setAddConversationPanelShown] =
+    useState(false);
+
+  document.addEventListener("click", () => {
+    setAddConversationPanelShown(false);
+  });
 
   useEffect(() => {
     const fetchusers = async () => {
@@ -31,6 +39,11 @@ function Conversations() {
     fetchusers();
   }, []);
 
+  const handleAddConversationButton = (e) => {
+    setAddConversationPanelShown(!addConversationPanelShown);
+    e.stopPropagation();
+  };
+
   return (
     <div className="conversations">
       <div className="conversationsSection">
@@ -43,7 +56,21 @@ function Conversations() {
         </div>
         <div className="conversationsMiddle">
           <div className="directConversations">
-            <div>Direct conversations</div>
+            <div className={styles.directConversationsHeader}>
+              <div>Direct conversations</div>
+              <button
+                className={styles.addCinversationButton}
+                onClick={handleAddConversationButton}
+              >
+                +
+              </button>
+              {addConversationPanelShown ? (
+                <AddConversation
+                  usersInteractedWith={usersInteractedWith}
+                  setUsersInteractedWith={setUsersInteractedWith}
+                ></AddConversation>
+              ) : null}
+            </div>
 
             {usersInteractedWith.map((user) => {
               return (

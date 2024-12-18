@@ -1,0 +1,5 @@
+.directConversationsHeader {
+  display: flex;
+  position: relative;
+  gap: 10px;
+}

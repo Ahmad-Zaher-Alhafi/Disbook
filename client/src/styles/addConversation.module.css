@@ -1,0 +1,16 @@
+.addConversation {
+  position: absolute;
+  z-index: 10;
+  padding: 10px;
+
+  top: 120%;
+  left: 142px;
+  background-color: #1e1f22;
+  border: 3px solid white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

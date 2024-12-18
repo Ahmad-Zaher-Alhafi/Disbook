@@ -7,10 +7,10 @@ import Loading from "./components/Loading";
 import Conversations from "./components/Conversations";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
+const token = storage.getToken();
 
 function Disbook() {
   const [isAuthorised, setIsAuthorised] = useState();
-  const token = storage.getToken();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function Disbook() {
         throw new Error("");
       });
 
-      if (!response) {
+      if (!response.ok) {
         setIsAuthorised(false);
         navigate("/login");
         return;

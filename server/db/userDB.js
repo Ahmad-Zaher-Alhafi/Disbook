@@ -148,13 +148,15 @@ async function addUserInteraction(userId, interactedWithUserId) {
 
 async function addMessage(senderId, recieverId, content) {
   try {
-    await prisma.message.create({
+    const message = await prisma.message.create({
       data: {
         senderID: senderId,
         recieverID: recieverId,
         content: content,
       },
     });
+
+    return message;
   } catch (error) {
     await onPrismaException(err);
   }

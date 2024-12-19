@@ -10,6 +10,9 @@ const dotenv = require("dotenv");
 const userRouter = require("./routes/userRouter");
 const userController = require("./controllers/userController");
 
+const { createServer } = require("node:http");
+const { Server } = require("socket.io");
+
 require("./fakeUserGenerator");
 
 const envFile =
@@ -51,21 +54,68 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+const corsOptions = {
+  origin: process.env.CORS_ORIGINS,
+};
+
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: corsOptions,
+});
+
+io.use((socket, next) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return next(new Error("Authentication error"));
+    }
+
+    // Attach the authenticated user to the socket
+    socket.user = user;
+    next();
+  })(socket.request);
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+  const sender = socket.user;
+
+  socket.on("message", async (data) => {
+    const { recieverId, content } = data;
+    const reciever = await userController.getUserById(recieverId);
+
+    let message = await userController.addMessage(
+      sender.id,
+      recieverId,
+      content
+    );
+
+    message = {
+      ...message,
+      sender,
+      reciever,
+    };
+
+    console.log("Message received:", message);
+    socket.emit("message", message);
+  });
+
+  // Handle disconnection
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
+  });
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 
-const corsOptions = {
-  origin: process.env.CORS_ORIGINS,
-};
 app.use(cors(corsOptions));
 
 app.use("/", userRouter);
 
 const PORT = 3000;
-app.listen(PORT, () =>
-  console.log(`Server is listening to http://localhost:${PORT}`)
-);
+server.listen(PORT, () => {
+  console.log(`Server is listening to http://localhost:${PORT}`);
+});

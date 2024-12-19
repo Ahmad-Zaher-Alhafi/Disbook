@@ -23,7 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",

@@ -124,14 +124,12 @@ async function login(req, res) {
   }
 }
 
-async function addMessage(req, res) {
+async function addMessage(senderId, recieverId, content) {
   try {
-    const senderId = req.user.id;
-    const { recieverId, content } = req.body;
-    await userDB.addMessage(senderId, recieverId, content);
-    res.end();
+    const message = await userDB.addMessage(senderId, recieverId, content);
+    return message;
   } catch (error) {
-    res.status(400).json({ message: error });
+    return null;
   }
 }
 

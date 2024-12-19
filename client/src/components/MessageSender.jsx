@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import * as storage from "../storage";
-
-const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const token = storage.getToken();
+import { useSocket } from "../socketContext";
 
 function MessageSender({ recieverId }) {
   const [message, setMessage] = useState({
@@ -11,6 +8,7 @@ function MessageSender({ recieverId }) {
   });
 
   const inputRef = useRef();
+  const socket = useSocket();
 
   useEffect(() => {
     setMessage({
@@ -28,23 +26,7 @@ function MessageSender({ recieverId }) {
   };
 
   const onSendMessageClicked = async () => {
-    const response = await fetch(disbookApiUrl + "/users/me/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(message),
-    }).catch((err) => {
-      throw new Error("Could not send message", err);
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error(error);
-      return;
-    }
-
+    socket.emit("message", message);
     inputRef.current.value = "";
   };
 

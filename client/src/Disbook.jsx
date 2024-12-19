@@ -5,6 +5,7 @@ import * as storage from "./storage";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
 import Conversations from "./components/Conversations";
+import SocketProvider from "./components/SocketProvider";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
@@ -65,7 +66,9 @@ function Disbook() {
           <button>Group 3</button>
         </div>
         <div className="displayer">
-          <Conversations></Conversations>
+          <SocketProvider>
+            <Conversations></Conversations>
+          </SocketProvider>
         </div>
       </div>
     </div>

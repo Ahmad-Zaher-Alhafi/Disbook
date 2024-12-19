@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import Message from "./Message";
 import * as storage from "../storage";
 import MessageSender from "./MessageSender";
+import { useSocket } from "../socketContext";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
 
 function Conversation({ recieverId }) {
   const [messages, setMessages] = useState([]);
+  const socket = useSocket();
 
   useEffect(() => {
+    console.log("Fetching messages");
     const fetchMessages = async () => {
       const response = await fetch(
         disbookApiUrl + `/users/me/messages/${recieverId}`,
@@ -36,6 +39,17 @@ function Conversation({ recieverId }) {
 
     fetchMessages();
   }, [recieverId]);
+
+  useEffect(() => {
+    socket.on("message", (message) => {
+      console.log("Recieveing message");
+      setMessages((pre) => [...pre, message]);
+    });
+
+    return () => {
+      socket.off("message");
+    };
+  }, [socket]);
 
   return (
     <div className="conversation">

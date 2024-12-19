@@ -4,6 +4,7 @@ import * as storage from "../storage";
 import styles from "../styles/conversations.module.css";
 import AddConversation from "./AddConversation";
 import Conversation from "./Conversation";
+import SocketProvider from "./SocketProvider";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
@@ -106,9 +107,18 @@ function Conversations() {
         </div>
         <div className="conversationMiddle">
           <div className="messagingSection">
-            {conversationUserId ? (
-              <Conversation recieverId={conversationUserId}></Conversation>
-            ) : null}
+            {usersInteractedWith.map((user) => {
+              return (
+                <SocketProvider key={user.id}>
+                  <Conversation
+                    recieverId={user.id}
+                    isOpened={user.id === conversationUserId}
+                    usersInteractedWith={usersInteractedWith}
+                    setUsersInteractedWith={setUsersInteractedWith}
+                  ></Conversation>
+                </SocketProvider>
+              );
+            })}
           </div>
           <div className="conversationDetailsSection">
             This might exist and include the user information you talk with

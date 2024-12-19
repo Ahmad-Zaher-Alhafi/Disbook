@@ -3,11 +3,17 @@ import Message from "./Message";
 import * as storage from "../storage";
 import MessageSender from "./MessageSender";
 import { useSocket } from "../socketContext";
+import { myInfo } from "../myInfo";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
 
-function Conversation({ recieverId }) {
+function Conversation({
+  recieverId,
+  isOpened,
+  usersInteractedWith,
+  setUsersInteractedWith,
+}) {
   const [messages, setMessages] = useState([]);
   const socket = useSocket();
 
@@ -38,18 +44,33 @@ function Conversation({ recieverId }) {
     };
 
     fetchMessages();
-  }, [recieverId]);
+  }, [usersInteractedWith]);
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      console.log("Recieveing message");
-      setMessages((pre) => [...pre, message]);
-    });
+    try {
+      socket.on("message", (message) => {
+        console.log("Recieveing message");
+        setMessages((pre) => [...pre, message]);
 
-    return () => {
-      socket.off("message");
-    };
+        if (
+          !usersInteractedWith.some((user) => user.id === message.sender.id) &&
+          message.sender.id !== myInfo.id
+        ) {
+          setUsersInteractedWith((pre) => [...pre, message.sender]);
+        }
+      });
+
+      return () => {
+        socket.off("message");
+      };
+    } catch (error) {
+      console.error("Could not listen to incomming messages from io", error);
+    }
   }, [socket]);
+
+  if (!isOpened) {
+    return;
+  }
 
   return (
     <div className="conversation">

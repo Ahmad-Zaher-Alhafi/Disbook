@@ -39,7 +39,7 @@ userRouter.get(
   "/users/isAuthorised",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.end();
+    res.json(req.user);
   }
 );
 module.exports = userRouter;

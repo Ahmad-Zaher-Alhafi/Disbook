@@ -12,6 +12,7 @@ const userController = require("./controllers/userController");
 
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
+const { getUserSoketId, setUserSoketId } = require("./tempDataStorage");
 
 require("./fakeUserGenerator");
 
@@ -77,8 +78,13 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
   const sender = socket.user;
+  setUserSoketId(sender.id, socket.id);
+  console.log(
+    `${io.sockets.sockets.size}: ${sender.username} established connection to:`,
+    socket.id
+  );
+  console.log("Num of soket connections:", io.sockets.sockets.size);
 
   socket.on("message", async (data) => {
     const { recieverId, content } = data;
@@ -97,12 +103,15 @@ io.on("connection", (socket) => {
     };
 
     console.log("Message received:", message);
-    socket.emit("message", message);
+    const recieverSoketId = getUserSoketId(recieverId);
+    const senderSoketId = getUserSoketId(sender.id);
+    io.to(senderSoketId).to(recieverSoketId).emit("message", message);
   });
 
   // Handle disconnection
   socket.on("disconnect", () => {
     console.log("A user disconnected:", socket.id);
+    console.log("Num of soket connections: " + io.sockets.sockets.size);
   });
 });
 

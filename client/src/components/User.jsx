@@ -6,6 +6,7 @@ function User({
   username = "username",
   fullName = "User",
   imgUrl = defaultUserImage,
+  notificationsCount,
   onClick,
 }) {
   return (
@@ -13,6 +14,9 @@ function User({
       <img className={styles.img} src={imgUrl} alt="User image" />
       <div className={styles.fullName}>{fullName}</div>
       <div className={styles.username}>@{username}</div>
+      {notificationsCount > 0 ? (
+        <div className={styles.notifications}>{notificationsCount}</div>
+      ) : null}
     </div>
   );
 }

@@ -15,12 +15,15 @@ function Conversations() {
   const [addConversationPanelShown, setAddConversationPanelShown] =
     useState(false);
 
-  const [conversationUserId, setConversationUserId] = useState();
+  const [openedConversationUserId, setOpenedConversationUserId] = useState();
   const [messages, setMessages] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
   const socket = useSocket();
 
   const handleUserClicked = (userId) => {
-    setConversationUserId(userId);
+    setOpenedConversationUserId(userId);
+    resetNotificationsOfUser(userId);
   };
 
   document.addEventListener("click", () => {
@@ -77,6 +80,7 @@ function Conversations() {
     try {
       socket.on("message", (message) => {
         setMessages((pre) => [...pre, message]);
+        showNotificationIfNeeded(message);
       });
 
       return () => {
@@ -85,12 +89,51 @@ function Conversations() {
     } catch (error) {
       console.error("Could not listen to incomming messages from io", error);
     }
-  }, [socket]);
+  }, [socket, openedConversationUserId]);
+
+  useEffect(() => {}, [messages]);
 
   const handleAddConversationButton = (e) => {
     setAddConversationPanelShown(!addConversationPanelShown);
     e.stopPropagation();
   };
+
+  function showNotificationIfNeeded(message) {
+    if (
+      message.sender.id !== openedConversationUserId &&
+      message.sender.id !== myInfo.id
+    ) {
+      setNotifications((pre) => {
+        const notification = pre.find(
+          (notification) => notification.userId === message.sender.id
+        );
+
+        if (notification) {
+          return pre.map((notification) =>
+            notification.userId === message.sender.id
+              ? { ...notification, count: notification.count + 1 }
+              : notification
+          );
+        } else {
+          return [
+            ...pre,
+            {
+              userId: message.sender.id,
+              count: 1,
+            },
+          ];
+        }
+      });
+    }
+  }
+
+  function resetNotificationsOfUser(userId) {
+    setNotifications((pre) =>
+      pre.map((notification) =>
+        notification.userId === userId ? (notification.count = 0) : notification
+      )
+    );
+  }
 
   return (
     <div className="conversations">
@@ -127,6 +170,11 @@ function Conversations() {
                   id={user.id}
                   username={user.username}
                   fullName={user.fullName}
+                  notificationsCount={
+                    notifications.find(
+                      (notification) => notification.userId === user.id
+                    )?.count
+                  }
                   onClick={handleUserClicked}
                 ></User>
               );
@@ -156,7 +204,7 @@ function Conversations() {
                       message.reciever.id === user.id ||
                       message.sender.id === user.id
                   )}
-                  isOpened={user.id === conversationUserId}
+                  isOpened={user.id === openedConversationUserId}
                 ></Conversation>
               );
             })}

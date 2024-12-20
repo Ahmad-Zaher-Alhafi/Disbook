@@ -1,5 +1,6 @@
 import Message from "./Message";
 import MessageSender from "./MessageSender";
+import style from "../styles/conversation.module.css";
 
 function Conversation({ messages, recieverId, isOpened }) {
   if (!isOpened) {
@@ -7,7 +8,7 @@ function Conversation({ messages, recieverId, isOpened }) {
   }
 
   return (
-    <div className="conversation">
+    <div className={style.conversation}>
       {messages.map((message) => {
         return (
           <Message

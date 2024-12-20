@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import User from "./User";
 import * as storage from "../storage";
 import styles from "../styles/conversations.module.css";
@@ -20,6 +20,8 @@ function Conversations() {
   const [notifications, setNotifications] = useState([]);
 
   const socket = useSocket();
+  const conversationMiddleRef = useRef();
+  const [scrollOnMessageRecieve, setScrollOnMessageRecieve] = useState(true);
 
   const handleUserClicked = (userId) => {
     setOpenedConversationUserId(userId);
@@ -83,6 +85,9 @@ function Conversations() {
         showNotificationIfNeeded(message);
       });
 
+      setScrollNecessity();
+      scrollDown();
+
       return () => {
         socket.off("message");
       };
@@ -91,12 +96,28 @@ function Conversations() {
     }
   }, [socket, openedConversationUserId]);
 
-  useEffect(() => {}, [messages]);
+  useEffect(() => {
+    scrollDownIfAllowed();
+  }, [messages]);
 
   const handleAddConversationButton = (e) => {
     setAddConversationPanelShown(!addConversationPanelShown);
     e.stopPropagation();
   };
+
+  function setScrollNecessity() {
+    conversationMiddleRef.current.addEventListener("scroll", () => {
+      // Scroll on messages only if the user did not scroll up manually
+      const scrolledAmount =
+        conversationMiddleRef.current.scrollTop +
+        conversationMiddleRef.current.clientHeight;
+
+      const userScrolledUpManually =
+        scrolledAmount + 1 < conversationMiddleRef.current.scrollHeight;
+
+      setScrollOnMessageRecieve(!userScrolledUpManually);
+    });
+  }
 
   function showNotificationIfNeeded(message) {
     if (
@@ -133,6 +154,17 @@ function Conversations() {
         notification.userId === userId ? (notification.count = 0) : notification
       )
     );
+  }
+
+  function scrollDownIfAllowed() {
+    if (scrollOnMessageRecieve) {
+      scrollDown();
+    }
+  }
+
+  function scrollDown() {
+    conversationMiddleRef.current.scrollTop =
+      conversationMiddleRef.current.scrollHeight;
   }
 
   return (
@@ -192,26 +224,21 @@ function Conversations() {
         <div className="conversationTop">
           <div>User conversation name and its picture if valid</div>
         </div>
-        <div className="conversationMiddle">
-          <div className="messagingSection">
-            {usersInteractedWith.map((user) => {
-              return (
-                <Conversation
-                  key={user.id}
-                  recieverId={user.id}
-                  messages={messages.filter(
-                    (message) =>
-                      message.reciever.id === user.id ||
-                      message.sender.id === user.id
-                  )}
-                  isOpened={user.id === openedConversationUserId}
-                ></Conversation>
-              );
-            })}
-          </div>
-          <div className="conversationDetailsSection">
-            This might exist and include the user information you talk with
-          </div>
+        <div className={styles.conversationMiddle} ref={conversationMiddleRef}>
+          {usersInteractedWith.map((user) => {
+            return (
+              <Conversation
+                key={user.id}
+                recieverId={user.id}
+                messages={messages.filter(
+                  (message) =>
+                    message.reciever.id === user.id ||
+                    message.sender.id === user.id
+                )}
+                isOpened={user.id === openedConversationUserId}
+              ></Conversation>
+            );
+          })}
         </div>
       </div>
     </div>

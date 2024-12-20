@@ -5,7 +5,11 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+}
+
+.disbook {
+  height: 100%;
 }
 
 .header {
@@ -14,12 +18,13 @@ body {
   align-items: center;
   background-color: #222222;
   flex: 1;
-  max-height: 20px;
+  height: 3%;
 }
 
 .container {
   display: flex;
-  flex: 2;
+  flex: 1;
+  height: 97%;
 }
 
 .leftBar {

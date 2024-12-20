@@ -4,7 +4,8 @@ import * as storage from "../storage";
 import styles from "../styles/conversations.module.css";
 import AddConversation from "./AddConversation";
 import Conversation from "./Conversation";
-import SocketProvider from "./SocketProvider";
+import { myInfo } from "../myInfo";
+import { useSocket } from "../socketContext";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
@@ -15,6 +16,8 @@ function Conversations() {
     useState(false);
 
   const [conversationUserId, setConversationUserId] = useState();
+  const [messages, setMessages] = useState([]);
+  const socket = useSocket();
 
   const handleUserClicked = (userId) => {
     setConversationUserId(userId);
@@ -46,7 +49,43 @@ function Conversations() {
     };
 
     fetchUsers();
+
+    const fetchMessages = async () => {
+      const response = await fetch(disbookApiUrl + "/users/me/messages", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).catch((err) => {
+        console.error("Could not fetch messages related to this user", err);
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      const messages = await response.json();
+      setMessages(messages);
+    };
+
+    fetchMessages();
   }, []);
+
+  useEffect(() => {
+    try {
+      socket.on("message", (message) => {
+        setMessages((pre) => [...pre, message]);
+      });
+
+      return () => {
+        socket.off("message");
+      };
+    } catch (error) {
+      console.error("Could not listen to incomming messages from io", error);
+    }
+  }, [socket]);
 
   const handleAddConversationButton = (e) => {
     setAddConversationPanelShown(!addConversationPanelShown);
@@ -109,14 +148,16 @@ function Conversations() {
           <div className="messagingSection">
             {usersInteractedWith.map((user) => {
               return (
-                <SocketProvider key={user.id}>
-                  <Conversation
-                    recieverId={user.id}
-                    isOpened={user.id === conversationUserId}
-                    usersInteractedWith={usersInteractedWith}
-                    setUsersInteractedWith={setUsersInteractedWith}
-                  ></Conversation>
-                </SocketProvider>
+                <Conversation
+                  key={user.id}
+                  recieverId={user.id}
+                  messages={messages.filter(
+                    (message) =>
+                      message.reciever.id === user.id ||
+                      message.sender.id === user.id
+                  )}
+                  isOpened={user.id === conversationUserId}
+                ></Conversation>
               );
             })}
           </div>

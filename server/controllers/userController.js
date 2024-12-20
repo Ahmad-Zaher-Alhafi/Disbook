@@ -147,6 +147,16 @@ async function getMessagesBetweenTwoUsers(req, res) {
   }
 }
 
+async function getAllMessagesRelatedToUser(req, res) {
+  try {
+    const userId = req.user.id;
+    const messages = await userDB.getAllMessagesRelatedToUser(userId);
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+}
+
 module.exports = {
   signup,
   getUserById,
@@ -157,4 +167,5 @@ module.exports = {
   addUserInteraction,
   addMessage,
   getMessagesBetweenTwoUsers,
+  getAllMessagesRelatedToUser,
 };

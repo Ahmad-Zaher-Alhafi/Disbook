@@ -22,14 +22,21 @@ userRouter.post(
 );
 
 userRouter.get(
-  "/users/me/messages/:recieverId",
+  "/users/me/messages",
   passport.authenticate("jwt", { session: false }),
-  userController.getMessagesBetweenTwoUsers
+  userController.getAllMessagesRelatedToUser
 );
+
 userRouter.post(
   "/users/me/messages",
   passport.authenticate("jwt", { session: false }),
   userController.addMessage
+);
+
+userRouter.get(
+  "/users/me/messages/:recieverId",
+  passport.authenticate("jwt", { session: false }),
+  userController.getMessagesBetweenTwoUsers
 );
 
 userRouter.post("/users", userController.signup);

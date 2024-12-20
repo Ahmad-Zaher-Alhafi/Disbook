@@ -75,13 +75,6 @@ body {
   padding: 10px;
 }
 
-.conversationDisplayer {
-  display: flex;
-  flex-direction: column;
-  flex: 2;
-  background-color: #313338;
-}
-
 .conversationTop {
   padding: 10px;
   height: 30px;

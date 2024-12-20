@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../socketContext";
+import styles from "../styles/messageSender.module.css";
+
+const textAreaMaxHeight = 300;
 
 function MessageSender({ recieverId }) {
   const [message, setMessage] = useState({
@@ -18,28 +21,70 @@ function MessageSender({ recieverId }) {
   }, [recieverId]);
 
   const handleInputChange = (e) => {
+    adjustTextAreaHeight();
+
     const { name, value } = e.target;
     setMessage({
       recieverId: recieverId,
-      [name]: value,
+      [name]: value.trim(),
     });
   };
 
-  const onSendMessageClicked = async () => {
-    socket.emit("message", message);
-    inputRef.current.value = "";
+  const handleInputKeyPressed = (e) => {
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
+        e.preventDefault();
+        SendMessage();
+      }
+    }
   };
 
+  function adjustTextAreaHeight() {
+    // Shrink to normal
+    inputRef.current.style.height = "auto";
+
+    const style = window.getComputedStyle(inputRef.current);
+    const paddingTop = parseInt(style.paddingTop);
+    const paddingBottom = parseInt(style.paddingBottom);
+
+    const newHeight =
+      inputRef.current.scrollHeight - paddingTop - paddingBottom;
+    // Expand to fit the message height with a max height limit
+    inputRef.current.style.height =
+      newHeight > textAreaMaxHeight
+        ? textAreaMaxHeight + "px"
+        : newHeight + "px";
+  }
+
+  const onSendMessageClicked = async () => {
+    SendMessage();
+  };
+
+  function SendMessage() {
+    if (!message.content) return;
+
+    socket.emit("message", message);
+    inputRef.current.value = "";
+    inputRef.current.style.height = "auto";
+  }
+
   return (
-    <div className="MessageSender">
-      <input
+    <div className={styles.messageSender}>
+      <textarea
+        className={styles.textArea}
         ref={inputRef}
         type="text"
         name="content"
         placeholder="Type something..."
+        onKeyDown={handleInputKeyPressed}
         onChange={handleInputChange}
-      />
-      <button onClick={onSendMessageClicked} disabled={!inputRef.current.value.trim()}>
+        rows="1"
+      ></textarea>
+
+      <button
+        onClick={onSendMessageClicked}
+        disabled={!inputRef.current?.value.trim()}
+      >
         Send
       </button>
     </div>

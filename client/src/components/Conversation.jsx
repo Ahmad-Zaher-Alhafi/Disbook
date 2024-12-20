@@ -1,8 +1,7 @@
 import Message from "./Message";
-import MessageSender from "./MessageSender";
 import style from "../styles/conversation.module.css";
 
-function Conversation({ messages, recieverId, isOpened }) {
+function Conversation({ messages, isOpened }) {
   if (!isOpened) {
     return;
   }
@@ -19,8 +18,6 @@ function Conversation({ messages, recieverId, isOpened }) {
           ></Message>
         );
       })}
-
-      <MessageSender recieverId={recieverId}></MessageSender>
     </div>
   );
 }

@@ -8,7 +8,7 @@ function Message({
       <img src="" alt="Sender picture" />
       <div className="senderName">{senderName}</div>
       <div className="messageSendDate">{sentAt}</div>
-      <div className="messageContent">{content}</div>
+      <pre className="messageContent">{content}</pre>
     </div>
   );
 }

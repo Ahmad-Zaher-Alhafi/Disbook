@@ -1,0 +1,13 @@
+.messageSender {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  max-height: 100%;
+}
+
+.textArea {
+  resize: none;
+  flex: 1;
+  padding: 10px;
+  max-height: 100%;
+}

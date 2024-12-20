@@ -7,6 +7,7 @@ import Conversation from "./Conversation";
 import { myInfo } from "../myInfo";
 import { useSocket } from "../socketContext";
 import discrodSound from "../assets/discordNotificationSound.mp3";
+import MessageSender from "./MessageSender";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
@@ -114,17 +115,19 @@ function Conversations() {
   };
 
   function setScrollNecessity() {
-    conversationMiddleRef.current.addEventListener("scroll", () => {
-      // Scroll on messages only if the user did not scroll up manually
-      const scrolledAmount =
-        conversationMiddleRef.current.scrollTop +
-        conversationMiddleRef.current.clientHeight;
+    if (conversationMiddleRef.current) {
+      conversationMiddleRef.current.addEventListener("scroll", () => {
+        // Scroll on messages only if the user did not scroll up manually
+        const scrolledAmount =
+          conversationMiddleRef.current.scrollTop +
+          conversationMiddleRef.current.clientHeight;
 
-      const userScrolledUpManually =
-        scrolledAmount + 1 < conversationMiddleRef.current.scrollHeight;
+        const userScrolledUpManually =
+          scrolledAmount + 1 < conversationMiddleRef.current.scrollHeight;
 
-      setScrollOnMessageRecieve(!userScrolledUpManually);
-    });
+        setScrollOnMessageRecieve(!userScrolledUpManually);
+      });
+    }
   }
 
   function showNotificationIfNeeded(message) {
@@ -177,8 +180,10 @@ function Conversations() {
   }
 
   function scrollDown() {
-    conversationMiddleRef.current.scrollTop =
-      conversationMiddleRef.current.scrollHeight;
+    if (conversationMiddleRef.current) {
+      conversationMiddleRef.current.scrollTop =
+        conversationMiddleRef.current.scrollHeight;
+    }
   }
 
   return (
@@ -234,27 +239,37 @@ function Conversations() {
           <button className="settings">Settings</button>
         </div>
       </div>
-      <div className="conversationDisplayer">
-        <div className="conversationTop">
-          <div>User conversation name and its picture if valid</div>
+      {openedConversationUserId ? (
+        <div className={styles.conversationDisplayer}>
+          <div className="conversationTop">
+            <div>User conversation name and its picture if valid</div>
+          </div>
+          <div
+            className={styles.conversationMiddle}
+            ref={conversationMiddleRef}
+          >
+            {usersInteractedWith.map((user) => {
+              return (
+                <Conversation
+                  key={user.id}
+                  recieverId={user.id}
+                  messages={messages.filter(
+                    (message) =>
+                      message.reciever.id === user.id ||
+                      message.sender.id === user.id
+                  )}
+                  isOpened={user.id === openedConversationUserId}
+                ></Conversation>
+              );
+            })}
+          </div>
+          <div className={styles.conversationBottom}>
+            <MessageSender
+              recieverId={openedConversationUserId}
+            ></MessageSender>
+          </div>
         </div>
-        <div className={styles.conversationMiddle} ref={conversationMiddleRef}>
-          {usersInteractedWith.map((user) => {
-            return (
-              <Conversation
-                key={user.id}
-                recieverId={user.id}
-                messages={messages.filter(
-                  (message) =>
-                    message.reciever.id === user.id ||
-                    message.sender.id === user.id
-                )}
-                isOpened={user.id === openedConversationUserId}
-              ></Conversation>
-            );
-          })}
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 }

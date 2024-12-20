@@ -1,3 +1,10 @@
+.conversationDisplayer {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  background-color: #313338;
+}
+
 .directConversationsHeader {
   display: flex;
   position: relative;
@@ -6,4 +13,12 @@
 
 .conversationMiddle {
   overflow: hidden auto;
+  flex: 1;
+  padding: 20px;
+}
+
+.conversationBottom {
+  padding: 20px;
+  max-height: 50%;
+
 }

@@ -6,9 +6,11 @@ import AddConversation from "./AddConversation";
 import Conversation from "./Conversation";
 import { myInfo } from "../myInfo";
 import { useSocket } from "../socketContext";
+import discrodSound from "../assets/discordNotificationSound.mp3";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 const token = storage.getToken();
+let audio;
 
 function Conversations() {
   const [usersInteractedWith, setUsersInteractedWith] = useState([]);
@@ -30,6 +32,11 @@ function Conversations() {
 
   document.addEventListener("click", () => {
     setAddConversationPanelShown(false);
+  });
+
+  // Needed becaue we can not play audio before user interact with the applicaiton
+  document.addEventListener("mousemove", () => {
+    audio ??= new Audio(discrodSound);
   });
 
   useEffect(() => {
@@ -83,6 +90,7 @@ function Conversations() {
       socket.on("message", (message) => {
         setMessages((pre) => [...pre, message]);
         showNotificationIfNeeded(message);
+        playNotificationSoundIfNeeded(message);
       });
 
       setScrollNecessity();
@@ -145,6 +153,12 @@ function Conversations() {
           ];
         }
       });
+    }
+  }
+
+  function playNotificationSoundIfNeeded(message) {
+    if (message.sender.id !== myInfo.id) {
+      audio?.play();
     }
   }
 

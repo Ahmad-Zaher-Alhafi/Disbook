@@ -160,7 +160,10 @@ function Conversations() {
   }
 
   function playNotificationSoundIfNeeded(message) {
-    if (message.sender.id !== myInfo.id) {
+    if (
+      message.sender.id !== openedConversationUserId &&
+      message.sender.id !== myInfo.id
+    ) {
       audio?.play();
     }
   }

@@ -39,7 +39,9 @@ function MessageSender({ recieverId }) {
         placeholder="Type something..."
         onChange={handleInputChange}
       />
-      <button onClick={onSendMessageClicked}>Send</button>
+      <button onClick={onSendMessageClicked} disabled={!inputRef.current.value.trim()}>
+        Send
+      </button>
     </div>
   );
 }

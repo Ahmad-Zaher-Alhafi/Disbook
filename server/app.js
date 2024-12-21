@@ -8,6 +8,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 const userRouter = require("./routes/userRouter");
+const { feedRouter } = require("./routes/feedRouter");
 const userController = require("./controllers/userController");
 
 const { createServer } = require("node:http");
@@ -127,6 +128,7 @@ app.get("/", (req, res) => {
   res.end();
 });
 app.use("/users", userRouter);
+app.use("/feed", feedRouter);
 
 const PORT = 3000;
 server.listen(PORT, () => {

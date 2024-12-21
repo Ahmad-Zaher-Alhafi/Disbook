@@ -3,11 +3,11 @@ import * as storage from "../storage";
 import styles from "../styles/addConversation.module.css";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const token = storage.getToken();
 
 function AddConversation({ usersInteractedWith, setUsersInteractedWith }) {
   const [username, setUsername] = useState();
   const [errorMessage, setErrorMessage] = useState();
+  const token = storage.getToken();
 
   const handleInputChange = (e) => {
     setUsername(e.target.value);

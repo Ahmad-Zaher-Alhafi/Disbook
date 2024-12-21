@@ -8,11 +8,11 @@ import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const token = storage.getToken();
 
 function Disbook() {
   const [isAuthorised, setIsAuthorised] = useState();
   const navigate = useNavigate();
+  const token = storage.getToken();
 
   useEffect(() => {
     if (!token) {

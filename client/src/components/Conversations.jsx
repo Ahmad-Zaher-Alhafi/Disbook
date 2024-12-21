@@ -10,7 +10,6 @@ import discrodSound from "../assets/discordNotificationSound.mp3";
 import MessageSender from "./MessageSender";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const token = storage.getToken();
 let audio;
 
 function Conversations() {
@@ -25,6 +24,8 @@ function Conversations() {
   const socket = useSocket();
   const conversationMiddleRef = useRef();
   const [scrollOnMessageRecieve, setScrollOnMessageRecieve] = useState(true);
+
+  const token = storage.getToken();
 
   const handleUserClicked = (userId) => {
     setOpenedConversationUserId(userId);

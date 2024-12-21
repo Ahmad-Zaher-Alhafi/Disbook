@@ -23,6 +23,14 @@ async function getUserByUsername(username) {
   return user;
 }
 
+async function getUserByEmail(email) {
+  const user = await userDB
+    .getUserByEmail(email)
+    .catch((err) => console.error("User not noud", err));
+
+  return user;
+}
+
 async function getUsers(req, res) {
   const users = await userDB
     .getUsers()
@@ -83,10 +91,18 @@ function generateToken(id) {
 
 async function signup(req, res) {
   const { username, password, fullName, email } = req.body;
-  const existingUser = await getUserByUsername(username);
+  let existingUser = await getUserByUsername(username);
 
   if (existingUser) {
     return res.status(409).json({ message: "Username is alread taken" });
+  }
+
+  existingUser = await getUserByEmail(email);
+
+  if (existingUser) {
+    return res.status(409).json({
+      message: "An account with this email already exist, log in instead",
+    });
   }
 
   let imageUrl;
@@ -194,6 +210,7 @@ module.exports = {
   signup,
   getUserById,
   getUserByUsername,
+  getUserByEmail,
   login,
   getUsers,
   getUsersInteractedWith,

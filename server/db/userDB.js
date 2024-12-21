@@ -60,6 +60,20 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUserByEmail(email) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function getUsersCount() {
   try {
     const count = await prisma.user.count();
@@ -219,6 +233,7 @@ module.exports = {
   addUsers,
   getUserById,
   getUserByUsername,
+  getUserByEmail,
   getUsersCount,
   getUsers,
   getUsersInteractedWith,

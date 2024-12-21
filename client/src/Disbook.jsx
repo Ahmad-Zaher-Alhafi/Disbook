@@ -6,11 +6,14 @@ import Error from "./components/Error";
 import Loading from "./components/Loading";
 import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
+import Feed from "./components/Feed";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
 function Disbook() {
   const [isAuthorised, setIsAuthorised] = useState();
+  const [isChatOpened, setIsChatOpened] = useState();
+
   const navigate = useNavigate();
   const token = storage.getToken();
 
@@ -59,13 +62,17 @@ function Disbook() {
 
       <div className="container">
         <div className="leftBar">
-          <button>Chat</button>
-          <button>Feed</button>
+          <button onClick={() => setIsChatOpened(false)}>Feed</button>
+          <button onClick={() => setIsChatOpened(true)}>Chat</button>
         </div>
         <div className="displayer">
-          <SocketProvider>
-            <Conversations></Conversations>
-          </SocketProvider>
+          {isChatOpened ? (
+            <SocketProvider>
+              <Conversations></Conversations>
+            </SocketProvider>
+          ) : (
+            <Feed></Feed>
+          )}
         </div>
       </div>
     </div>

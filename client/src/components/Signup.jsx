@@ -39,7 +39,7 @@ function Signup() {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(disbookApiUrl + "/users", {
+    const response = await fetch(disbookApiUrl + "/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

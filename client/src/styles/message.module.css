@@ -1,5 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+.message {
+  display: flex;
+  gap: 10px;
+}
+
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nameAndDate {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-family: Roboto, serif;
+}
+
+.senderName {
+  font-weight: bold;
+}
+
+.messageSendDate {
+  font-size: small;
+}
+
 .img {
   max-height: 40px;
   max-width: 40px;
   border-radius: 50%;
+}
+
+.messageContent {
+  margin: 0;
+  font-family: Roboto, serif;
 }

@@ -82,13 +82,6 @@ function MessageSender({ recieverId }) {
         onChange={handleInputChange}
         rows="1"
       ></textarea>
-
-      <button
-        onClick={onSendMessageClicked}
-        disabled={!inputRef.current?.value.trim()}
-      >
-        Send
-      </button>
     </div>
   );
 }

@@ -5,13 +5,17 @@ function User({
   id,
   username = "username",
   fullName = "User",
-  imgUrl = defaultUserImage,
+  imgUrl,
   notificationsCount,
   onClick,
 }) {
   return (
     <div className={styles.user} onClick={() => onClick(id)}>
-      <img className={styles.img} src={imgUrl} alt="User image" />
+      <img
+        className={styles.img}
+        src={imgUrl ? imgUrl : defaultUserImage}
+        alt="User image"
+      />
       <div className={styles.fullName}>{fullName}</div>
       <div className={styles.username}>@{username}</div>
       {notificationsCount > 0 ? (

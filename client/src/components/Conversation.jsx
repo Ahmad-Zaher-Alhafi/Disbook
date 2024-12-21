@@ -13,6 +13,7 @@ function Conversation({ messages, isOpened }) {
           <Message
             key={message.id}
             senderName={message.sender.fullName}
+            senderImgUrl={message.sender.imgUrl}
             sentDate={message.createdAt}
             content={message.content}
           ></Message>

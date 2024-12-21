@@ -224,6 +224,7 @@ function Conversations() {
                   id={user.id}
                   username={user.username}
                   fullName={user.fullName}
+                  imgUrl={user.imgUrl}
                   notificationsCount={
                     notifications.find(
                       (notification) => notification.userId === user.id

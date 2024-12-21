@@ -18,6 +18,8 @@ function MessageSender({ recieverId }) {
       ...message,
       recieverId: recieverId,
     });
+
+    inputRef.current.focus();
   }, [recieverId]);
 
   const handleInputChange = (e) => {

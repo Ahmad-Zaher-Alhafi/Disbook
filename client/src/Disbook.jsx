@@ -59,11 +59,8 @@ function Disbook() {
 
       <div className="container">
         <div className="leftBar">
-          <button>Conversations</button>
+          <button>Chat</button>
           <button>Feed</button>
-          <button>Group 1</button>
-          <button>Group 2</button>
-          <button>Group 3</button>
         </div>
         <div className="displayer">
           <SocketProvider>

@@ -58,10 +58,6 @@ function MessageSender({ recieverId }) {
         : newHeight + "px";
   }
 
-  const onSendMessageClicked = async () => {
-    SendMessage();
-  };
-
   function SendMessage() {
     if (!message.content) return;
 

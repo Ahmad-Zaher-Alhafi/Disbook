@@ -88,6 +88,8 @@ function Conversations() {
   }, []);
 
   useEffect(() => {
+    if (!socket) return;
+
     try {
       socket.on("message", (message) => {
         setMessages((pre) => [...pre, message]);

@@ -5,17 +5,12 @@ import * as storage from "../storage";
 
 let token = storage.getToken();
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
-const initialSoket = io(disbookApiUrl, {
-  extraHeaders: { authorization: `Bearer ${token}` },
-});
 
 const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(initialSoket);
+  const [socket, setSocket] = useState();
   token = storage.getToken();
 
   useEffect(() => {
-    initialSoket.close();
-
     const newSocket = io(disbookApiUrl, {
       extraHeaders: { authorization: `Bearer ${token}` },
     });

@@ -122,7 +122,11 @@ app.use(passport.session());
 
 app.use(cors(corsOptions));
 
-app.use("/", userRouter);
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to Disbook server</h1>");
+  res.end();
+});
+app.use("/users", userRouter);
 
 const PORT = 3000;
 server.listen(PORT, () => {

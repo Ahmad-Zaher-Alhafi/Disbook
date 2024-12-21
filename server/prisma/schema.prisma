@@ -19,6 +19,7 @@ model User {
   password         String
   fullName         String
   email            String
+  imgUrl           String?
   interactions     Interaction[]
   messagesSent     Message[]     @relation("SentMessages")
   messagesRecieved Message[]     @relation("RecievedMessages")

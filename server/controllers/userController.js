@@ -1,6 +1,8 @@
 const userDB = require("../db/userDB");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const axios = require("axios");
 
 const jwtSecret = "Falafel";
 const jwtExpiresIn = "1d";
@@ -87,14 +89,45 @@ async function signup(req, res) {
     return res.status(409).json({ message: "Username is alread taken" });
   }
 
+  let imageUrl;
+  const gravatarUserInfo = await tryGetUserInfoFromGravatar(req, res);
+
+  if (gravatarUserInfo) {
+    imageUrl = gravatarUserInfo.avatar_url;
+  }
+
   const hasedPassword = await bcrypt.hash(password, 10);
 
   const user = await userDB
-    .addUser(username, hasedPassword, fullName, email)
+    .addUser(username, hasedPassword, fullName, email, imageUrl)
     .catch((err) => console.log(err));
 
   const token = generateToken(user.id);
   res.json({ token });
+}
+
+async function tryGetUserInfoFromGravatar(req, res) {
+  const { email } = req.body;
+
+  try {
+    const hash = crypto
+      .createHash("sha256")
+      .update(email.trim().toLowerCase())
+      .digest("hex");
+
+    const response = await axios.get(
+      `https://api.gravatar.com/v3/profiles/${hash}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GRAVATAR_API_KEY}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Faild fetching from Gravatar", error);
+  }
 }
 
 async function login(req, res) {

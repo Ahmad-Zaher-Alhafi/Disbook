@@ -23,6 +23,9 @@ model User {
   interactions     Interaction[]
   messagesSent     Message[]     @relation("SentMessages")
   messagesRecieved Message[]     @relation("RecievedMessages")
+  posts            Post[]        @relation("CreatedPosts")
+  comments         Comment[]     @relation("Comments")
+  likes            Like[]        @relation("Likes")
 }
 
 model Interaction {
@@ -38,4 +41,36 @@ model Message {
   recieverID Int
   sender     User     @relation("SentMessages", fields: [senderID], references: [id])
   reciever   User     @relation("RecievedMessages", fields: [recieverID], references: [id])
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  content   String
+  createdAt DateTime  @default(now())
+  userId    Int
+  user      User      @relation("CreatedPosts", fields: [userId], references: [id])
+  comments  Comment[] @relation("Comments")
+  likes     Like[]    @relation("Likes")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation("Comments", fields: [userId], references: [id])
+  postId    Int
+  post      Post     @relation("Comments", fields: [postId], references: [id])
+  likes     Like[]   @relation("Likes")
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation("Likes", fields: [userId], references: [id])
+  postId    Int
+  post      Post     @relation("Likes", fields: [postId], references: [id])
+  commentId Int
+  comment   Comment  @relation("Likes", fields: [commentId], references: [id])
 }

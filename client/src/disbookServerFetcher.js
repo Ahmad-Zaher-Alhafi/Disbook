@@ -31,13 +31,20 @@ async function post(routeUrl, body, withAuthuntication = true) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(disbookApiUrl + routeUrl, {
+  const requestOptions = {
     method: "POST",
     headers: headers,
-    body: JSON.stringify(body),
-  }).catch((error) => {
-    console.error("Failed to post", error);
-  });
+  };
+
+  if (body) {
+    requestOptions.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(disbookApiUrl + routeUrl, requestOptions).catch(
+    (error) => {
+      console.error("Failed to post", error);
+    }
+  );
 
   return response;
 }

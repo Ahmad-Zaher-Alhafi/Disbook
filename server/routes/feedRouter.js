@@ -13,13 +13,19 @@ feedRouter.get(
 feedRouter.get(
   "/posts/:userId",
   passport.authenticate("jwt", { session: false }),
-  feedController.getPostsOfUSer
+  feedController.getPostsOfUser
 );
 
 feedRouter.post(
   "/posts",
   passport.authenticate("jwt", { session: false }),
   feedController.createPost
+);
+
+feedRouter.post(
+  "/posts/:postId/likes",
+  passport.authenticate("jwt", { session: false }),
+  feedController.addLikeToPost
 );
 
 module.exports = { feedRouter };

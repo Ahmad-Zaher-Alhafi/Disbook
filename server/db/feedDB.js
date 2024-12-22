@@ -22,6 +22,8 @@ async function getPosts() {
     const posts = await prisma.post.findMany({
       include: {
         user: true,
+        comments: true,
+        likes: true,
       },
     });
     return posts;
@@ -43,8 +45,44 @@ async function getPostsOfUser(userId) {
   }
 }
 
+async function addLikeToPost(userId, postId) {
+  try {
+    const like = await prisma.like.create({
+      data: {
+        userId: userId,
+        postId: postId,
+      },
+    });
+
+    return like;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function getLikeOfUserOnPost(userId, postId) {
+  try {
+    const like = await prisma.like.findFirst({
+      where: {
+        userId: userId,
+        postId: postId,
+      },
+    });
+
+    return like;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
 }
 
-module.exports = { createPost, getPosts, getPostsOfUser };
+module.exports = {
+  createPost,
+  getPosts,
+  getPostsOfUser,
+  addLikeToPost,
+  getLikeOfUserOnPost,
+};

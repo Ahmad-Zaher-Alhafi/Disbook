@@ -12,7 +12,7 @@ async function createPost(req, res) {
   }
 }
 
-async function getPostsOfUSer(req, res) {
+async function getPostsOfUser(req, res) {
   try {
     const userId = parseInt(req.params.userId);
 
@@ -32,4 +32,24 @@ async function getPosts(req, res) {
   }
 }
 
-module.exports = { createPost, getPostsOfUSer, getPosts };
+async function addLikeToPost(req, res) {
+  try {
+    const userId = req.user.id;
+    const postId = parseInt(req.params.postId);
+
+    const existingLike = await feedDB.getLikeOfUserOnPost(userId, postId);
+    if (existingLike) {
+      const error = `${req.user.username} tried to like a post that is already liked by him`;
+      console.warn(error);
+      res.status(401).json(error);
+      return;
+    }
+
+    const like = await feedDB.addLikeToPost(userId, postId);
+    res.json(like);
+  } catch (error) {
+    res.status(401).json({ message: "Faild creating a post", error });
+  }
+}
+
+module.exports = { createPost, getPostsOfUser, getPosts, addLikeToPost };

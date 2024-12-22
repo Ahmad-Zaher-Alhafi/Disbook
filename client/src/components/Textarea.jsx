@@ -8,7 +8,9 @@ const Textarea = forwardRef(
 
     const handleInputChange = (e) => {
       adjustTextAreaHeight();
-      onInputChanged(e);
+      if (onInputChanged) {
+        onInputChanged(e);
+      }
     };
 
     function adjustTextAreaHeight() {
@@ -40,29 +42,27 @@ const Textarea = forwardRef(
     }));
 
     return (
-      <textarea
-        className={styles.textArea}
-        ref={inputRef}
-        type="text"
-        name="content"
-        placeholder="Type something..."
-        onKeyDown={(e) => {
-          if (onKeyPressed) {
-            onKeyPressed(e);
-          }
-        }}
-        onChange={(e) => {
-          if (onInputChanged) {
-            handleInputChange(e);
-          }
-        }}
-        onClick={(e) => {
-          if (onInputClicked) {
-            onInputClicked(e);
-          }
-        }}
-        rows="1"
-      ></textarea>
+      <div className={styles.textAreaContainer}>
+        <textarea
+          className={styles.textArea}
+          ref={inputRef}
+          type="text"
+          name="content"
+          placeholder="Type something..."
+          onKeyDown={(e) => {
+            if (onKeyPressed) {
+              onKeyPressed(e);
+            }
+          }}
+          onChange={handleInputChange}
+          onClick={(e) => {
+            if (onInputClicked) {
+              onInputClicked(e);
+            }
+          }}
+          rows="1"
+        ></textarea>
+      </div>
     );
   }
 );

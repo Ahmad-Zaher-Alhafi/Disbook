@@ -22,12 +22,6 @@ userRouter.get(
   userController.getAllMessagesRelatedToUser
 );
 
-userRouter.post(
-  "/me/messages",
-  passport.authenticate("jwt", { session: false }),
-  userController.addMessage
-);
-
 userRouter.get(
   "/me/messages/:recieverId",
   passport.authenticate("jwt", { session: false }),

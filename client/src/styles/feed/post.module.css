@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  border-radius: 5px;
+  padding: 20px;
+  font-family: Roboto, arial;
+
+  background-color: #222222;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nameAndDate {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-family: Roboto, serif;
+}
+
+.createrName {
+  font-weight: bold;
+}
+
+.createDate {
+  font-size: small;
+}
+
+.img {
+  max-height: 40px;
+  max-width: 40px;
+  border-radius: 50%;
+}
+
+.content {
+  font-family: Roboto, arial;
+}

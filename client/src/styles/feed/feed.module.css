@@ -1,21 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
 .feed {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   flex: 1;
   background-color: #2b2d31;
   position: relative;
   align-items: center;
+  overflow: hidden scroll;
+  font-family: Roboto, arial;
 }
 
 .feedTop {
   padding: 10px;
-  height: 30px;
-  box-shadow: 0 1px 1px black;
+  height: 10%;
 }
 
 .feedMiddle {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   flex: 1;
   width: 70%;
+  height: 90%;
 }

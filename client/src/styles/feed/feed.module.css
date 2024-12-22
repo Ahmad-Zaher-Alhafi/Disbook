@@ -3,7 +3,8 @@
   flex-direction: column;
   flex: 1;
   background-color: #2b2d31;
-
+  position: relative;
+  align-items: center;
 }
 
 .feedTop {
@@ -13,5 +14,8 @@
 }
 
 .feedMiddle {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  width: 70%;
 }

@@ -35,6 +35,17 @@ function MessageSender({ recieverId }) {
     });
   }
 
+  function onKeyPressed(e) {
+    // Listen for enter key
+    if (e.key === "Enter") {
+      // If shift is not held then it's a send message order and not a new line insertion
+      if (!e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+  }
+
   function sendMessage() {
     if (!message.content) return;
     socket.emit("message", message);
@@ -46,7 +57,7 @@ function MessageSender({ recieverId }) {
       <Textarea
         ref={textAreaRef}
         onInputChanged={onInputChanged}
-        onEnterClicked={sendMessage}
+        onKeyPressed={onKeyPressed}
       ></Textarea>
     </div>
   );

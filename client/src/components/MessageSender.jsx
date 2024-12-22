@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../socketContext";
 import styles from "../styles/messageSender.module.css";
-
-const textAreaMaxHeight = 300;
+import Textarea from "./Textarea";
 
 function MessageSender({ recieverId }) {
   const [message, setMessage] = useState({
@@ -10,7 +9,8 @@ function MessageSender({ recieverId }) {
     content: "",
   });
 
-  const inputRef = useRef();
+  const textAreaRef = useRef();
+
   const socket = useSocket();
 
   useEffect(() => {
@@ -19,65 +19,35 @@ function MessageSender({ recieverId }) {
       recieverId: recieverId,
     });
 
-    inputRef.current.focus();
+    if (
+      textAreaRef.current &&
+      typeof textAreaRef.current.focusInput === "function"
+    ) {
+      textAreaRef.current.focusInput(); // Call focusInput if it's available
+    }
   }, [recieverId]);
 
-  const handleInputChange = (e) => {
-    adjustTextAreaHeight();
-
+  function onInputChanged(e) {
     const { name, value } = e.target;
     setMessage({
       recieverId: recieverId,
       [name]: value.trim(),
     });
-  };
-
-  const handleInputKeyPressed = (e) => {
-    if (e.key === "Enter") {
-      if (!e.shiftKey) {
-        e.preventDefault();
-        SendMessage();
-      }
-    }
-  };
-
-  function adjustTextAreaHeight() {
-    // Shrink to normal
-    inputRef.current.style.height = "auto";
-
-    const style = window.getComputedStyle(inputRef.current);
-    const paddingTop = parseInt(style.paddingTop);
-    const paddingBottom = parseInt(style.paddingBottom);
-
-    const newHeight =
-      inputRef.current.scrollHeight - paddingTop - paddingBottom;
-    // Expand to fit the message height with a max height limit
-    inputRef.current.style.height =
-      newHeight > textAreaMaxHeight
-        ? textAreaMaxHeight + "px"
-        : newHeight + "px";
   }
 
-  function SendMessage() {
+  function sendMessage() {
     if (!message.content) return;
-
     socket.emit("message", message);
-    inputRef.current.value = "";
-    inputRef.current.style.height = "auto";
+    textAreaRef.current.clearInput();
   }
 
   return (
     <div className={styles.messageSender}>
-      <textarea
-        className={styles.textArea}
-        ref={inputRef}
-        type="text"
-        name="content"
-        placeholder="Type something..."
-        onKeyDown={handleInputKeyPressed}
-        onChange={handleInputChange}
-        rows="1"
-      ></textarea>
+      <Textarea
+        ref={textAreaRef}
+        onInputChanged={onInputChanged}
+        onEnterClicked={sendMessage}
+      ></Textarea>
     </div>
   );
 }

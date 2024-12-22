@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+.textArea {
+  resize: none;
+  flex: 1;
+  padding: 10px;
+  max-height: 100%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: #3d3f45;
+  font-family: Roboto, arial;
+}

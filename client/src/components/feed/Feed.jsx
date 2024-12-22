@@ -7,7 +7,7 @@ import Post from "./Post";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -24,6 +24,19 @@ function Feed() {
     postsFetcher();
   }, []);
 
+  function setLike(like) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== like.postId) {
+          return post;
+        }
+
+        post.likes.push(like);
+        return post;
+      })
+    );
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}></div>
@@ -37,6 +50,9 @@ function Feed() {
             createrImgUrl={post.user.imgUrl}
             createDate={post.createdAt}
             content={post.content}
+            likes={post.likes}
+            id={post.id}
+            setLikes={setLike}
           ></Post>
         ))}
       </div>

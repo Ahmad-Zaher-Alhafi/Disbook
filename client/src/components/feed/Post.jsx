@@ -1,8 +1,17 @@
 import styles from "/src/styles/feed/post.module.css";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
 import { format, isToday, isYesterday } from "date-fns";
+import Like from "./Like";
 
-function Post({ createrName, createrImgUrl, createDate, content }) {
+function Post({
+  createrName,
+  createrImgUrl,
+  createDate,
+  content,
+  likes,
+  setLikes,
+  id,
+}) {
   function getFormatedDate() {
     if (isToday(createDate)) {
       return `Today at ${format(createDate, "hh:mm a")}`;
@@ -36,6 +45,10 @@ function Post({ createrName, createrImgUrl, createDate, content }) {
 
       <div className="body">
         <pre className={styles.content}>{content}</pre>
+      </div>
+
+      <div className="footer">
+        <Like likes={likes} postId={id} setLikes={setLikes}></Like>
       </div>
     </div>
   );

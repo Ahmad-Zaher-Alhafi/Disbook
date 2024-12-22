@@ -19,7 +19,11 @@ async function createPost(userId, content) {
 
 async function getPosts() {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      include: {
+        user: true,
+      },
+    });
     return posts;
   } catch (error) {
     await onPrismaException(error);

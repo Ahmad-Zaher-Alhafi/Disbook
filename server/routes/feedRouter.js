@@ -17,7 +17,7 @@ feedRouter.get(
 );
 
 feedRouter.post(
-  "/posts/:userId",
+  "/posts",
   passport.authenticate("jwt", { session: false }),
   feedController.createPost
 );

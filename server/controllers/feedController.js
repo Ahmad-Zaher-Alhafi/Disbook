@@ -2,7 +2,7 @@ const feedDB = require("../db/feedDB");
 
 async function createPost(req, res) {
   try {
-    const userId = parseInt(req.params.userId);
+    const userId = req.user.id;
     const { content } = req.body;
 
     await feedDB.createPost(userId, content);

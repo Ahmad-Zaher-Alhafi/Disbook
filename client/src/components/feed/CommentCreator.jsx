@@ -42,7 +42,11 @@ function CommentCreator({ postId, setComment }) {
       </div>
 
       <div className={styles.right}>
-        <Textarea onInputChanged={onInputChanged} ref={inputRef}></Textarea>
+        <Textarea
+          onInputChanged={onInputChanged}
+          placeholder={`Comment as ${myInfo.fullName}`}
+          ref={inputRef}
+        ></Textarea>
         <button
           className={styles.sendButton}
           onClick={addCommentClicked}

@@ -3,7 +3,15 @@ import styles from "../styles/textarea.module.css";
 
 const textAreaMaxHeight = 300;
 const Textarea = forwardRef(
-  ({ onInputChanged, onKeyPressed, onInputClicked }, ref) => {
+  (
+    {
+      onInputChanged,
+      onKeyPressed,
+      onInputClicked,
+      placeholder = "Type something...",
+    },
+    ref
+  ) => {
     const inputRef = useRef();
 
     const handleInputChange = (e) => {
@@ -48,7 +56,7 @@ const Textarea = forwardRef(
           ref={inputRef}
           type="text"
           name="content"
-          placeholder="Type something..."
+          placeholder={placeholder}
           onKeyDown={(e) => {
             if (onKeyPressed) {
               onKeyPressed(e);

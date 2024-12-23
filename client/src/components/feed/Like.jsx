@@ -1,21 +1,37 @@
 import { useEffect, useState } from "react";
-import { post } from "../../disbookServerFetcher";
+import { fDelete, post } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
+import styles from "/src/styles/feed/like.module.css";
 
-function Like({ likes, postId, setLikes }) {
+function Like({ likes, postId, setLikes, removeLike }) {
   const [isLiked, setIsLiked] = useState();
 
   async function onLikedClicked() {
-    const response = await post(`/feed/posts/${postId}/likes`);
+    if (isLiked) {
+      const likeId = likes.find(
+        (like) => like.userId === myInfo.id && like.postId === postId
+      )?.id;
+      const response = await fDelete(`/feed/likes/${likeId}`);
 
-    if (!response.ok) {
-      const error = await response.json();
-      console.error(error);
-      return;
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      removeLike(postId, likeId);
+    } else {
+      const response = await post(`/feed/posts/${postId}/likes`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      const like = await response.json();
+      setLikes(like);
     }
-
-    const like = await response.json();
-    setLikes(like);
   }
 
   useEffect(() => {
@@ -26,7 +42,7 @@ function Like({ likes, postId, setLikes }) {
   }, [likes, postId, setLikes]);
 
   return (
-    <div className="like">
+    <div className={styles.like}>
       <button onClick={onLikedClicked}>{isLiked ? "Liked" : "Like"}</button>
       <div className="numOfLikes">{likes.length}</div>
     </div>

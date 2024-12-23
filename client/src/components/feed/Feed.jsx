@@ -37,6 +37,19 @@ function Feed() {
     );
   }
 
+  function removeLike(postId, likeId) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== postId) {
+          return post;
+        }
+
+        post.likes = post.likes.filter((like) => like.id !== likeId);
+        return post;
+      })
+    );
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}></div>
@@ -53,6 +66,7 @@ function Feed() {
             likes={post.likes}
             id={post.id}
             setLikes={setLike}
+            removeLike={removeLike}
           ></Post>
         ))}
       </div>

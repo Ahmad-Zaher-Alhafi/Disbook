@@ -10,6 +10,7 @@ function Post({
   content,
   likes,
   setLikes,
+  removeLike,
   id,
 }) {
   function getFormatedDate() {
@@ -48,7 +49,12 @@ function Post({
       </div>
 
       <div className="footer">
-        <Like likes={likes} postId={id} setLikes={setLikes}></Like>
+        <Like
+          likes={likes}
+          postId={id}
+          setLikes={setLikes}
+          removeLike={removeLike}
+        ></Like>
       </div>
     </div>
   );

@@ -10,6 +10,12 @@
 .right {
   display: flex;
   flex-direction: column;
+  gap: 7px;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   background-color: #2b2d31;
   padding: 10px;

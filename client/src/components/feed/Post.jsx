@@ -1,7 +1,7 @@
 import styles from "/src/styles/feed/post.module.css";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
 import { format, isToday, isYesterday } from "date-fns";
-import Like from "./Like";
+import PostLike from "./PostLike";
 import Comments from "./Comments";
 import { useState } from "react";
 
@@ -11,11 +11,13 @@ function Post({
   createDate,
   content,
   likes,
-  setLikes,
-  removeLike,
+  setPostLike,
+  removePostLike,
   id,
   comments,
   setComment,
+  setCommentLike,
+  removeCommentLike,
 }) {
   const [isCommenting, setIsCommenting] = useState(false);
 
@@ -55,12 +57,12 @@ function Post({
       </div>
 
       <div className={styles.footer}>
-        <Like
+        <PostLike
           likes={likes}
           postId={id}
-          setLikes={setLikes}
-          removeLike={removeLike}
-        ></Like>
+          setPostLike={setPostLike}
+          removePostLike={removePostLike}
+        ></PostLike>
         <button onClick={() => setIsCommenting((pre) => !pre)}>Comments</button>
       </div>
 
@@ -69,6 +71,8 @@ function Post({
           postId={id}
           comments={comments}
           setComment={setComment}
+          setCommentLike={setCommentLike}
+          removeCommentLike={removeCommentLike}
         ></Comments>
       ) : null}
     </div>

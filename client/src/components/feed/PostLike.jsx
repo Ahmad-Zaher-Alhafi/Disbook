@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { fDelete, post } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
-import styles from "/src/styles/feed/like.module.css";
+import styles from "/src/styles/feed/postLike.module.css";
 
-function Like({ likes, postId, setLikes, removeLike }) {
+function PostLike({ likes, postId, setPostLike, removePostLike }) {
   const [isLiked, setIsLiked] = useState();
 
   async function onLikedClicked() {
@@ -19,7 +19,7 @@ function Like({ likes, postId, setLikes, removeLike }) {
         return;
       }
 
-      removeLike(postId, likeId);
+      removePostLike(postId, likeId);
     } else {
       const response = await post(`/feed/posts/${postId}/likes`);
 
@@ -30,7 +30,7 @@ function Like({ likes, postId, setLikes, removeLike }) {
       }
 
       const like = await response.json();
-      setLikes(like);
+      setPostLike(like);
     }
   }
 
@@ -39,7 +39,7 @@ function Like({ likes, postId, setLikes, removeLike }) {
       (like) => like.postId === postId && like.userId === myInfo.id
     );
     setIsLiked(likeByMe);
-  }, [likes, postId, setLikes]);
+  }, [likes, postId, setPostLike]);
 
   return (
     <div className={styles.like}>
@@ -49,4 +49,4 @@ function Like({ likes, postId, setLikes, removeLike }) {
   );
 }
 
-export default Like;
+export default PostLike;

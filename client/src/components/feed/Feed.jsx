@@ -24,7 +24,7 @@ function Feed() {
     postsFetcher();
   }, []);
 
-  function setLike(like) {
+  function setPostLike(like) {
     setPosts((pre) =>
       pre.map((post) => {
         if (post.id !== like.postId) {
@@ -37,7 +37,31 @@ function Feed() {
     );
   }
 
-  function removeLike(postId, likeId) {
+  function setCommentLike(postId, like) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== postId) {
+          return post;
+        }
+
+        return {
+          ...post,
+          comments: post.comments.map((comment) => {
+            if (comment.id != like.commentId) {
+              return comment;
+            }
+
+            return {
+              ...comment,
+              likes: [...comment.likes, like],
+            };
+          }),
+        };
+      })
+    );
+  }
+
+  function removePostLike(postId, likeId) {
     setPosts((pre) =>
       pre.map((post) => {
         if (post.id !== postId) {
@@ -46,6 +70,30 @@ function Feed() {
 
         post.likes = post.likes.filter((like) => like.id !== likeId);
         return post;
+      })
+    );
+  }
+
+  function removeCommentLike(postId, commentId, likeId) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== postId) {
+          return post;
+        }
+
+        return {
+          ...post,
+          comments: post.comments.map((comment) => {
+            if (comment.id != commentId) {
+              return comment;
+            }
+
+            return {
+              ...comment,
+              likes: comment.likes.filter((like) => like.id !== likeId),
+            };
+          }),
+        };
       })
     );
   }
@@ -69,21 +117,25 @@ function Feed() {
 
       <div className={styles.feedMiddle}>
         <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
-        {posts?.map((post) => (
-          <Post
-            key={post.id}
-            createrName={post.user.fullName}
-            createrImgUrl={post.user.imgUrl}
-            createDate={post.createdAt}
-            content={post.content}
-            likes={post.likes}
-            id={post.id}
-            setLikes={setLike}
-            removeLike={removeLike}
-            comments={post.comments}
-            setComment={setComment}
-          ></Post>
-        ))}
+        {posts?.map((post) => {
+          return (
+            <Post
+              key={post.id}
+              createrName={post.user.fullName}
+              createrImgUrl={post.user.imgUrl}
+              createDate={post.createdAt}
+              content={post.content}
+              likes={post.likes}
+              id={post.id}
+              setPostLike={setPostLike}
+              removePostLike={removePostLike}
+              comments={post.comments}
+              setComment={setComment}
+              setCommentLike={setCommentLike}
+              removeCommentLike={removeCommentLike}
+            ></Post>
+          );
+        })}
       </div>
 
       {isCreatingPost ? (

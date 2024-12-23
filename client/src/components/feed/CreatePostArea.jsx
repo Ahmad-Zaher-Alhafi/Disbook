@@ -20,7 +20,7 @@ function CreatePostArea({ setIsOpened }) {
       <img className={styles.img} src={myInfo?.imgUrl} alt="user image" />
       <Textarea
         ref={miniInputRef}
-        placeholder={`What's on your mind, ${myInfo.fullName}?`}
+        placeholder={`What's on your mind, ${myInfo?.fullName}?`}
         onInputClicked={onMiniInputClicked}
       ></Textarea>
     </div>

@@ -44,7 +44,7 @@ function CommentCreator({ postId, setComment }) {
       <div className={styles.right}>
         <Textarea
           onInputChanged={onInputChanged}
-          placeholder={`Comment as ${myInfo.fullName}`}
+          placeholder={`Comment as ${myInfo?.fullName}`}
           ref={inputRef}
         ></Textarea>
         <button

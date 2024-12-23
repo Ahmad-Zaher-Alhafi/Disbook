@@ -49,4 +49,27 @@ async function post(routeUrl, body, withAuthuntication = true) {
   return response;
 }
 
-export { get, post };
+async function fDelete(routeUrl, withAuthuntication = true) {
+  const token = storage.getToken();
+
+  const headers = {};
+
+  if (withAuthuntication) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: headers,
+  };
+
+  const response = await fetch(disbookApiUrl + routeUrl, requestOptions).catch(
+    (error) => {
+      console.error("Failed to delete", error);
+    }
+  );
+
+  return response;
+}
+
+export { get, post, fDelete };

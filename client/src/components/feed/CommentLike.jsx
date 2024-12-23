@@ -57,7 +57,7 @@ function CommentLike({
   }
 
   useEffect(() => {
-    const likedByMe = likes.some(
+    const likedByMe = likes?.some(
       (like) => like.commentId === commentId && like.userId === myInfo.id
     );
     setIsLiked(likedByMe);
@@ -67,7 +67,7 @@ function CommentLike({
     <div className={styles.like}>
       <div className={styles.commentDate}>{getFormatedDate()}</div>
       <button onClick={onLikedClicked}>{isLiked ? "Liked" : "Like"}</button>
-      <div className="numOfLikes">{likes.length}</div>
+      <div className="numOfLikes">{likes?.length}</div>
     </div>
   );
 }

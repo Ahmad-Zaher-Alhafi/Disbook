@@ -11,5 +11,5 @@
   flex-direction: column;
   gap: 10px;
   max-height: 300px;
-  overflow: hidden scroll;
+  overflow: hidden auto;
 }

@@ -72,5 +72,5 @@ model Like {
   postId    Int?
   post      Post?    @relation("Likes", fields: [postId], references: [id])
   commentId Int?
-  comment   Comment? @relation("Likes", fields: [commentId], references: [id])
+  comment   Comment? @relation("Likes", fields: [commentId], references: [id], onDelete: Cascade)
 }

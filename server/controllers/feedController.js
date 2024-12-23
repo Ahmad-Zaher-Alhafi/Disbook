@@ -95,6 +95,18 @@ async function addLikeToComment(req, res) {
   }
 }
 
+async function removeComment(req, res) {
+  try {
+    const commentId = parseInt(req.params.commentId);
+    await feedDB.removeComment(commentId);
+    res.end();
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Faild removing comment from a post", error });
+  }
+}
+
 module.exports = {
   createPost,
   getPostsOfUser,
@@ -103,4 +115,5 @@ module.exports = {
   removeLike,
   addCommentToPost,
   addLikeToComment,
+  removeComment,
 };

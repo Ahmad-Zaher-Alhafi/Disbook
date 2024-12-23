@@ -141,6 +141,18 @@ async function getLikeOfUserOnComment(userId, commentId) {
   }
 }
 
+async function removeComment(commentId) {
+  try {
+    await prisma.comment.delete({
+      where: {
+        id: commentId,
+      },
+    });
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
 }
@@ -155,4 +167,5 @@ module.exports = {
   addCommentToPost,
   addLikeToComment,
   getLikeOfUserOnComment,
+  removeComment,
 };

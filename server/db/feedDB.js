@@ -75,6 +75,18 @@ async function getLikeOfUserOnPost(userId, postId) {
   }
 }
 
+async function removeLike(likeId) {
+  try {
+    await prisma.like.delete({
+      where: {
+        id: likeId,
+      },
+    });
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
 }
@@ -85,4 +97,5 @@ module.exports = {
   getPostsOfUser,
   addLikeToPost,
   getLikeOfUserOnPost,
+  removeLike,
 };

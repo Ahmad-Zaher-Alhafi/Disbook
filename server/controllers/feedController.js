@@ -48,8 +48,24 @@ async function addLikeToPost(req, res) {
     const like = await feedDB.addLikeToPost(userId, postId);
     res.json(like);
   } catch (error) {
-    res.status(401).json({ message: "Faild creating a post", error });
+    res.status(401).json({ message: "Faild adding a like to a post", error });
   }
 }
 
-module.exports = { createPost, getPostsOfUser, getPosts, addLikeToPost };
+async function removeLike(req, res) {
+  try {
+    const likeId = parseInt(req.params.likeId);
+    await feedDB.removeLike(likeId);
+    res.end();
+  } catch (error) {
+    res.status(401).json({ message: "Faild removing like from a post", error });
+  }
+}
+
+module.exports = {
+  createPost,
+  getPostsOfUser,
+  getPosts,
+  addLikeToPost,
+  removeLike,
+};

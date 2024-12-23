@@ -28,4 +28,10 @@ feedRouter.post(
   feedController.addLikeToPost
 );
 
+feedRouter.delete(
+  "/likes/:likeId",
+  passport.authenticate("jwt", { session: false }),
+  feedController.removeLike
+);
+
 module.exports = { feedRouter };

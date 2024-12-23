@@ -5,21 +5,20 @@ import styles from "/src/styles/feed/comments.module.css";
 function Comments({ comments, postId, setComment }) {
   return (
     <div className={styles.comments}>
-      {comments.map((comment) => {
-        return (
-          <Comment
-            key={comment.id}
-            userFullName={comment.user.fullName}
-            userImgUrl={comment.user.imgUrl}
-            content={comment.content}
-          ></Comment>
-        );
-      })}
+      <div className={styles.commentsContainer}>
+        {comments.map((comment) => {
+          return (
+            <Comment
+              key={comment.id}
+              userFullName={comment.user.fullName}
+              userImgUrl={comment.user.imgUrl}
+              content={comment.content}
+            ></Comment>
+          );
+        })}
+      </div>
 
-      <CommentCreator
-        postId={postId}
-        setComment={setComment}
-      ></CommentCreator>
+      <CommentCreator postId={postId} setComment={setComment}></CommentCreator>
     </div>
   );
 }

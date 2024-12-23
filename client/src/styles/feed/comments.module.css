@@ -5,3 +5,8 @@
   border-top: 1px solid white;
   padding-top: 10px;
 }
+
+.commentsContainer {
+  max-height: 300px;
+  overflow: hidden scroll;
+}

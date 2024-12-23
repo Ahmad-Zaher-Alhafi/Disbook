@@ -1,0 +1,7 @@
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid white;
+  padding-top: 10px;
+}

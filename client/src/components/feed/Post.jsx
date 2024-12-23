@@ -2,6 +2,8 @@ import styles from "/src/styles/feed/post.module.css";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
 import { format, isToday, isYesterday } from "date-fns";
 import Like from "./Like";
+import Comments from "./Comments";
+import { useState } from "react";
 
 function Post({
   createrName,
@@ -12,7 +14,11 @@ function Post({
   setLikes,
   removeLike,
   id,
+  comments,
+  setComment,
 }) {
+  const [isCommenting, setIsCommenting] = useState(false);
+
   function getFormatedDate() {
     if (isToday(createDate)) {
       return `Today at ${format(createDate, "hh:mm a")}`;
@@ -48,14 +54,23 @@ function Post({
         <pre className={styles.content}>{content}</pre>
       </div>
 
-      <div className="footer">
+      <div className={styles.footer}>
         <Like
           likes={likes}
           postId={id}
           setLikes={setLikes}
           removeLike={removeLike}
         ></Like>
+        <button onClick={() => setIsCommenting((pre) => !pre)}>Comments</button>
       </div>
+
+      {isCommenting ? (
+        <Comments
+          postId={id}
+          comments={comments}
+          setComment={setComment}
+        ></Comments>
+      ) : null}
     </div>
   );
 }

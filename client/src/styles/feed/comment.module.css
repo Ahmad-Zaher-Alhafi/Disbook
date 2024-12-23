@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+.comment {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  font-family: Roboto, arial;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #2b2d31;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.userFullName {
+  font-weight: bold;
+}
+
+.img {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 50%;
+}

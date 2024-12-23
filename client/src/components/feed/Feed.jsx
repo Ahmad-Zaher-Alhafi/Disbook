@@ -50,6 +50,19 @@ function Feed() {
     );
   }
 
+  function setComment(comment) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== comment.postId) {
+          return post;
+        }
+
+        post.comments.push(comment);
+        return post;
+      })
+    );
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}></div>
@@ -67,6 +80,8 @@ function Feed() {
             id={post.id}
             setLikes={setLike}
             removeLike={removeLike}
+            comments={post.comments}
+            setComment={setComment}
           ></Post>
         ))}
       </div>

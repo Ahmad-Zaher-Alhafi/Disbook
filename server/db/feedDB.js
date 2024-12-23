@@ -22,7 +22,11 @@ async function getPosts() {
     const posts = await prisma.post.findMany({
       include: {
         user: true,
-        comments: true,
+        comments: {
+          include: {
+            user: true,
+          },
+        },
         likes: true,
       },
     });
@@ -87,6 +91,25 @@ async function removeLike(likeId) {
   }
 }
 
+async function addCommentToPost(userId, postID, content) {
+  try {
+    const comment = await prisma.comment.create({
+      data: {
+        userId: userId,
+        postId: postID,
+        content: content,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return comment;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
 }
@@ -98,4 +121,5 @@ module.exports = {
   addLikeToPost,
   getLikeOfUserOnPost,
   removeLike,
+  addCommentToPost,
 };

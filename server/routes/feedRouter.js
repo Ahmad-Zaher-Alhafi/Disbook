@@ -34,4 +34,10 @@ feedRouter.delete(
   feedController.removeLike
 );
 
+feedRouter.post(
+  "/posts/:postId/comments",
+  passport.authenticate("jwt", { session: false }),
+  feedController.addCommentToPost
+);
+
 module.exports = { feedRouter };

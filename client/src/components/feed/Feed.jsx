@@ -68,8 +68,25 @@ function Feed() {
           return post;
         }
 
-        post.likes = post.likes.filter((like) => like.id !== likeId);
-        return post;
+        return {
+          ...post,
+          likes: post.likes.filter((like) => like.id !== likeId),
+        };
+      })
+    );
+  }
+
+  function removeComment(postId, commentId) {
+    setPosts((pre) =>
+      pre.map((post) => {
+        if (post.id !== postId) {
+          return post;
+        }
+
+        return {
+          ...post,
+          comments: post.comments.filter((comment) => comment.id !== commentId),
+        };
       })
     );
   }
@@ -133,6 +150,7 @@ function Feed() {
               setComment={setComment}
               setCommentLike={setCommentLike}
               removeCommentLike={removeCommentLike}
+              removeComment={removeComment}
             ></Post>
           );
         })}

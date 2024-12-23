@@ -18,6 +18,7 @@ function Post({
   setComment,
   setCommentLike,
   removeCommentLike,
+  removeComment,
 }) {
   const [isCommenting, setIsCommenting] = useState(false);
 
@@ -73,6 +74,7 @@ function Post({
           setComment={setComment}
           setCommentLike={setCommentLike}
           removeCommentLike={removeCommentLike}
+          removeComment={(commentId) => removeComment(id, commentId)}
         ></Comments>
       ) : null}
     </div>

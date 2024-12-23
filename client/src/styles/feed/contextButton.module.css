@@ -1,0 +1,16 @@
+.contextButtonHolder {
+  position: relative;
+}
+
+.contextButton {
+  background: none;
+  outline: none;
+  border: none;
+  font-size: large;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.contextButton:hover {
+  background-color: #2b2d31;
+}

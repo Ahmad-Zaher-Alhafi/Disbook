@@ -16,6 +16,7 @@
 
 .sendButton {
   max-height: 40px;
+  font-family: Roboto, arial;
 }
 
 .userFullName {

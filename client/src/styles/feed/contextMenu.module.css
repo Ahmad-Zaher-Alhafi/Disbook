@@ -1,0 +1,17 @@
+.contextMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: absolute;
+  left: 50%;
+  top: 110%;
+  transform: translate(-50%, 0);
+  background-color: #2b2d31;
+  padding: 10px;
+  border: 1px solid #7b7b7b;
+  border-radius: 5px;
+  box-shadow: 0 2px 20px black;
+
+  width: 200px;
+}

@@ -13,17 +13,29 @@
   gap: 7px;
 }
 
-.rightContainer {
+.rightTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rightTopMiddle {
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: #2b2d31;
   padding: 10px;
   border-radius: 10px;
+  min-width: 200px;
 }
 
 .userFullName {
   font-weight: bold;
+}
+
+.content {
+  font-family: Roboto, arial;
+  margin: 0;
 }
 
 .img {

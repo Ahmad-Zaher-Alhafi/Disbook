@@ -8,6 +8,7 @@ function Comments({
   setComment,
   setCommentLike,
   removeCommentLike,
+  removeComment,
 }) {
   return (
     <div className={styles.comments}>
@@ -25,6 +26,7 @@ function Comments({
               setCommentLike={setCommentLike}
               removeCommentLike={removeCommentLike}
               commentDate={comment.createdAt}
+              removeComment={removeComment}
             ></Comment>
           );
         })}

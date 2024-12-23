@@ -40,4 +40,10 @@ feedRouter.post(
   feedController.addCommentToPost
 );
 
+feedRouter.post(
+  "/comments/:commentId/likes",
+  passport.authenticate("jwt", { session: false }),
+  feedController.addLikeToComment
+);
+
 module.exports = { feedRouter };

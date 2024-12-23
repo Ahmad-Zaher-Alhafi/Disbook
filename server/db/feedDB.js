@@ -25,6 +25,7 @@ async function getPosts() {
         comments: {
           include: {
             user: true,
+            likes: true,
           },
         },
         likes: true,
@@ -110,6 +111,36 @@ async function addCommentToPost(userId, postID, content) {
   }
 }
 
+async function addLikeToComment(userId, commentId) {
+  try {
+    const like = await prisma.like.create({
+      data: {
+        userId: userId,
+        commentId: commentId,
+      },
+    });
+
+    return like;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function getLikeOfUserOnComment(userId, commentId) {
+  try {
+    const like = await prisma.like.findFirst({
+      where: {
+        userId: userId,
+        commentId: commentId,
+      },
+    });
+
+    return like;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
 }
@@ -122,4 +153,6 @@ module.exports = {
   getLikeOfUserOnPost,
   removeLike,
   addCommentToPost,
+  addLikeToComment,
+  getLikeOfUserOnComment,
 };

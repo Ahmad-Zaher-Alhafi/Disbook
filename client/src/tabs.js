@@ -1,12 +1,12 @@
 const MainTabs = {
   Feed: "feed",
   Chat: "chat",
-  Profile: "profile",
 };
 
 const Tabs = {
   Posts: "posts",
   FriendRequests: "freindRequests",
+  Profile: "profile",
 };
 
 export { Tabs, MainTabs };

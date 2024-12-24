@@ -8,7 +8,6 @@ import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
 import Feed from "./components/feed/Feed";
 import { MainTabs } from "./tabs";
-import Profile from "./components/profile/Profile";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -66,9 +65,6 @@ function Disbook() {
         <div className="leftBar">
           <button onClick={() => setOpenedTap(MainTabs.Feed)}>Feed</button>
           <button onClick={() => setOpenedTap(MainTabs.Chat)}>Chat</button>
-          <button onClick={() => setOpenedTap(MainTabs.Profile)}>
-            Profile
-          </button>
         </div>
         <div className="displayer">
           {openedTap === MainTabs.Chat && (
@@ -78,8 +74,6 @@ function Disbook() {
           )}
 
           {openedTap === MainTabs.Feed && <Feed></Feed>}
-
-          {openedTap === MainTabs.Profile && <Profile></Profile>}
         </div>
       </div>
     </div>

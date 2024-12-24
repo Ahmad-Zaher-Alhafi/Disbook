@@ -14,18 +14,27 @@ datasource db {
 }
 
 model User {
-  id               Int           @id @default(autoincrement())
-  username         String        @unique
-  password         String
-  fullName         String
-  email            String        @unique
-  imgUrl           String?
-  interactions     Interaction[]
-  messagesSent     Message[]     @relation("SentMessages")
-  messagesRecieved Message[]     @relation("RecievedMessages")
-  posts            Post[]        @relation("CreatedPosts")
-  comments         Comment[]     @relation("Comments")
-  likes            Like[]        @relation("Likes")
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  password String
+  fullName String
+  email    String  @unique
+  imgUrl   String?
+
+  interactions Interaction[]
+
+  messagesSent     Message[] @relation("SentMessages")
+  messagesRecieved Message[] @relation("RecievedMessages")
+
+  posts    Post[]    @relation("CreatedPosts")
+  comments Comment[] @relation("Comments")
+  likes    Like[]    @relation("Likes")
+
+  friends  User[] @relation("Friends")
+  friendOf User[] @relation("Friends")
+
+  SentFriendRequests     FriendRequest[] @relation("FriendRequestsSent")
+  RecievedFriendRequests FriendRequest[] @relation("FriendRequestsRecieved")
 }
 
 model Interaction {
@@ -73,4 +82,15 @@ model Like {
   post      Post?    @relation("Likes", fields: [postId], references: [id])
   commentId Int?
   comment   Comment? @relation("Likes", fields: [commentId], references: [id], onDelete: Cascade)
+}
+
+model FriendRequest {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  senderId Int
+  sender   User @relation("FriendRequestsSent", fields: [senderId], references: [id], onDelete: Cascade)
+
+  recieverId Int
+  reciever   User @relation("FriendRequestsRecieved", fields: [recieverId], references: [id], onDelete: Cascade)
 }

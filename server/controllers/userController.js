@@ -206,16 +206,58 @@ async function getAllMessagesRelatedToUser(req, res) {
   }
 }
 
+async function getFriendRequestsOfUser(req, res) {
+  try {
+    const userId = req.user.id;
+    const freinedRequests = await userDB.getFreindRequestsOfUser(userId);
+    res.json(freinedRequests);
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Faild fetching freind requests of a user", error });
+  }
+}
+
+async function addFriendRequest(req, res) {
+  try {
+    const userId = req.user.id;
+    const recieverId = parseInt(req.params.recieverId);
+
+    const freinedRequest = await userDB.addFreindRequest(userId, recieverId);
+    res.json(freinedRequest);
+  } catch (error) {
+    res.status(401).json({ message: "Faild sending a freind request", error });
+  }
+}
+
+async function removedFreindRequest(req, res) {
+  try {
+    const freindRequestId = parseInt(req.params.freindRequestId);
+
+    await userDB.removeFreindRequest(freindRequestId);
+    res.end();
+  } catch (error) {
+    res.status(401).json({ message: "Faild removing a freind request", error });
+  }
+}
+
 module.exports = {
   signup,
+  login,
+
   getUserById,
   getUserByUsername,
   getUserByEmail,
-  login,
   getUsers,
+
   getUsersInteractedWith,
   addUserInteraction,
+
   addMessage,
   getMessagesBetweenTwoUsers,
   getAllMessagesRelatedToUser,
+
+  addFriendRequest,
+  removedFreindRequest,
+  getFriendRequestsOfUser,
 };

@@ -222,6 +222,51 @@ async function getAllMessagesRelatedToUser(userId) {
   }
 }
 
+async function getFreindRequestsOfUser(userId) {
+  try {
+    const friendRequests = await prisma.friendRequest.findMany({
+      where: {
+        OR: [{ senderId: userId }, { recieverId: userId }],
+      },
+      include: {
+        sender: true,
+        reciever: true,
+      },
+    });
+
+    return friendRequests;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function addFreindRequest(senderId, recieverId) {
+  try {
+    const friendRequest = await prisma.friendRequest.create({
+      data: {
+        senderId: senderId,
+        recieverId: recieverId,
+      },
+    });
+
+    return friendRequest;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function removeFreindRequest(id) {
+  try {
+    await prisma.friendRequest.delete({
+      where: {
+        id: id,
+      },
+    });
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 async function onPrismaException(error) {
   console.error(error);
   await prisma.$disconnect();
@@ -231,15 +276,22 @@ async function onPrismaException(error) {
 module.exports = {
   addUser,
   addUsers,
+
   getUserById,
   getUserByUsername,
   getUserByEmail,
   getUsersCount,
   getUsers,
+
   getUsersInteractedWith,
   addUserInteraction,
   getUserInteractedWith,
+
   addMessage,
   getMessagesBetweenTwoUsers,
   getAllMessagesRelatedToUser,
+
+  getFreindRequestsOfUser,
+  addFreindRequest,
+  removeFreindRequest,
 };

@@ -4,6 +4,17 @@ const passport = require("passport");
 
 const userRouter = Router();
 
+userRouter.post("/signup", userController.signup);
+userRouter.post("/login", userController.login);
+
+userRouter.get(
+  "/isAuthorised",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
+
 userRouter.get(
   "/me/interactedWith",
   passport.authenticate("jwt", { session: false }),
@@ -28,14 +39,22 @@ userRouter.get(
   userController.getMessagesBetweenTwoUsers
 );
 
-userRouter.post("/signup", userController.signup);
-userRouter.post("/login", userController.login);
-
 userRouter.get(
-  "/isAuthorised",
+  "/me/freindRequests",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.json(req.user);
-  }
+  userController.getFriendRequestsOfUser
 );
+
+userRouter.post(
+  "/me/freindRequests/:recieverId",
+  passport.authenticate("jwt", { session: false }),
+  userController.addFriendRequest
+);
+
+userRouter.delete(
+  "/freindRequests/:freiendRequestId",
+  passport.authenticate("jwt", { session: false }),
+  userController.removedFreindRequest
+);
+
 module.exports = userRouter;

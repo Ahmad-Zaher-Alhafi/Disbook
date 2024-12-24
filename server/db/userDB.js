@@ -40,6 +40,7 @@ async function getUserById(id) {
       },
       include: {
         friends: true,
+        posts: true,
       },
     });
 

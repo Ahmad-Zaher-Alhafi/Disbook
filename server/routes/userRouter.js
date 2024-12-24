@@ -63,4 +63,10 @@ userRouter.put(
   userController.acceptFreindRequest
 );
 
+userRouter.get(
+  "/:userId",
+  passport.authenticate("jwt", { session: false }),
+  userController.getUserById
+);
+
 module.exports = userRouter;

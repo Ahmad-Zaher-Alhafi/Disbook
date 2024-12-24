@@ -9,12 +9,15 @@ import FriendRequests from "./FreindRequests";
 import { Tabs } from "../../tabs";
 import { myInfo } from "../../myInfo";
 import Freinds from "./Freinds";
+import Profile from "./Profile";
+import Posts from "./Posts";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [posts, setPosts] = useState([]);
   const [openedTap, setOpenedTap] = useState(Tabs.Posts);
   const [friends, setFreineds] = useState(myInfo?.friends);
+  const [userIdToShowProfile, setUserIdToShowProfile] = useState();
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -135,10 +138,18 @@ function Feed() {
     );
   }
 
+  function showProfileClicked(userId = myInfo.id) {
+    setUserIdToShowProfile(userId);
+    setOpenedTap(Tabs.Profile);
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}>
-        <TopBar setOpenedTap={setOpenedTap}></TopBar>
+        <TopBar
+          setOpenedTap={setOpenedTap}
+          onPictureClick={showProfileClicked}
+        ></TopBar>
       </div>
 
       {openedTap === Tabs.Posts && (
@@ -153,37 +164,40 @@ function Feed() {
             </div>
           </div>
 
-          <div className={styles.middleRight}>
-            <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
-            {posts?.map((post) => {
-              return (
-                <Post
-                  key={post.id}
-                  createrName={post.user.fullName}
-                  createrImgUrl={post.user.imgUrl}
-                  createDate={post.createdAt}
-                  content={post.content}
-                  likes={post.likes}
-                  id={post.id}
-                  setPostLike={setPostLike}
-                  removePostLike={removePostLike}
-                  comments={post.comments}
-                  setComment={setComment}
-                  setCommentLike={setCommentLike}
-                  removeCommentLike={removeCommentLike}
-                  removeComment={removeComment}
-                ></Post>
-              );
-            })}
+          <div className={styles.postsContainer}>
+            <Posts
+              posts={posts}
+              removeComment={removeComment}
+              removeCommentLike={removeCommentLike}
+              removePostLike={removePostLike}
+              setComment={setComment}
+              setCommentLike={setCommentLike}
+              setIsCreatingPost={setIsCreatingPost}
+              setPostLike={setPostLike}
+            ></Posts>
           </div>
         </div>
       )}
 
-      {openedTap === Tabs.Posts && isCreatingPost ? (
+      {isCreatingPost ? (
         <PostCreator setIsCreatingPost={setIsCreatingPost}></PostCreator>
       ) : null}
 
       {openedTap === Tabs.FriendRequests && <FriendRequests></FriendRequests>}
+
+      {openedTap === Tabs.Profile && userIdToShowProfile && (
+        <Profile
+          userId={userIdToShowProfile}
+          posts={posts.filter((post) => post.user.id === myInfo.id)}
+          removeComment={removeComment}
+          removeCommentLike={removeCommentLike}
+          removePostLike={removePostLike}
+          setComment={setComment}
+          setCommentLike={setCommentLike}
+          setIsCreatingPost={setIsCreatingPost}
+          setPostLike={setPostLike}
+        ></Profile>
+      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Tabs } from "../../tabs";
 
 import styles from "/src/styles/feed/topBar.module.css";
 
-function TopBar({ setOpenedTap }) {
+function TopBar({ setOpenedTap, onPictureClick }) {
   return (
     <div className={styles.topBar}>
       <div className={styles.left}>Disbook logo</div>
@@ -28,7 +28,12 @@ function TopBar({ setOpenedTap }) {
       </div>
 
       <div className={styles.right}>
-        <img className={styles.img} src={myInfo?.imgUrl} alt="user image" />
+        <img
+          className={styles.img}
+          src={myInfo?.imgUrl}
+          alt="user image"
+          onClick={() => onPictureClick(myInfo.id)}
+        />
       </div>
     </div>
   );

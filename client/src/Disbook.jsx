@@ -8,6 +8,7 @@ import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
 import Feed from "./components/feed/Feed";
 import { MainTabs } from "./tabs";
+import { myInfo } from "./myInfo";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -47,7 +48,7 @@ function Disbook() {
     checkAuthuntication();
   }, []);
 
-  if (isAuthorised === undefined) {
+  if (isAuthorised === undefined || !myInfo) {
     return <Loading></Loading>;
   }
 

@@ -7,11 +7,14 @@ import Post from "./Post";
 import TopBar from "./TopBar";
 import FriendRequests from "./FreindRequests";
 import Tabs from "../../tabs";
+import { myInfo } from "../../myInfo";
+import Freinds from "./Freinds";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [posts, setPosts] = useState([]);
   const [openedTap, setOpenedTap] = useState(Tabs.Posts);
+  const [friends, setFreineds] = useState(myInfo?.friends);
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -140,27 +143,39 @@ function Feed() {
 
       {openedTap === Tabs.Posts && (
         <div className={styles.feedMiddle}>
-          <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
-          {posts?.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                createrName={post.user.fullName}
-                createrImgUrl={post.user.imgUrl}
-                createDate={post.createdAt}
-                content={post.content}
-                likes={post.likes}
-                id={post.id}
-                setPostLike={setPostLike}
-                removePostLike={removePostLike}
-                comments={post.comments}
-                setComment={setComment}
-                setCommentLike={setCommentLike}
-                removeCommentLike={removeCommentLike}
-                removeComment={removeComment}
-              ></Post>
-            );
-          })}
+          <div className={styles.middleLeft}>
+            <div className={styles.middleLeftHeader}>
+              <div>Freinds</div>
+            </div>
+
+            <div className={styles.middleLeftContent}>
+              <Freinds freinds={friends}></Freinds>
+            </div>
+          </div>
+
+          <div className={styles.middleRight}>
+            <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
+            {posts?.map((post) => {
+              return (
+                <Post
+                  key={post.id}
+                  createrName={post.user.fullName}
+                  createrImgUrl={post.user.imgUrl}
+                  createDate={post.createdAt}
+                  content={post.content}
+                  likes={post.likes}
+                  id={post.id}
+                  setPostLike={setPostLike}
+                  removePostLike={removePostLike}
+                  comments={post.comments}
+                  setComment={setComment}
+                  setCommentLike={setCommentLike}
+                  removeCommentLike={removeCommentLike}
+                  removeComment={removeComment}
+                ></Post>
+              );
+            })}
+          </div>
         </div>
       )}
 

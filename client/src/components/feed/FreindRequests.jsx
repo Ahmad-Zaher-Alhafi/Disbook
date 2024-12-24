@@ -24,6 +24,12 @@ function FriendRequests() {
     fetchRequests();
   }, []);
 
+  function removeFreindRequest(id) {
+    setFriendRequests((pre) =>
+      pre.filter((friendRequest) => friendRequest.id !== id)
+    );
+  }
+
   return (
     <div className={styles.freindRequests}>
       <div className={styles.recieved}>
@@ -34,6 +40,7 @@ function FriendRequests() {
             .map((friendRequest) => (
               <FriendRequest
                 key={friendRequest.id}
+                id={friendRequest.id}
                 senderFullName={friendRequest.sender.fullName}
                 senderImgUrl={friendRequest.sender.imgUrl}
                 sendDate={friendRequest.createdAt}
@@ -51,6 +58,7 @@ function FriendRequests() {
             .map((friendRequest) => (
               <FriendRequest
                 key={friendRequest.id}
+                id={friendRequest.id}
                 senderFullName={friendRequest.sender.fullName}
                 senderImgUrl={friendRequest.sender.imgUrl}
                 sendDate={friendRequest.createdAt}

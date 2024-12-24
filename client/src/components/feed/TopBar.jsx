@@ -27,7 +27,7 @@ function TopBar({ setOpenedTap }) {
       </div>
 
       <div className={styles.right}>
-        <img className={styles.img} src={myInfo.imgUrl} alt="user image" />
+        <img className={styles.img} src={myInfo?.imgUrl} alt="user image" />
       </div>
     </div>
   );

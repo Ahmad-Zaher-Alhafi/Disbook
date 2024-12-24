@@ -1,0 +1,18 @@
+.freind {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.freind:hover {
+  background-color: gray;
+}
+
+.img {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 50%;
+}

@@ -72,4 +72,33 @@ async function fDelete(routeUrl, withAuthuntication = true) {
   return response;
 }
 
-export { get, post, fDelete };
+async function put(routeUrl, body, withAuthuntication = true) {
+  const token = storage.getToken();
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (withAuthuntication) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const requestOptions = {
+    method: "PUT",
+    headers: headers,
+  };
+
+  if (body) {
+    requestOptions.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(disbookApiUrl + routeUrl, requestOptions).catch(
+    (error) => {
+      console.error("Failed to put", error);
+    }
+  );
+
+  return response;
+}
+
+export { get, post, fDelete, put };

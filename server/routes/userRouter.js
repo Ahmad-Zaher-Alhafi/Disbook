@@ -52,9 +52,15 @@ userRouter.post(
 );
 
 userRouter.delete(
-  "/freindRequests/:freiendRequestId",
+  "/me/freindRequests/:freindRequestId",
   passport.authenticate("jwt", { session: false }),
   userController.removedFreindRequest
+);
+
+userRouter.put(
+  "/me/freindRequests/:freindRequestId",
+  passport.authenticate("jwt", { session: false }),
+  userController.acceptFreindRequest
 );
 
 module.exports = userRouter;

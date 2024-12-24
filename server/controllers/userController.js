@@ -241,6 +241,18 @@ async function removedFreindRequest(req, res) {
   }
 }
 
+async function acceptFreindRequest(req, res) {
+  try {
+    const freindRequestId = parseInt(req.params.freindRequestId);
+    await userDB.acceptFreindRequest(freindRequestId);
+    res.end();
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Faild accepting a freind request", error });
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -260,4 +272,5 @@ module.exports = {
   addFriendRequest,
   removedFreindRequest,
   getFriendRequestsOfUser,
+  acceptFreindRequest,
 };

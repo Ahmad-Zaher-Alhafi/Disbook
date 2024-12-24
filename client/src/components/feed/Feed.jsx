@@ -4,6 +4,7 @@ import styles from "/src/styles/feed/feed.module.css";
 import CreatePostArea from "./CreatePostArea";
 import { get } from "../../disbookServerFetcher";
 import Post from "./Post";
+import TopBar from "./TopBar";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
@@ -130,7 +131,9 @@ function Feed() {
 
   return (
     <div className={styles.feed}>
-      <div className={styles.feedTop}></div>
+      <div className={styles.feedTop}>
+        <TopBar></TopBar>
+      </div>
 
       <div className={styles.feedMiddle}>
         <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>

@@ -5,6 +5,7 @@ import CreatePostArea from "./CreatePostArea";
 import { get } from "../../disbookServerFetcher";
 import Post from "./Post";
 import TopBar from "./TopBar";
+import FriendRequests from "./FreindRequests";
 import Tabs from "../../tabs";
 
 function Feed() {
@@ -138,34 +139,36 @@ function Feed() {
       </div>
 
       {openedTap === Tabs.Posts && (
-      <div className={styles.feedMiddle}>
-        <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
-        {posts?.map((post) => {
-          return (
-            <Post
-              key={post.id}
-              createrName={post.user.fullName}
-              createrImgUrl={post.user.imgUrl}
-              createDate={post.createdAt}
-              content={post.content}
-              likes={post.likes}
-              id={post.id}
-              setPostLike={setPostLike}
-              removePostLike={removePostLike}
-              comments={post.comments}
-              setComment={setComment}
-              setCommentLike={setCommentLike}
-              removeCommentLike={removeCommentLike}
-              removeComment={removeComment}
-            ></Post>
-          );
-        })}
-      </div>
+        <div className={styles.feedMiddle}>
+          <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
+          {posts?.map((post) => {
+            return (
+              <Post
+                key={post.id}
+                createrName={post.user.fullName}
+                createrImgUrl={post.user.imgUrl}
+                createDate={post.createdAt}
+                content={post.content}
+                likes={post.likes}
+                id={post.id}
+                setPostLike={setPostLike}
+                removePostLike={removePostLike}
+                comments={post.comments}
+                setComment={setComment}
+                setCommentLike={setCommentLike}
+                removeCommentLike={removeCommentLike}
+                removeComment={removeComment}
+              ></Post>
+            );
+          })}
+        </div>
       )}
 
       {openedTap === Tabs.Posts && isCreatingPost ? (
         <PostCreator setIsCreatingPost={setIsCreatingPost}></PostCreator>
       ) : null}
+
+      {openedTap === Tabs.FriendRequests && <FriendRequests></FriendRequests>}
     </div>
   );
 }

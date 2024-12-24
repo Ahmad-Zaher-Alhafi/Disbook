@@ -1,0 +1,31 @@
+.freindRequest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #1e1f22;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #7b7b7b;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rightContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rightButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.sendDate {
+  font-size: small;
+}

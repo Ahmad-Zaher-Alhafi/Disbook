@@ -6,7 +6,7 @@ import { get } from "../../disbookServerFetcher";
 import Post from "./Post";
 import TopBar from "./TopBar";
 import FriendRequests from "./FreindRequests";
-import Tabs from "../../tabs";
+import { Tabs } from "../../tabs";
 import { myInfo } from "../../myInfo";
 import Freinds from "./Freinds";
 

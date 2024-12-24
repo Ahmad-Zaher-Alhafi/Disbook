@@ -7,12 +7,14 @@ import Loading from "./components/Loading";
 import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
 import Feed from "./components/feed/Feed";
+import { MainTabs } from "./tabs";
+import Profile from "./components/profile/Profile";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
 function Disbook() {
   const [isAuthorised, setIsAuthorised] = useState();
-  const [isChatOpened, setIsChatOpened] = useState();
+  const [openedTap, setOpenedTap] = useState(MainTabs.Feed);
 
   const navigate = useNavigate();
   const token = storage.getToken();
@@ -62,17 +64,22 @@ function Disbook() {
 
       <div className="container">
         <div className="leftBar">
-          <button onClick={() => setIsChatOpened(false)}>Feed</button>
-          <button onClick={() => setIsChatOpened(true)}>Chat</button>
+          <button onClick={() => setOpenedTap(MainTabs.Feed)}>Feed</button>
+          <button onClick={() => setOpenedTap(MainTabs.Chat)}>Chat</button>
+          <button onClick={() => setOpenedTap(MainTabs.Profile)}>
+            Profile
+          </button>
         </div>
         <div className="displayer">
-          {isChatOpened ? (
+          {openedTap === MainTabs.Chat && (
             <SocketProvider>
               <Conversations></Conversations>
             </SocketProvider>
-          ) : (
-            <Feed></Feed>
           )}
+
+          {openedTap === MainTabs.Feed && <Feed></Feed>}
+
+          {openedTap === MainTabs.Profile && <Profile></Profile>}
         </div>
       </div>
     </div>

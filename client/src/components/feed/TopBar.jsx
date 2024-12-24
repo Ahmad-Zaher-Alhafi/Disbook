@@ -1,5 +1,6 @@
 import { myInfo } from "../../myInfo";
-import Tabs from "../../tabs";
+import { Tabs } from "../../tabs";
+
 import styles from "/src/styles/feed/topBar.module.css";
 
 function TopBar({ setOpenedTap }) {

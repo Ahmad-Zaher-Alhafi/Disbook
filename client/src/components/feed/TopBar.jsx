@@ -1,14 +1,29 @@
 import { myInfo } from "../../myInfo";
+import Tabs from "../../tabs";
 import styles from "/src/styles/feed/topBar.module.css";
 
-function TopBar() {
+function TopBar({ setOpenedTap }) {
   return (
     <div className={styles.topBar}>
       <div className={styles.left}>Disbook logo</div>
 
       <div className={styles.middle}>
-        <button className="feed">Feed</button>
-        <button className="friendRequests">Freind requests</button>
+        <button
+          className="feed"
+          onClick={() => {
+            setOpenedTap(Tabs.Posts);
+          }}
+        >
+          Feed
+        </button>
+        <button
+          className="friendRequests"
+          onClick={() => {
+            setOpenedTap(Tabs.FriendRequests);
+          }}
+        >
+          Freind requests
+        </button>
       </div>
 
       <div className={styles.right}>

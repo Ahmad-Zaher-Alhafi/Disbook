@@ -5,10 +5,12 @@ import CreatePostArea from "./CreatePostArea";
 import { get } from "../../disbookServerFetcher";
 import Post from "./Post";
 import TopBar from "./TopBar";
+import Tabs from "../../tabs";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [openedTap, setOpenedTap] = useState(Tabs.Posts);
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -132,9 +134,10 @@ function Feed() {
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}>
-        <TopBar></TopBar>
+        <TopBar setOpenedTap={setOpenedTap}></TopBar>
       </div>
 
+      {openedTap === Tabs.Posts && (
       <div className={styles.feedMiddle}>
         <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
         {posts?.map((post) => {
@@ -158,8 +161,9 @@ function Feed() {
           );
         })}
       </div>
+      )}
 
-      {isCreatingPost ? (
+      {openedTap === Tabs.Posts && isCreatingPost ? (
         <PostCreator setIsCreatingPost={setIsCreatingPost}></PostCreator>
       ) : null}
     </div>

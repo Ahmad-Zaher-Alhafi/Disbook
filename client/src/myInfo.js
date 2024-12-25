@@ -5,7 +5,7 @@ const token = storage.getToken();
 
 let myInfo;
 
-async function fetchMyInfo() {
+async function getMyInfo() {
   const response = await fetch(disbookApiUrl + "/users/isAuthorised", {
     method: "GET",
     headers: {
@@ -24,8 +24,4 @@ async function fetchMyInfo() {
   return myInfo;
 }
 
-if (!myInfo) {
-  fetchMyInfo();
-}
-
-export { myInfo };
+export { myInfo, getMyInfo };

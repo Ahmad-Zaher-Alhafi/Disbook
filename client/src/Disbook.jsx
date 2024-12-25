@@ -8,13 +8,14 @@ import Conversations from "./components/Conversations";
 import SocketProvider from "./components/SocketProvider";
 import Feed from "./components/feed/Feed";
 import { MainTabs } from "./tabs";
-import { myInfo } from "./myInfo";
+import { getMyInfo, myInfo } from "./myInfo";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
 function Disbook() {
   const [isAuthorised, setIsAuthorised] = useState();
   const [openedTap, setOpenedTap] = useState(MainTabs.Feed);
+  const [_, setMyInfoData] = useState();
 
   const navigate = useNavigate();
   const token = storage.getToken();
@@ -46,6 +47,15 @@ function Disbook() {
     };
 
     checkAuthuntication();
+  }, []);
+
+  useEffect(() => {
+    const fetchMyInfo = async () => {
+      await getMyInfo();
+      setMyInfoData(myInfo);
+    };
+
+    fetchMyInfo();
   }, []);
 
   if (isAuthorised === undefined || !myInfo) {

@@ -84,10 +84,10 @@ function Profile({
 
         <div className={styles.right}>
           <div className={styles.fullName}>{user.fullName}</div>
-          <div className={styles.freindsCount}>
-            {user.friends.length} freinds
+          <div className={styles.friendsCount}>
+            {user.friends.length} friends
           </div>
-          <div className={styles.freindPictures}>
+          <div className={styles.friendPictures}>
             {user.friends.slice(0, 5).map((friend) => (
               <UserPicture
                 key={friend.id}
@@ -108,7 +108,7 @@ function Profile({
                   ? "Unfriend"
                   : isFriendRequestSent()
                   ? "Cancel friend request"
-                  : "Add freind"}
+                  : "Add friend"}
               </button>
             </div>
           ) : null}

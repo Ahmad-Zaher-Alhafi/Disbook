@@ -3,10 +3,10 @@ import PostCreator from "./PostCreator";
 import styles from "/src/styles/feed/feed.module.css";
 import { fDelete, get, post } from "../../disbookServerFetcher";
 import TopBar from "./TopBar";
-import FriendRequests from "./FreindRequests";
+import FriendRequests from "./friendRequests";
 import { Tabs } from "../../tabs";
 import { myInfo } from "../../myInfo";
-import Freinds from "./Freinds";
+import Friends from "./Friends";
 import Profile from "./Profile";
 import Posts from "./Posts";
 
@@ -48,7 +48,7 @@ function Feed() {
     fetchFriends();
 
     const fetchRequests = async () => {
-      const response = await get("/users/me/freindRequests");
+      const response = await get("/users/me/friendRequests");
 
       if (!response.ok) {
         const error = await response.json();
@@ -189,7 +189,7 @@ function Feed() {
   }
 
   async function addFriendRequest(recieverId) {
-    const response = await post(`/users/me/freindRequests/${recieverId}`);
+    const response = await post(`/users/me/friendRequests/${recieverId}`);
 
     if (!response.ok) {
       const error = await response.json();
@@ -202,13 +202,13 @@ function Feed() {
     setFriendRequests((pre) => [...pre, friendRequest]);
   }
 
-  async function removeFreindRequest(id, deleteOnServer) {
+  async function removefriendRequest(id, deleteOnServer) {
     if (deleteOnServer) {
-      const response = await fDelete(`/users/me/freindRequests/${id}`);
+      const response = await fDelete(`/users/me/friendRequests/${id}`);
 
       if (!response.ok) {
         const error = await response.json();
-        console.error("Could not delete the freind request", error);
+        console.error("Could not delete the friend request", error);
         return;
       }
     }
@@ -235,14 +235,14 @@ function Feed() {
         <div className={styles.feedMiddle}>
           <div className={styles.middleLeft}>
             <div className={styles.middleLeftHeader}>
-              <div>Freinds</div>
+              <div>friends</div>
             </div>
 
             <div className={styles.middleLeftContent}>
-              <Freinds
-                freinds={friends}
+              <Friends
+                friends={friends}
                 showProfile={showProfileClicked}
-              ></Freinds>
+              ></Friends>
             </div>
           </div>
 
@@ -273,7 +273,7 @@ function Feed() {
       {openedTap === Tabs.FriendRequests && (
         <FriendRequests
           friendRequests={friendRequests}
-          removeFriendRequest={removeFreindRequest}
+          removeFriendRequest={removefriendRequest}
           addFriend={addFriend}
         ></FriendRequests>
       )}
@@ -292,7 +292,7 @@ function Feed() {
           onFriendPictureClicked={showProfileClicked}
           addFriendRequest={addFriendRequest}
           removeFriend={removeFriend}
-          removeFriendRequest={(id) => removeFreindRequest(id, true)}
+          removeFriendRequest={(id) => removefriendRequest(id, true)}
           friendRequests={friendRequests}
           friends={friends}
         ></Profile>

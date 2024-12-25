@@ -24,6 +24,9 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
+    storage.clear();
+
     const response = await fetch(disbookApiUrl + "/users/login", {
       method: "POST",
       headers: {

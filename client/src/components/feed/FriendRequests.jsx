@@ -1,12 +1,12 @@
-import FriendRequest from "./FreindRequest";
+import FriendRequest from "./friendRequest";
 import { myInfo } from "../../myInfo";
-import styles from "/src/styles/feed/freindRequests.module.css";
+import styles from "/src/styles/feed/friendRequests.module.css";
 
 function FriendRequests({ friendRequests, removeFriendRequest, addFriend }) {
   return (
-    <div className={styles.freindRequests}>
+    <div className={styles.friendRequests}>
       <div className={styles.recieved}>
-        <div className={styles.recievedHeader}>Recieved freind requests</div>
+        <div className={styles.recievedHeader}>Recieved friend requests</div>
         <div className={styles.recievedContent}>
           {friendRequests
             ?.filter((friendRequest) => friendRequest.reciever.id === myInfo.id)
@@ -18,7 +18,7 @@ function FriendRequests({ friendRequests, removeFriendRequest, addFriend }) {
                 userImgUrl={friendRequest.sender.imgUrl}
                 sendDate={friendRequest.createdAt}
                 senderId={friendRequest.sender.id}
-                removeFreindRequest={removeFriendRequest}
+                removefriendRequest={removeFriendRequest}
                 sender={friendRequest.sender}
                 addFriend={addFriend}
               ></FriendRequest>
@@ -27,7 +27,7 @@ function FriendRequests({ friendRequests, removeFriendRequest, addFriend }) {
       </div>
 
       <div className={styles.sent}>
-        <div className={styles.sentHeader}>Sent freind requests</div>
+        <div className={styles.sentHeader}>Sent friend requests</div>
         <div className={styles.sentContent}>
           {friendRequests
             ?.filter((friendRequest) => friendRequest.sender.id === myInfo.id)
@@ -40,7 +40,7 @@ function FriendRequests({ friendRequests, removeFriendRequest, addFriend }) {
                 sendDate={friendRequest.createdAt}
                 sender={friendRequest.sender}
                 addFriend={addFriend}
-                removeFreindRequest={removeFriendRequest}
+                removefriendRequest={removeFriendRequest}
               ></FriendRequest>
             ))}
         </div>

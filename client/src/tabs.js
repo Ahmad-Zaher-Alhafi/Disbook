@@ -5,7 +5,7 @@ const MainTabs = {
 
 const Tabs = {
   Posts: "posts",
-  FriendRequests: "freindRequests",
+  FriendRequests: "friendRequests",
   Profile: "profile",
 };
 

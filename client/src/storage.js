@@ -8,4 +8,8 @@ function getToken() {
   return localStorage.getItem(tockenStorageKey);
 }
 
-export { setToken, getToken };
+function clear() {
+  localStorage.clear();
+}
+
+export { setToken, getToken, clear };

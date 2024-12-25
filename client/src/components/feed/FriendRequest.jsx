@@ -1,7 +1,7 @@
 import { put } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
-import styles from "/src/styles/feed/freindRequest.module.css";
+import styles from "/src/styles/feed/friendRequest.module.css";
 import { format, isToday, isYesterday } from "date-fns";
 
 function FriendRequest({
@@ -10,7 +10,7 @@ function FriendRequest({
   userFullName,
   userImgUrl,
   sendDate,
-  removeFreindRequest,
+  removefriendRequest,
   addFriend,
 }) {
   function getFormatedDate() {
@@ -27,24 +27,24 @@ function FriendRequest({
   }
 
   async function onAcceptClicked() {
-    const response = await put(`/users/me/freindRequests/${id}`);
+    const response = await put(`/users/me/friendRequests/${id}`);
 
     if (!response.ok) {
       const error = await response.json();
-      console.error("Could not accept the freind request", error);
+      console.error("Could not accept the friend request", error);
       return;
     }
 
-    removeFreindRequest(id, false);
+    removefriendRequest(id, false);
     addFriend(sender);
   }
 
   async function onRijectClicked() {
-    removeFreindRequest(id, true);
+    removefriendRequest(id, true);
   }
 
   return (
-    <div className={styles.freindRequest}>
+    <div className={styles.friendRequest}>
       <div className={styles.left}>
         <img
           src={userImgUrl ? userImgUrl : defaultUserImage}

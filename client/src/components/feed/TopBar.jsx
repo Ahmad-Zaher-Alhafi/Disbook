@@ -24,7 +24,7 @@ function TopBar({ setOpenedTap, onPictureClick }) {
             setOpenedTap(Tabs.FriendRequests);
           }}
         >
-          Freind requests
+          friend requests
         </button>
       </div>
 

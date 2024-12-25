@@ -3,6 +3,7 @@ import { myInfo } from "../../myInfo";
 import styles from "/src/styles/feed/postCreator.module.css";
 import Textarea from "../Textarea";
 import * as fetcher from "../../disbookServerFetcher";
+import UserPicture from "./UserPicutre";
 
 function PostCreator({ setIsCreatingPost, addPost }) {
   const [content, setPostContent] = useState();
@@ -55,7 +56,7 @@ function PostCreator({ setIsCreatingPost, addPost }) {
           <button onClick={onCloseClicked}>Close</button>
         </div>
         <div className={styles.content}>
-          <img className={styles.img} src={myInfo?.imgUrl} alt="user image" />
+          <UserPicture imgUrl={myInfo.imgUrl}></UserPicture>
           <Textarea
             onInputChanged={onInputChanged}
             ref={normalInputRef}

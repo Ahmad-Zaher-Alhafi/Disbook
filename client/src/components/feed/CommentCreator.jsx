@@ -3,6 +3,7 @@ import { myInfo } from "../../myInfo";
 import Textarea from "../Textarea";
 import styles from "/src/styles/feed/commentCreator.module.css";
 import { post } from "../../disbookServerFetcher";
+import UserPicture from "./UserPicutre";
 
 function CommentCreator({ postId, setComment }) {
   const [commentContent, setCommentContent] = useState();
@@ -38,7 +39,7 @@ function CommentCreator({ postId, setComment }) {
   return (
     <div className={styles.commentCreator}>
       <div className="left">
-        <img className={styles.img} src={myInfo.imgUrl} alt="user image" />
+        <UserPicture imgUrl={myInfo.imgUrl}></UserPicture>
       </div>
 
       <div className={styles.right}>

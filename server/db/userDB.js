@@ -227,7 +227,7 @@ async function getAllMessagesRelatedToUser(userId) {
   }
 }
 
-async function getFreindRequestsOfUser(userId) {
+async function getfriendRequestsOfUser(userId) {
   try {
     const friendRequests = await prisma.friendRequest.findMany({
       where: {
@@ -245,7 +245,7 @@ async function getFreindRequestsOfUser(userId) {
   }
 }
 
-async function addFreindRequest(senderId, recieverId) {
+async function addfriendRequest(senderId, recieverId) {
   try {
     const friendRequest = await prisma.friendRequest.create({
       data: {
@@ -264,7 +264,7 @@ async function addFreindRequest(senderId, recieverId) {
   }
 }
 
-async function removeFreindRequest(id) {
+async function removefriendRequest(id) {
   try {
     await prisma.friendRequest.delete({
       where: {
@@ -282,12 +282,12 @@ async function onPrismaException(error) {
   process.exit(1);
 }
 
-async function acceptFreindRequest(freindRequestId) {
+async function acceptfriendRequest(friendRequestId) {
   try {
-    // Find the freind  request
-    const freindRequest = await prisma.friendRequest.findUnique({
+    // Find the friend  request
+    const friendRequest = await prisma.friendRequest.findUnique({
       where: {
-        id: freindRequestId,
+        id: friendRequestId,
       },
       include: {
         sender: true,
@@ -295,10 +295,10 @@ async function acceptFreindRequest(freindRequestId) {
       },
     });
 
-    const senderId = freindRequest.sender.id;
-    const recieverId = freindRequest.reciever.id;
+    const senderId = friendRequest.sender.id;
+    const recieverId = friendRequest.reciever.id;
 
-    // update sender freinds and friendOf lists
+    // update sender friends and friendOf lists
     await prisma.user.update({
       where: {
         id: senderId,
@@ -318,7 +318,7 @@ async function acceptFreindRequest(freindRequestId) {
       },
     });
 
-    // update recievr freinds and friendOf lists
+    // update recievr friends and friendOf lists
     await prisma.user.update({
       where: {
         id: recieverId,
@@ -338,16 +338,16 @@ async function acceptFreindRequest(freindRequestId) {
       },
     });
 
-    // Delete the freind request
-    await removeFreindRequest(freindRequestId);
+    // Delete the friend request
+    await removefriendRequest(friendRequestId);
   } catch (error) {
     await onPrismaException(error);
   }
 }
 
-async function removeFriend(userId, freindId) {
+async function removeFriend(userId, friendId) {
   try {
-    // update my freinds and friendOf lists
+    // update my friends and friendOf lists
     await prisma.user.update({
       where: {
         id: userId,
@@ -355,22 +355,22 @@ async function removeFriend(userId, freindId) {
       data: {
         friends: {
           disconnect: {
-            id: freindId,
+            id: friendId,
           },
         },
 
         friendOf: {
           disconnect: {
-            id: freindId,
+            id: friendId,
           },
         },
       },
     });
 
-    // update the ex-freind freinds and friendOf lists
+    // update the ex-friend friends and friendOf lists
     await prisma.user.update({
       where: {
-        id: freindId,
+        id: friendId,
       },
       data: {
         friends: {
@@ -409,10 +409,10 @@ module.exports = {
   getMessagesBetweenTwoUsers,
   getAllMessagesRelatedToUser,
 
-  getFreindRequestsOfUser,
-  addFreindRequest,
-  removeFreindRequest,
-  acceptFreindRequest,
+  getfriendRequestsOfUser,
+  addfriendRequest,
+  removefriendRequest,
+  acceptfriendRequest,
 
   removeFriend,
 };

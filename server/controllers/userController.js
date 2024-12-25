@@ -219,12 +219,12 @@ async function getAllMessagesRelatedToUser(req, res) {
 async function getFriendRequestsOfUser(req, res) {
   try {
     const userId = req.user.id;
-    const freinedRequests = await userDB.getFreindRequestsOfUser(userId);
+    const freinedRequests = await userDB.getfriendRequestsOfUser(userId);
     res.json(freinedRequests);
   } catch (error) {
     res
       .status(401)
-      .json({ message: "Faild fetching freind requests of a user", error });
+      .json({ message: "Faild fetching friend requests of a user", error });
   }
 }
 
@@ -241,38 +241,38 @@ async function addFriendRequest(req, res) {
 
     // reciever already sent me a friedn request before, so accept it instead of sending him a friedn request
     if (existingRequest) {
-      await userDB.acceptFreindRequest(existingRequest.id);
+      await userDB.acceptfriendRequest(existingRequest.id);
       res.end();
       return;
     }
 
-    const freinedRequest = await userDB.addFreindRequest(userId, recieverId);
+    const freinedRequest = await userDB.addfriendRequest(userId, recieverId);
     res.json(freinedRequest);
   } catch (error) {
-    res.status(401).json({ message: "Faild sending a freind request", error });
+    res.status(401).json({ message: "Faild sending a friend request", error });
   }
 }
 
-async function removedFreindRequest(req, res) {
+async function removedfriendRequest(req, res) {
   try {
-    const freindRequestId = parseInt(req.params.freindRequestId);
+    const friendRequestId = parseInt(req.params.friendRequestId);
 
-    await userDB.removeFreindRequest(freindRequestId);
+    await userDB.removefriendRequest(friendRequestId);
     res.end();
   } catch (error) {
-    res.status(401).json({ message: "Faild removing a freind request", error });
+    res.status(401).json({ message: "Faild removing a friend request", error });
   }
 }
 
-async function acceptFreindRequest(req, res) {
+async function acceptfriendRequest(req, res) {
   try {
-    const freindRequestId = parseInt(req.params.freindRequestId);
-    await userDB.acceptFreindRequest(freindRequestId);
+    const friendRequestId = parseInt(req.params.friendRequestId);
+    await userDB.acceptfriendRequest(friendRequestId);
     res.end();
   } catch (error) {
     res
       .status(401)
-      .json({ message: "Faild accepting a freind request", error });
+      .json({ message: "Faild accepting a friend request", error });
   }
 }
 
@@ -283,7 +283,7 @@ async function removeFriend(req, res) {
     await userDB.removeFriend(userId, friendId);
     res.end();
   } catch (error) {
-    res.status(401).json({ message: "Faild sending unfreind request", error });
+    res.status(401).json({ message: "Faild sending unfriend request", error });
   }
 }
 
@@ -305,9 +305,9 @@ module.exports = {
   getAllMessagesRelatedToUser,
 
   addFriendRequest,
-  removedFreindRequest,
+  removedfriendRequest,
   getFriendRequestsOfUser,
-  acceptFreindRequest,
+  acceptfriendRequest,
 
   removeFriend,
 };

@@ -40,27 +40,27 @@ userRouter.get(
 );
 
 userRouter.get(
-  "/me/freindRequests",
+  "/me/friendRequests",
   passport.authenticate("jwt", { session: false }),
   userController.getFriendRequestsOfUser
 );
 
 userRouter.post(
-  "/me/freindRequests/:recieverId",
+  "/me/friendRequests/:recieverId",
   passport.authenticate("jwt", { session: false }),
   userController.addFriendRequest
 );
 
 userRouter.delete(
-  "/me/freindRequests/:freindRequestId",
+  "/me/friendRequests/:friendRequestId",
   passport.authenticate("jwt", { session: false }),
-  userController.removedFreindRequest
+  userController.removedfriendRequest
 );
 
 userRouter.put(
-  "/me/freindRequests/:freindRequestId",
+  "/me/friendRequests/:friendRequestId",
   passport.authenticate("jwt", { session: false }),
-  userController.acceptFreindRequest
+  userController.acceptfriendRequest
 );
 
 userRouter.get(

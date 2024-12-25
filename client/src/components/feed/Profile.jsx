@@ -56,7 +56,7 @@ function Profile({
             {user.friends.length} freinds
           </div>
           <div className={styles.freindPictures}>
-            {user.friends.map((friend) => (
+            {user.friends.slice(0, 5).map((friend) => (
               <img
                 key={friend.id}
                 className={styles.freindImg}

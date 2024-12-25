@@ -41,6 +41,7 @@ async function getUserById(id) {
       include: {
         friends: true,
         posts: true,
+        RecievedFriendRequests: true,
       },
     });
 
@@ -251,6 +252,10 @@ async function addFreindRequest(senderId, recieverId) {
         senderId: senderId,
         recieverId: recieverId,
       },
+      include: {
+        sender: true,
+        reciever: true,
+      },
     });
 
     return friendRequest;
@@ -340,6 +345,52 @@ async function acceptFreindRequest(freindRequestId) {
   }
 }
 
+async function removeFriend(userId, freindId) {
+  try {
+    // update my freinds and friendOf lists
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        friends: {
+          disconnect: {
+            id: freindId,
+          },
+        },
+
+        friendOf: {
+          disconnect: {
+            id: freindId,
+          },
+        },
+      },
+    });
+
+    // update the ex-freind freinds and friendOf lists
+    await prisma.user.update({
+      where: {
+        id: freindId,
+      },
+      data: {
+        friends: {
+          disconnect: {
+            id: userId,
+          },
+        },
+
+        friendOf: {
+          disconnect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
 module.exports = {
   addUser,
   addUsers,
@@ -362,4 +413,6 @@ module.exports = {
   addFreindRequest,
   removeFreindRequest,
   acceptFreindRequest,
+
+  removeFriend,
 };

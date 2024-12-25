@@ -66,7 +66,13 @@ userRouter.put(
 userRouter.get(
   "/:userId",
   passport.authenticate("jwt", { session: false }),
-  userController.getUserById
+  userController.getUserByIdFromRequest
+);
+
+userRouter.delete(
+  "/me/friends/:friendId",
+  passport.authenticate("jwt", { session: false }),
+  userController.removeFriend
 );
 
 module.exports = userRouter;

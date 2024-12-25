@@ -15,6 +15,16 @@ async function getUserById(id) {
   return user;
 }
 
+async function getUserByIdFromRequest(req, res) {
+  try {
+    const userId = parseInt(req.params.userId);
+    const user = await userDB.getUserById(userId);
+    res.json(user);
+  } catch (error) {
+    console.error("User not noud", error);
+  }
+}
+
 async function getUserByUsername(username) {
   const user = await userDB
     .getUserByUsername(username)
@@ -223,6 +233,19 @@ async function addFriendRequest(req, res) {
     const userId = req.user.id;
     const recieverId = parseInt(req.params.recieverId);
 
+    const recievedFriendRequests = req.user.RecievedFriendRequests;
+
+    const existingRequest = recievedFriendRequests.find(
+      (freinedRequest) => freinedRequest.senderId === recieverId
+    );
+
+    // reciever already sent me a friedn request before, so accept it instead of sending him a friedn request
+    if (existingRequest) {
+      await userDB.acceptFreindRequest(existingRequest.id);
+      res.end();
+      return;
+    }
+
     const freinedRequest = await userDB.addFreindRequest(userId, recieverId);
     res.json(freinedRequest);
   } catch (error) {
@@ -253,6 +276,17 @@ async function acceptFreindRequest(req, res) {
   }
 }
 
+async function removeFriend(req, res) {
+  try {
+    const userId = req.user.id;
+    const friendId = parseInt(req.params.friendId);
+    await userDB.removeFriend(userId, friendId);
+    res.end();
+  } catch (error) {
+    res.status(401).json({ message: "Faild sending unfreind request", error });
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -261,6 +295,7 @@ module.exports = {
   getUserByUsername,
   getUserByEmail,
   getUsers,
+  getUserByIdFromRequest,
 
   getUsersInteractedWith,
   addUserInteraction,
@@ -273,4 +308,6 @@ module.exports = {
   removedFreindRequest,
   getFriendRequestsOfUser,
   acceptFreindRequest,
+
+  removeFriend,
 };

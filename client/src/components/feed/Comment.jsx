@@ -1,5 +1,6 @@
 import CommentLike from "./CommentLike";
 import ContextButton from "./ContextButton";
+import UserPicture from "./UserPicutre";
 import styles from "/src/styles/feed/comment.module.css";
 
 function Comment({
@@ -13,11 +14,15 @@ function Comment({
   removeCommentLike,
   commentDate,
   removeComment,
+  onCommentorPictureClicked,
 }) {
   return (
     <div className={styles.comment}>
       <div className="left">
-        <img className={styles.img} src={userImgUrl} alt="user image" />
+        <UserPicture
+          imgUrl={userImgUrl}
+          onClick={onCommentorPictureClicked}
+        ></UserPicture>
       </div>
 
       <div className={styles.right}>

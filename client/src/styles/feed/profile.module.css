@@ -42,3 +42,8 @@
 .fullName {
   font-size: xx-large;
 }
+
+.friendRequestInfo {
+  display: flex;
+  gap: 10px;
+}

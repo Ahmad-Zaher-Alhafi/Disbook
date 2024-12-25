@@ -1,9 +1,9 @@
 import styles from "/src/styles/feed/post.module.css";
-import defaultUserImage from "/src/assets/defaultUserImage.png";
 import { format, isToday, isYesterday } from "date-fns";
 import PostLike from "./PostLike";
 import Comments from "./Comments";
 import { useState } from "react";
+import UserPicture from "./UserPicutre";
 
 function Post({
   createrName,
@@ -19,6 +19,7 @@ function Post({
   setCommentLike,
   removeCommentLike,
   removeComment,
+  onCreaterPictureClicked,
 }) {
   const [isCommenting, setIsCommenting] = useState(false);
 
@@ -39,11 +40,10 @@ function Post({
     <div className={styles.post}>
       <div className={styles.header}>
         <div className="leftSide">
-          <img
-            className={styles.img}
-            src={createrImgUrl ? createrImgUrl : defaultUserImage}
-            alt="Sender picture"
-          />
+          <UserPicture
+            imgUrl={createrImgUrl}
+            onClick={onCreaterPictureClicked}
+          ></UserPicture>
         </div>
         <div className={styles.rightSide}>
           <div className={styles.nameAndDate}>
@@ -75,6 +75,7 @@ function Post({
           setCommentLike={setCommentLike}
           removeCommentLike={removeCommentLike}
           removeComment={(commentId) => removeComment(id, commentId)}
+          onCommentorPictureClicked={onCreaterPictureClicked}
         ></Comments>
       ) : null}
     </div>

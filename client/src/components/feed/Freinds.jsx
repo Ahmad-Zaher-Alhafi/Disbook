@@ -1,14 +1,15 @@
 import Freind from "./Freind";
 import styles from "/src/styles/feed/freinds.module.css";
 
-function Freinds({ freinds }) {
+function Freinds({ freinds, showProfile }) {
   return (
     <div className={styles.freinds}>
-      {freinds?.map((freind) => (
+      {freinds?.map((friend) => (
         <Freind
-          key={freind.id}
-          freindFullName={freind.fullName}
-          freindImg={freind.imgUrl}
+          key={friend.id}
+          freindFullName={friend.fullName}
+          freindImg={friend.imgUrl}
+          onClick={() => showProfile(friend.id)}
         ></Freind>
       ))}
     </div>

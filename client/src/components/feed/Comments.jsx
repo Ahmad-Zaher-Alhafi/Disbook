@@ -9,6 +9,7 @@ function Comments({
   setCommentLike,
   removeCommentLike,
   removeComment,
+  onCommentorPictureClicked,
 }) {
   return (
     <div className={styles.comments}>
@@ -27,6 +28,9 @@ function Comments({
               removeCommentLike={removeCommentLike}
               commentDate={comment.createdAt}
               removeComment={removeComment}
+              onCommentorPictureClicked={() =>
+                onCommentorPictureClicked(comment.user.id)
+              }
             ></Comment>
           );
         })}

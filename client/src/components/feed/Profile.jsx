@@ -4,6 +4,7 @@ import { myInfo } from "../../myInfo";
 import { get } from "../../disbookServerFetcher";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
 import Posts from "./Posts";
+import UserPicture from "./UserPicutre";
 
 function Profile({
   userId,
@@ -15,12 +16,20 @@ function Profile({
   setCommentLike,
   removeCommentLike,
   removeComment,
+  onFriendPictureClicked,
+  addFriendRequest,
+  removeFriendRequest,
+  removeFriend,
+  friendRequests,
+  friends,
 }) {
   const [user, setUser] = useState(myInfo);
 
   useEffect(() => {
-    if (userId === myInfo?.id) return;
-    console.log(userId + "  " + myInfo?.id);
+    if (userId === myInfo?.id) {
+      setUser(myInfo);
+      return;
+    }
 
     const fetchUser = async () => {
       const response = await get(`/users/${userId}`);
@@ -35,10 +44,33 @@ function Profile({
     };
 
     fetchUser();
-  }, []);
+  }, [userId, friendRequests, friends]);
 
   function isMyFriend() {
-    return user.friends.some((friend) => friend.id === userId);
+    return user.friends.some((friend) => friend.id === myInfo.id);
+  }
+
+  function onFriendshipButtonClicked() {
+    if (userId === myInfo.id) return;
+
+    if (isMyFriend()) {
+      removeFriend(userId);
+    } else {
+      if (isFriendRequestSent()) {
+        const friendRequest = friendRequests.find(
+          (friendRequest) => friendRequest.recieverId === userId
+        ).id;
+        removeFriendRequest(friendRequest);
+      } else {
+        addFriendRequest(userId);
+      }
+    }
+  }
+
+  function isFriendRequestSent() {
+    return friendRequests.some(
+      (friendRequest) => friendRequest.recieverId === userId
+    );
   }
 
   return (
@@ -57,17 +89,28 @@ function Profile({
           </div>
           <div className={styles.freindPictures}>
             {user.friends.slice(0, 5).map((friend) => (
-              <img
+              <UserPicture
                 key={friend.id}
-                className={styles.freindImg}
-                src={friend.imgUrl ? friend.imgUrl : defaultUserImage}
-                alt="freind image"
-              ></img>
+                imgUrl={friend.imgUrl}
+                onClick={() => onFriendPictureClicked(friend.id)}
+              ></UserPicture>
             ))}
           </div>
 
           {userId !== myInfo.id ? (
-            <button>{isMyFriend() ? "Unfriend" : "Add freind"}</button>
+            <div className={styles.friendRequestInfo}>
+              {isFriendRequestSent() && (
+                <div className="pending">Pending...</div>
+              )}
+
+              <button onClick={onFriendshipButtonClicked}>
+                {isMyFriend()
+                  ? "Unfriend"
+                  : isFriendRequestSent()
+                  ? "Cancel friend request"
+                  : "Add freind"}
+              </button>
+            </div>
           ) : null}
         </div>
       </div>
@@ -81,6 +124,7 @@ function Profile({
         setCommentLike={setCommentLike}
         setIsCreatingPost={setIsCreatingPost}
         setPostLike={setPostLike}
+        showCretePostArea={userId === myInfo.id}
       ></Posts>
     </div>
   );

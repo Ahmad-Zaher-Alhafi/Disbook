@@ -11,10 +11,14 @@ function Posts({
   setCommentLike,
   removeCommentLike,
   removeComment,
+  showProfile,
+  showCretePostArea,
 }) {
   return (
     <div className={styles.posts}>
-      <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
+      {showCretePostArea && (
+        <CreatePostArea setIsOpened={setIsCreatingPost}></CreatePostArea>
+      )}
       {posts?.map((post) => {
         return (
           <Post
@@ -32,6 +36,7 @@ function Posts({
             setCommentLike={setCommentLike}
             removeCommentLike={removeCommentLike}
             removeComment={removeComment}
+            onCreaterPictureClicked={() => showProfile(post.user.id)}
           ></Post>
         );
       })}

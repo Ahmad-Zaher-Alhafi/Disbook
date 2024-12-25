@@ -1,5 +1,6 @@
 import { myInfo } from "../../myInfo";
 import { Tabs } from "../../tabs";
+import UserPicture from "./UserPicutre";
 
 import styles from "/src/styles/feed/topBar.module.css";
 
@@ -15,7 +16,7 @@ function TopBar({ setOpenedTap, onPictureClick }) {
             setOpenedTap(Tabs.Posts);
           }}
         >
-          Feed
+          Posts
         </button>
         <button
           className="friendRequests"
@@ -28,12 +29,10 @@ function TopBar({ setOpenedTap, onPictureClick }) {
       </div>
 
       <div className={styles.right}>
-        <img
-          className={styles.img}
-          src={myInfo?.imgUrl}
-          alt="user image"
+        <UserPicture
+          imgUrl={myInfo.imgUrl}
           onClick={() => onPictureClick(myInfo.id)}
-        />
+        ></UserPicture>
       </div>
     </div>
   );

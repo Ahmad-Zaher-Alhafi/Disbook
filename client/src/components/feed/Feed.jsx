@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import PostCreator from "./PostCreator";
 import styles from "/src/styles/feed/feed.module.css";
-import CreatePostArea from "./CreatePostArea";
-import { get } from "../../disbookServerFetcher";
-import Post from "./Post";
+import { fDelete, get, post } from "../../disbookServerFetcher";
 import TopBar from "./TopBar";
 import FriendRequests from "./FreindRequests";
 import { Tabs } from "../../tabs";
@@ -18,6 +16,7 @@ function Feed() {
   const [openedTap, setOpenedTap] = useState(Tabs.Posts);
   const [friends, setFreineds] = useState(myInfo?.friends);
   const [userIdToShowProfile, setUserIdToShowProfile] = useState();
+  const [friendRequests, setFriendRequests] = useState();
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -33,6 +32,38 @@ function Feed() {
 
     postsFetcher();
   }, []);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const response = await get(`/users/${myInfo.id}`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      const user = await response.json();
+      setFreineds(user.friends);
+    };
+
+    fetchFriends();
+
+    const fetchRequests = async () => {
+      const response = await get("/users/me/freindRequests");
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      const friendRequests = await response.json();
+      setFriendRequests(friendRequests);
+    };
+
+    fetchRequests();
+  }, [userIdToShowProfile, openedTap]);
 
   function setPostLike(like) {
     setPosts((pre) =>
@@ -143,6 +174,52 @@ function Feed() {
     setOpenedTap(Tabs.Profile);
   }
 
+  function addFriend(friend) {
+    setFreineds((pre) => [...pre, friend]);
+  }
+
+  async function removeFriend(friendId) {
+    const response = await fDelete(`/users/me/friends/${friendId}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Could not send unfriend request", error);
+      return;
+    }
+
+    setFreineds((pre) => pre.filter((friend) => friend.id !== friendId));
+  }
+
+  async function addFriendRequest(recieverId) {
+    const response = await post(`/users/me/freindRequests/${recieverId}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Could not send friend request", error);
+      return;
+    }
+
+    const friendRequest = await response.json();
+
+    setFriendRequests((pre) => [...pre, friendRequest]);
+  }
+
+  async function removeFreindRequest(id, deleteOnServer) {
+    if (deleteOnServer) {
+      const response = await fDelete(`/users/me/freindRequests/${id}`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Could not delete the freind request", error);
+        return;
+      }
+    }
+
+    setFriendRequests((pre) =>
+      pre.filter((friendRequest) => friendRequest.id !== id)
+    );
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}>
@@ -160,7 +237,10 @@ function Feed() {
             </div>
 
             <div className={styles.middleLeftContent}>
-              <Freinds freinds={friends}></Freinds>
+              <Freinds
+                freinds={friends}
+                showProfile={showProfileClicked}
+              ></Freinds>
             </div>
           </div>
 
@@ -174,6 +254,8 @@ function Feed() {
               setCommentLike={setCommentLike}
               setIsCreatingPost={setIsCreatingPost}
               setPostLike={setPostLike}
+              showProfile={showProfileClicked}
+              showCretePostArea={true}
             ></Posts>
           </div>
         </div>
@@ -183,12 +265,18 @@ function Feed() {
         <PostCreator setIsCreatingPost={setIsCreatingPost}></PostCreator>
       ) : null}
 
-      {openedTap === Tabs.FriendRequests && <FriendRequests></FriendRequests>}
+      {openedTap === Tabs.FriendRequests && (
+        <FriendRequests
+          friendRequests={friendRequests}
+          removeFriendRequest={removeFreindRequest}
+          addFriend={addFriend}
+        ></FriendRequests>
+      )}
 
       {openedTap === Tabs.Profile && userIdToShowProfile && (
         <Profile
           userId={userIdToShowProfile}
-          posts={posts.filter((post) => post.user.id === myInfo.id)}
+          posts={posts.filter((post) => post.user.id === userIdToShowProfile)}
           removeComment={removeComment}
           removeCommentLike={removeCommentLike}
           removePostLike={removePostLike}
@@ -196,6 +284,12 @@ function Feed() {
           setCommentLike={setCommentLike}
           setIsCreatingPost={setIsCreatingPost}
           setPostLike={setPostLike}
+          onFriendPictureClicked={showProfileClicked}
+          addFriendRequest={addFriendRequest}
+          removeFriend={removeFriend}
+          removeFriendRequest={(id) => removeFreindRequest(id, true)}
+          friendRequests={friendRequests}
+          friends={friends}
         ></Profile>
       )}
     </div>

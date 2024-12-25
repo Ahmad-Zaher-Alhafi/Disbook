@@ -1,4 +1,4 @@
-import { fDelete, put } from "../../disbookServerFetcher";
+import { put } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
 import defaultUserImage from "/src/assets/defaultUserImage.png";
 import styles from "/src/styles/feed/freindRequest.module.css";
@@ -6,11 +6,12 @@ import { format, isToday, isYesterday } from "date-fns";
 
 function FriendRequest({
   id,
-  senderId,
-  senderFullName,
-  senderImgUrl,
+  sender,
+  userFullName,
+  userImgUrl,
   sendDate,
   removeFreindRequest,
+  addFriend,
 }) {
   function getFormatedDate() {
     if (isToday(sendDate)) {
@@ -34,35 +35,28 @@ function FriendRequest({
       return;
     }
 
-    removeFreindRequest(id);
+    removeFreindRequest(id, false);
+    addFriend(sender);
   }
 
   async function onRijectClicked() {
-    const response = await fDelete(`/users/me/freindRequests/${id}`);
-
-    if (!response.ok) {
-      const error = await response.json();
-      console.error("Could not delete the freind request", error);
-      return;
-    }
-
-    removeFreindRequest(id);
+    removeFreindRequest(id, true);
   }
 
   return (
     <div className={styles.freindRequest}>
       <div className={styles.left}>
         <img
-          src={senderImgUrl ? senderImgUrl : defaultUserImage}
+          src={userImgUrl ? userImgUrl : defaultUserImage}
           alt="sender image"
         />
       </div>
 
       <div className={styles.rightContent}>
-        <div className="fullName">{senderFullName}</div>
+        <div className="fullName">{userFullName}</div>
         <div className={styles.sendDate}>{getFormatedDate()}</div>
         <div className={styles.rightButtons}>
-          {senderId === myInfo.id ? (
+          {sender.id === myInfo.id ? (
             <div>Pending...</div>
           ) : (
             <button onClick={onAcceptClicked}>Accept</button>
@@ -70,7 +64,7 @@ function FriendRequest({
 
           {
             <button onClick={onRijectClicked}>
-              {senderId === myInfo.id ? "Cancle" : "Reject"}
+              {sender.id === myInfo.id ? "Cancle" : "Reject"}
             </button>
           }
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { myInfo } from "../../myInfo";
 import Textarea from "../Textarea";
 import styles from "/src/styles/feed/createPostArea.module.css";
+import UserPicture from "./UserPicutre";
 
 function CreatePostArea({ setIsOpened }) {
   const miniInputRef = useRef();
@@ -17,7 +18,7 @@ function CreatePostArea({ setIsOpened }) {
 
   return (
     <div className={styles.createPostArea}>
-      <img className={styles.img} src={myInfo?.imgUrl} alt="user image" />
+      <UserPicture imgUrl={myInfo.imgUrl}></UserPicture>
       <Textarea
         ref={miniInputRef}
         placeholder={`What's on your mind, ${myInfo?.fullName}?`}

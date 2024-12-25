@@ -9,6 +9,16 @@ async function createPost(userId, content) {
         userId: userId,
         content: content,
       },
+      include: {
+        user: true,
+        comments: {
+          include: {
+            user: true,
+            likes: true,
+          },
+        },
+        likes: true,
+      },
     });
 
     return post;
@@ -29,6 +39,9 @@ async function getPosts() {
           },
         },
         likes: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     return posts;

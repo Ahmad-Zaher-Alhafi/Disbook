@@ -5,8 +5,8 @@ async function createPost(req, res) {
     const userId = req.user.id;
     const { content } = req.body;
 
-    await feedDB.createPost(userId, content);
-    res.end();
+    const post = await feedDB.createPost(userId, content);
+    res.json(post);
   } catch (error) {
     res.status(401).json({ message: "Faild creating a post", error });
   }

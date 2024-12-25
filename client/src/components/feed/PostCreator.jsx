@@ -4,7 +4,7 @@ import styles from "/src/styles/feed/postCreator.module.css";
 import Textarea from "../Textarea";
 import * as fetcher from "../../disbookServerFetcher";
 
-function PostCreator({ setIsCreatingPost }) {
+function PostCreator({ setIsCreatingPost, addPost }) {
   const [content, setPostContent] = useState();
   const normalInputRef = useRef();
 
@@ -25,6 +25,8 @@ function PostCreator({ setIsCreatingPost }) {
       return;
     }
 
+    const post = await response.json();
+    addPost(post);
     setIsCreatingPost(false);
   };
 

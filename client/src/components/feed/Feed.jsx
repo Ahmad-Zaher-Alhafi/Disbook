@@ -31,9 +31,7 @@ function Feed() {
     };
 
     postsFetcher();
-  }, []);
 
-  useEffect(() => {
     const fetchFriends = async () => {
       const response = await get(`/users/${myInfo.id}`);
 
@@ -220,6 +218,10 @@ function Feed() {
     );
   }
 
+  function addPost(post) {
+    setPosts((pre) => [post, ...pre]);
+  }
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedTop}>
@@ -262,7 +264,10 @@ function Feed() {
       )}
 
       {isCreatingPost ? (
-        <PostCreator setIsCreatingPost={setIsCreatingPost}></PostCreator>
+        <PostCreator
+          setIsCreatingPost={setIsCreatingPost}
+          addPost={addPost}
+        ></PostCreator>
       ) : null}
 
       {openedTap === Tabs.FriendRequests && (

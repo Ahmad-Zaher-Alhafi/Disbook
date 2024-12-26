@@ -25,15 +25,15 @@ async function populateDatabaseTables() {
       count: minUsersCount - usersCount,
     });
 
-    await userDB.addUsers(usersData);
+    const usersCount = await userDB.addUsers(usersData);
+    console.log("Num of generated fake users: ", usersCount);
     await createRandomPosts();
-
-    console.log("Num of generated fake users: ", users);
   }
 }
 
 async function createRandomPosts() {
   const users = await userDB.getUsers();
+  const postsCount = 0;
 
   users.forEach(async (user) => {
     const numOfPostsToCreateForUser = (Math.random() + 1) * 3;
@@ -44,8 +44,11 @@ async function createRandomPosts() {
       const randomParagrphCount = (Math.random() + 1) * 5;
       const content = faker.lorem.paragraphs(randomParagrphCount);
       await feedDB.createPost(userId, content);
+      postsCount++;
     }
   });
+
+  console.log("Num of generated fake posts: ", postsCount);
 }
 
 populateDatabaseTables();

@@ -22,9 +22,11 @@ async function addUser(username, password, fullName, email, imgUrl) {
 
 async function addUsers(usersData) {
   try {
-    await prisma.user.createMany({
+    const usersCount = await prisma.user.createMany({
       data: usersData,
     });
+
+    return usersCount;
   } catch (error) {
     await onPrismaException(error);
   }

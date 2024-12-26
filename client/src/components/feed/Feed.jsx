@@ -3,13 +3,12 @@ import PostCreator from "./PostCreator";
 import styles from "/src/styles/feed/feed.module.css";
 import { fDelete, get, post } from "../../disbookServerFetcher";
 import TopBar from "./TopBar";
-import FriendRequests from "./friendRequests";
+import FriendRequests from "./FriendRequests";
 import { Tabs } from "../../tabs";
 import { myInfo } from "../../myInfo";
 import Friends from "./Friends";
 import Profile from "./Profile";
 import Posts from "./Posts";
-import User from "../User";
 import DiscoverUsers from "./DiscoverUsers";
 
 function Feed() {

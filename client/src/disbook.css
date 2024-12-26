@@ -38,7 +38,7 @@ body {
   flex-direction: column;
   flex: 1;
   background-color: #1e1f22;
-  max-width: 5%;
+  max-width: 3%;
   padding: 10px;
   gap: 10px;
 }
@@ -46,7 +46,7 @@ body {
 .displayer {
   display: flex;
   flex: 1;
-  max-width: 95%;
+  max-width: 97%;
 }
 
 .conversations {

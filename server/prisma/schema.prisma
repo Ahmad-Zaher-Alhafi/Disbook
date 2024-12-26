@@ -48,8 +48,8 @@ model Message {
   createdAt  DateTime @default(now())
   senderID   Int
   recieverID Int
-  sender     User     @relation("SentMessages", fields: [senderID], references: [id])
-  reciever   User     @relation("RecievedMessages", fields: [recieverID], references: [id])
+  sender     User     @relation("SentMessages", fields: [senderID], references: [id], onDelete: Cascade)
+  reciever   User     @relation("RecievedMessages", fields: [recieverID], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -57,7 +57,7 @@ model Post {
   content   String
   createdAt DateTime  @default(now())
   userId    Int
-  user      User      @relation("CreatedPosts", fields: [userId], references: [id])
+  user      User      @relation("CreatedPosts", fields: [userId], references: [id], onDelete: Cascade)
   comments  Comment[] @relation("Comments")
   likes     Like[]    @relation("Likes")
 }
@@ -67,9 +67,9 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   userId    Int
-  user      User     @relation("Comments", fields: [userId], references: [id])
+  user      User     @relation("Comments", fields: [userId], references: [id], onDelete: Cascade)
   postId    Int
-  post      Post     @relation("Comments", fields: [postId], references: [id])
+  post      Post     @relation("Comments", fields: [postId], references: [id], onDelete: Cascade)
   likes     Like[]   @relation("Likes")
 }
 
@@ -77,9 +77,9 @@ model Like {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   userId    Int
-  user      User     @relation("Likes", fields: [userId], references: [id])
+  user      User     @relation("Likes", fields: [userId], references: [id], onDelete: Cascade)
   postId    Int?
-  post      Post?    @relation("Likes", fields: [postId], references: [id])
+  post      Post?    @relation("Likes", fields: [postId], references: [id], onDelete: Cascade)
   commentId Int?
   comment   Comment? @relation("Likes", fields: [commentId], references: [id], onDelete: Cascade)
 }

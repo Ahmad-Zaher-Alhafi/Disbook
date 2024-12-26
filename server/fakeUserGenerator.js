@@ -1,5 +1,6 @@
 const { faker } = require("@faker-js/faker");
 const userDB = require("./db/userDB");
+const feedDB = require("./db/feedDB");
 
 const minUsersCount = 100;
 const seed = 123;
@@ -12,10 +13,11 @@ function createRandomUser() {
     username: faker.internet.username(),
     email: faker.internet.email(),
     password: faker.internet.password(),
+    imgUrl: faker.image.avatar(),
   };
 }
 
-async function populateUsersTable() {
+async function populateDatabaseTables() {
   const usersCount = await userDB.getUsersCount();
 
   if (usersCount < minUsersCount) {
@@ -23,10 +25,27 @@ async function populateUsersTable() {
       count: minUsersCount - usersCount,
     });
 
-    const users = await userDB.addUsers(usersData);
+    await userDB.addUsers(usersData);
+    await createRandomPosts();
 
-    console.log(users);
+    console.log("Num of generated fake users: ", users);
   }
 }
 
-populateUsersTable();
+async function createRandomPosts() {
+  const users = await userDB.getUsers();
+
+  users.forEach(async (user) => {
+    const numOfPostsToCreateForUser = (Math.random() + 1) * 3;
+
+    const userId = user.id;
+
+    for (let index = 0; index < numOfPostsToCreateForUser; index++) {
+      const randomParagrphCount = (Math.random() + 1) * 5;
+      const content = faker.lorem.paragraphs(randomParagrphCount);
+      await feedDB.createPost(userId, content);
+    }
+  });
+}
+
+populateDatabaseTables();

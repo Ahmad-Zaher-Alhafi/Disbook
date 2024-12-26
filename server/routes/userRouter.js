@@ -69,6 +69,12 @@ userRouter.get(
   userController.getUserByIdFromRequest
 );
 
+userRouter.get(
+  "/me/discover",
+  passport.authenticate("jwt", { session: false }),
+  userController.getUsersToDiscover
+);
+
 userRouter.delete(
   "/me/friends/:friendId",
   passport.authenticate("jwt", { session: false }),

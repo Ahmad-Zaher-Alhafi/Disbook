@@ -287,6 +287,18 @@ async function removeFriend(req, res) {
   }
 }
 
+async function getUsersToDiscover(req, res) {
+  try {
+    const userId = req.user.id;
+    const users = await userDB.getUsersToDiscover(userId);
+    res.json(users);
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Faild fetching users to discover", error });
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -296,6 +308,7 @@ module.exports = {
   getUserByEmail,
   getUsers,
   getUserByIdFromRequest,
+  getUsersToDiscover,
 
   getUsersInteractedWith,
   addUserInteraction,

@@ -22,11 +22,9 @@ async function addUser(username, password, fullName, email, imgUrl) {
 
 async function addUsers(usersData) {
   try {
-    const users = await prisma.user.createMany({
+    await prisma.user.createMany({
       data: usersData,
     });
-
-    return users;
   } catch (error) {
     await onPrismaException(error);
   }
@@ -91,6 +89,32 @@ async function getUsersCount() {
 async function getUsers() {
   try {
     const users = await prisma.user.findMany();
+    return users;
+  } catch (error) {
+    await onPrismaException(error);
+  }
+}
+
+async function getUsersToDiscover(userId) {
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        id: { not: userId },
+        friends: {
+          none: {
+            id: userId,
+          },
+        },
+      },
+      include: {
+        friends: true,
+        posts: true,
+        RecievedFriendRequests: true,
+      },
+      orderBy: {
+        fullName: "asc",
+      },
+    });
     return users;
   } catch (error) {
     await onPrismaException(error);
@@ -400,6 +424,7 @@ module.exports = {
   getUserByEmail,
   getUsersCount,
   getUsers,
+  getUsersToDiscover,
 
   getUsersInteractedWith,
   addUserInteraction,

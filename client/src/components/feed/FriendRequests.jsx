@@ -1,4 +1,4 @@
-import FriendRequest from "./friendRequest";
+import FriendRequest from "./FriendRequest";
 import { myInfo } from "../../myInfo";
 import styles from "/src/styles/feed/friendRequests.module.css";
 

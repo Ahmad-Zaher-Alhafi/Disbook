@@ -12,7 +12,7 @@ import MessageSender from "./MessageSender";
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 let audio;
 
-function Conversations() {
+function Conversations({isOpened}) {
   const [usersInteractedWith, setUsersInteractedWith] = useState([]);
   const [addConversationPanelShown, setAddConversationPanelShown] =
     useState(false);
@@ -85,7 +85,7 @@ function Conversations() {
     };
 
     fetchMessages();
-  }, []);
+  }, [isOpened]);
 
   useEffect(() => {
     if (!socket) return;
@@ -191,6 +191,8 @@ function Conversations() {
         conversationMiddleRef.current.scrollHeight;
     }
   }
+
+  if (!isOpened) return
 
   return (
     <div className="conversations">

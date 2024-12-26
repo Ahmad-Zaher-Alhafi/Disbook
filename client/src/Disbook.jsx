@@ -94,13 +94,13 @@ function Disbook() {
           <button onClick={() => setOpenedTap(MainTabs.Chat)}>Chat</button>
         </div>
         <div className="displayer">
-          {openedTap === MainTabs.Chat && (
-            <SocketProvider>
-              <Conversations></Conversations>
-            </SocketProvider>
-          )}
+          <SocketProvider>
+            <Conversations
+              isOpened={openedTap === MainTabs.Chat}
+            ></Conversations>
+          </SocketProvider>
 
-          {openedTap === MainTabs.Feed && <Feed></Feed>}
+          <Feed isOpened={openedTap === MainTabs.Feed}></Feed>
         </div>
       </div>
     </div>

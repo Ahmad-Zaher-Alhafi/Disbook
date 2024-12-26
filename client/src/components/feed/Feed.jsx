@@ -11,7 +11,7 @@ import Profile from "./Profile";
 import Posts from "./Posts";
 import DiscoverUsers from "./DiscoverUsers";
 
-function Feed() {
+function Feed({ isOpened }) {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [posts, setPosts] = useState([]);
   const [openedTap, setOpenedTap] = useState(Tabs.Posts);
@@ -63,7 +63,7 @@ function Feed() {
     };
 
     fetchRequests();
-  }, [userIdToShowProfile, openedTap]);
+  }, [userIdToShowProfile, openedTap,isOpened]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -80,7 +80,7 @@ function Feed() {
     };
 
     fetchUsers();
-  }, []);
+  }, [isOpened]);
 
   function setPostLike(like) {
     setPosts((pre) =>
@@ -240,6 +240,8 @@ function Feed() {
   function addPost(post) {
     setPosts((pre) => [post, ...pre]);
   }
+
+  if (!isOpened) return;
 
   return (
     <div className={styles.feed}>

@@ -47,6 +47,7 @@ function FriendRequest({
     <div className={styles.friendRequest}>
       <div className={styles.left}>
         <img
+          className={styles.img}
           src={userImgUrl ? userImgUrl : defaultUserImage}
           alt="sender image"
         />

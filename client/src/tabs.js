@@ -7,6 +7,7 @@ const Tabs = {
   Posts: "posts",
   FriendRequests: "friendRequests",
   Profile: "profile",
+  DiscoverUsers: "discoverUsers",
 };
 
 export { Tabs, MainTabs };

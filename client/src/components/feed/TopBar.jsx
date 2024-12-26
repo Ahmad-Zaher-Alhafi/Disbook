@@ -18,13 +18,23 @@ function TopBar({ setOpenedTap, onPictureClick }) {
         >
           Posts
         </button>
+
         <button
           className="friendRequests"
           onClick={() => {
             setOpenedTap(Tabs.FriendRequests);
           }}
         >
-          friend requests
+          Friend requests
+        </button>
+
+        <button
+          className="discoverUsers"
+          onClick={() => {
+            setOpenedTap(Tabs.DiscoverUsers);
+          }}
+        >
+          Discover users
         </button>
       </div>
 

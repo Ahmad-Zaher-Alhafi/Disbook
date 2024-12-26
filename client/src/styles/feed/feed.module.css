@@ -28,10 +28,9 @@
   height: 93%;
 }
 
-.postsContainer{
+.postsContainer {
   flex: 1;
   overflow: hidden auto;
-
 }
 
 .middleLeft {
@@ -47,4 +46,12 @@
 .middleLeftHeader {
   font-size: x-large;
   font-weight: bold;
+}
+
+.discoverUsersContainer {
+  flex: 1;
+  overflow: hidden auto;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
 }

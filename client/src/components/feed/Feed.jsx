@@ -9,6 +9,8 @@ import { myInfo } from "../../myInfo";
 import Friends from "./Friends";
 import Profile from "./Profile";
 import Posts from "./Posts";
+import User from "../User";
+import DiscoverUsers from "./DiscoverUsers";
 
 function Feed() {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
@@ -17,6 +19,7 @@ function Feed() {
   const [friends, setFreineds] = useState(myInfo?.friends);
   const [userIdToShowProfile, setUserIdToShowProfile] = useState();
   const [friendRequests, setFriendRequests] = useState();
+  const [discoverUsers, setDiscoverUsers] = useState();
 
   useEffect(() => {
     const postsFetcher = async () => {
@@ -62,6 +65,23 @@ function Feed() {
 
     fetchRequests();
   }, [userIdToShowProfile, openedTap]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await get(`/users/me/discover`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error);
+        return;
+      }
+
+      const users = await response.json();
+      setDiscoverUsers(users);
+    };
+
+    fetchUsers();
+  }, []);
 
   function setPostLike(like) {
     setPosts((pre) =>
@@ -296,6 +316,15 @@ function Feed() {
           friendRequests={friendRequests}
           friends={friends}
         ></Profile>
+      )}
+
+      {openedTap === Tabs.DiscoverUsers && (
+        <div className={styles.discoverUsersContainer}>
+          <DiscoverUsers
+            discoverUsers={discoverUsers}
+            onUserClicked={showProfileClicked}
+          ></DiscoverUsers>
+        </div>
       )}
     </div>
   );

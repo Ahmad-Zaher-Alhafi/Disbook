@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { fDelete, post } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
 import styles from "/src/styles/feed/postLike.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as faThumbsUpRegular } from "@fortawesome/free-regular-svg-icons";
 
 function PostLike({ likes, postId, setPostLike, removePostLike }) {
   const [isLiked, setIsLiked] = useState();
@@ -43,7 +46,13 @@ function PostLike({ likes, postId, setPostLike, removePostLike }) {
 
   return (
     <div className={styles.like}>
-      <button onClick={onLikedClicked}>{isLiked ? "Liked" : "Like"}</button>
+      <FontAwesomeIcon
+        className={styles.icon}
+        icon={isLiked ? faThumbsUp : faThumbsUpRegular}
+        onClick={onLikedClicked}
+        color={isLiked ? "#0866FF" : "none"}
+      />
+
       <div className="numOfLikes">{likes.length}</div>
     </div>
   );

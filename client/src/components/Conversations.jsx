@@ -9,6 +9,8 @@ import { useSocket } from "../socketContext";
 import discrodSound from "../assets/discordNotificationSound.mp3";
 import MessageSender from "./MessageSender";
 import UserPicture from "./feed/UserPicutre";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassPlus } from "@fortawesome/free-solid-svg-icons";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 let audio;
@@ -205,12 +207,13 @@ function Conversations({ isOpened }) {
           <div className="directConversations">
             <div className={styles.directConversationsHeader}>
               <div>Find user to chat with</div>
-              <button
+              <FontAwesomeIcon
                 className={styles.addCinversationButton}
+                icon={faMagnifyingGlassPlus}
                 onClick={handleAddConversationButton}
-              >
-                +
-              </button>
+                color={addConversationPanelShown ? "#0866FF" : "none"}
+              />
+
               {addConversationPanelShown ? (
                 <AddConversation
                   usersInteractedWith={usersInteractedWith}

@@ -3,40 +3,41 @@ import { Tabs } from "../../tabs";
 import UserPicture from "./UserPicutre";
 
 import styles from "/src/styles/feed/topBar.module.css";
-import disbookLogo from "/src/assets/disbookLogo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouse,
+  faPersonCircleQuestion,
+  faHandshakeSimple,
+} from "@fortawesome/free-solid-svg-icons";
 
-function TopBar({ setOpenedTap, onPictureClick }) {
+function TopBar({ openedTap, setOpenedTap, onPictureClick }) {
   return (
     <div className={styles.topBar}>
-      <img className={styles.left} src={disbookLogo} alt="disbook logo" />
-
       <div className={styles.middle}>
-        <button
-          className="feed"
+        <FontAwesomeIcon
+          className={styles.icon}
+          icon={faHouse}
           onClick={() => {
             setOpenedTap(Tabs.Posts);
           }}
-        >
-          Posts
-        </button>
-
-        <button
-          className="friendRequests"
+          color={openedTap === Tabs.Posts ? "#0866FF" : "none"}
+        />
+        <FontAwesomeIcon
+          className={styles.icon}
+          icon={faHandshakeSimple}
           onClick={() => {
             setOpenedTap(Tabs.FriendRequests);
           }}
-        >
-          Friend requests
-        </button>
-
-        <button
-          className="discoverUsers"
+          color={openedTap === Tabs.FriendRequests ? "#0866FF" : "none"}
+        />
+        <FontAwesomeIcon
+          className={styles.icon}
+          icon={faPersonCircleQuestion}
           onClick={() => {
             setOpenedTap(Tabs.DiscoverUsers);
           }}
-        >
-          Discover users
-        </button>
+          color={openedTap === Tabs.DiscoverUsers ? "#0866FF" : "none"}
+        />
       </div>
 
       <div className={styles.right}>

@@ -63,7 +63,7 @@ function Feed({ isOpened }) {
     };
 
     fetchRequests();
-  }, [userIdToShowProfile, openedTap,isOpened]);
+  }, [userIdToShowProfile, openedTap, isOpened]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -249,6 +249,7 @@ function Feed({ isOpened }) {
         <TopBar
           setOpenedTap={setOpenedTap}
           onPictureClick={showProfileClicked}
+          openedTap={openedTap}
         ></TopBar>
       </div>
 
@@ -256,7 +257,7 @@ function Feed({ isOpened }) {
         <div className={styles.feedMiddle}>
           <div className={styles.middleLeft}>
             <div className={styles.middleLeftHeader}>
-              <div>friends</div>
+              <div>Friends</div>
             </div>
 
             <div className={styles.middleLeftContent}>

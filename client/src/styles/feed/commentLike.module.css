@@ -11,3 +11,8 @@
 .commentDate {
   font-size: small;
 }
+
+.icon:hover {
+  color: #0866ff;
+  cursor: pointer;
+}

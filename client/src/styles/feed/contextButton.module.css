@@ -13,4 +13,5 @@
 
 .contextButton:hover {
   background-color: #2b2d31;
+  cursor: pointer;
 }

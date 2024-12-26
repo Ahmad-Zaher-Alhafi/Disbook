@@ -7,3 +7,9 @@
 
   font-family: Roboto, arial;
 }
+
+.icon:hover {
+  color: #0866ff;
+  cursor: pointer;
+}
+

@@ -20,6 +20,7 @@
 
 .directConversationsHeader {
   display: flex;
+  align-items: center;
   position: relative;
   gap: 10px;
 }
@@ -45,4 +46,17 @@
 .conversationBottom {
   padding: 20px;
   max-height: 50%;
+}
+
+.addCinversationButton {
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  border: 2px solid;
+  border-radius: 5px;
+}
+
+.addCinversationButton:hover {
+  color: #0866ff;
+  cursor: pointer;
 }

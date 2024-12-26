@@ -4,6 +4,9 @@ import PostLike from "./PostLike";
 import Comments from "./Comments";
 import { useState } from "react";
 import UserPicture from "./UserPicutre";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
+import { faComments as faCommentsRegular } from "@fortawesome/free-regular-svg-icons";
 
 function Post({
   createrName,
@@ -64,7 +67,12 @@ function Post({
           setPostLike={setPostLike}
           removePostLike={removePostLike}
         ></PostLike>
-        <button onClick={() => setIsCommenting((pre) => !pre)}>Comments</button>
+        <FontAwesomeIcon
+          className={styles.icon}
+          icon={isCommenting ? faComments : faCommentsRegular}
+          onClick={() => setIsCommenting((pre) => !pre)}
+          color={isCommenting ? "#0866FF" : "none"}
+        />
       </div>
 
       {isCommenting ? (

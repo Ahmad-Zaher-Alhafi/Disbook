@@ -9,6 +9,9 @@ import SocketProvider from "./components/SocketProvider";
 import Feed from "./components/feed/Feed";
 import { MainTabs } from "./tabs";
 import { myInfo, reset, setMyInfo } from "./myInfo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import disbookLogo from "/src/assets/disbookLogo.png";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -90,8 +93,20 @@ function Disbook() {
 
       <div className="container">
         <div className="leftBar">
-          <button onClick={() => setOpenedTap(MainTabs.Feed)}>Feed</button>
-          <button onClick={() => setOpenedTap(MainTabs.Chat)}>Chat</button>
+          <img className="disbookLogo" src={disbookLogo} alt="disbook logo" />
+
+          <FontAwesomeIcon
+            className="icon"
+            icon={faGlobe}
+            onClick={() => setOpenedTap(MainTabs.Feed)}
+            color={openedTap === MainTabs.Feed ? "#0866FF" : "none"}
+          ></FontAwesomeIcon>
+          <FontAwesomeIcon
+            className="icon"
+            icon={faComments}
+            onClick={() => setOpenedTap(MainTabs.Chat)}
+            color={openedTap === MainTabs.Chat ? "#0866FF" : "none"}
+          ></FontAwesomeIcon>
         </div>
         <div className="displayer">
           <SocketProvider>

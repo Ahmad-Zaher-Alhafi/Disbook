@@ -9,6 +9,7 @@
 
 .friend:hover {
   background-color: gray;
+  cursor: pointer;
 }
 
 .img {

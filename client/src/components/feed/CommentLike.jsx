@@ -3,6 +3,9 @@ import { fDelete, post } from "../../disbookServerFetcher";
 import { myInfo } from "../../myInfo";
 import styles from "/src/styles/feed/commentLike.module.css";
 import { format, isToday, isYesterday } from "date-fns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as faThumbsUpRegular } from "@fortawesome/free-regular-svg-icons";
 
 function CommentLike({
   likes,
@@ -66,7 +69,12 @@ function CommentLike({
   return (
     <div className={styles.like}>
       <div className={styles.commentDate}>{getFormatedDate()}</div>
-      <button onClick={onLikedClicked}>{isLiked ? "Liked" : "Like"}</button>
+      <FontAwesomeIcon
+        className={styles.icon}
+        icon={isLiked ? faThumbsUp : faThumbsUpRegular}
+        onClick={onLikedClicked}
+        color={isLiked ? "#0866FF" : "none"}
+      />
       <div className="numOfLikes">{likes?.length}</div>
     </div>
   );

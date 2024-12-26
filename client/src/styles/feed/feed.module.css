@@ -10,6 +10,7 @@
   align-items: center;
   font-family: Roboto, arial;
   max-width: 100%;
+  border-radius: 20px 0 ;
 }
 
 .feedTop {
@@ -22,7 +23,7 @@
 .feedMiddle {
   display: flex;
   gap: 10px;
-  padding: 0 10px 0 10px;
+  padding: 10px 10px 0 10px;
   box-sizing: border-box;
   flex: 1;
   width: 100%;

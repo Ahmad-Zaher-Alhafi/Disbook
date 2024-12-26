@@ -60,7 +60,7 @@ function AddConversation({ usersInteractedWith, setUsersInteractedWith }) {
           required
           onChange={handleInputChange}
         />
-        <button>Send request</button>
+        <button>Add to conversations</button>
         {errorMessage ? <div className="error">{errorMessage}</div> : null}
       </form>
     </div>

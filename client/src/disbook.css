@@ -36,9 +36,8 @@ body {
 .leftBar {
   display: flex;
   flex-direction: column;
-  flex: 1;
   background-color: #1e1f22;
-  max-width: 3%;
+  width: 75px;
   padding: 10px;
   gap: 10px;
 }
@@ -61,33 +60,14 @@ body {
   background-color: #2b2d31;
 }
 
-.conversationsTop {
-  padding: 10px;
-  height: 30px;
-  box-shadow: 0 1px 1px black;
-}
-
 .conversationsMiddle {
   padding: 10px;
   flex: 2;
+  overflow: hidden auto;
 }
 
 .directConversations {
   display: flex;
   gap: 10px;
   flex-direction: column;
-}
-
-.conversationsBottom {
-  padding: 10px;
-}
-
-.conversationTop {
-  padding: 10px;
-  height: 30px;
-  box-shadow: 0 1px 1px black;
-}
-
-.conversationMiddle {
-  padding: 10px;
 }

@@ -1,14 +1,39 @@
 .conversationDisplayer {
   display: flex;
   flex-direction: column;
-  flex: 2;
+  flex: 5;
   background-color: #313338;
+}
+
+.conversationsTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: x-large;
+  font-weight: bold;
+  padding: 10px;
+  height: 30px;
+  box-shadow: 0 1px 1px black;
+  flex: 1;
+  max-height: 5%;
 }
 
 .directConversationsHeader {
   display: flex;
   position: relative;
   gap: 10px;
+}
+
+.conversationTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  height: 30px;
+  box-shadow: 0 1px 1px black;
+  flex: 1;
+  max-height: 5%;
+  font-weight: bold;
 }
 
 .conversationMiddle {
@@ -20,5 +45,4 @@
 .conversationBottom {
   padding: 20px;
   max-height: 50%;
-
 }

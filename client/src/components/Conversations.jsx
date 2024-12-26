@@ -8,16 +8,17 @@ import { myInfo } from "../myInfo";
 import { useSocket } from "../socketContext";
 import discrodSound from "../assets/discordNotificationSound.mp3";
 import MessageSender from "./MessageSender";
+import UserPicture from "./feed/UserPicutre";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 let audio;
 
-function Conversations({isOpened}) {
+function Conversations({ isOpened }) {
   const [usersInteractedWith, setUsersInteractedWith] = useState([]);
   const [addConversationPanelShown, setAddConversationPanelShown] =
     useState(false);
 
-  const [openedConversationUserId, setOpenedConversationUserId] = useState();
+  const [openedConversationUser, setOpenedConversationUser] = useState();
   const [messages, setMessages] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
@@ -28,7 +29,9 @@ function Conversations({isOpened}) {
   const token = storage.getToken();
 
   const handleUserClicked = (userId) => {
-    setOpenedConversationUserId(userId);
+    setOpenedConversationUser(
+      usersInteractedWith.find((user) => user.id === userId)
+    );
     resetNotificationsOfUser(userId);
   };
 
@@ -106,7 +109,7 @@ function Conversations({isOpened}) {
     } catch (error) {
       console.error("Could not listen to incomming messages from io", error);
     }
-  }, [socket, openedConversationUserId]);
+  }, [socket, openedConversationUser]);
 
   useEffect(() => {
     scrollDownIfAllowed();
@@ -135,7 +138,7 @@ function Conversations({isOpened}) {
 
   function showNotificationIfNeeded(message) {
     if (
-      message.sender.id !== openedConversationUserId &&
+      message.sender.id !== openedConversationUser.id &&
       message.sender.id !== myInfo.id
     ) {
       setNotifications((pre) => {
@@ -164,7 +167,7 @@ function Conversations({isOpened}) {
 
   function playNotificationSoundIfNeeded(message) {
     if (
-      message.sender.id !== openedConversationUserId &&
+      message.sender.id !== openedConversationUser.id &&
       message.sender.id !== myInfo.id
     ) {
       audio?.play();
@@ -192,22 +195,16 @@ function Conversations({isOpened}) {
     }
   }
 
-  if (!isOpened) return
+  if (!isOpened) return;
 
   return (
     <div className="conversations">
       <div className="conversationsSection">
-        <div className="conversationsTop">
-          <input
-            type="text"
-            className="searchConversation"
-            placeholder="Find or start a conversation"
-          />
-        </div>
+        <div className={styles.conversationsTop}>Direct conversations</div>
         <div className="conversationsMiddle">
           <div className="directConversations">
             <div className={styles.directConversationsHeader}>
-              <div>Direct conversations</div>
+              <div>Find user to chat with</div>
               <button
                 className={styles.addCinversationButton}
                 onClick={handleAddConversationButton}
@@ -241,17 +238,12 @@ function Conversations({isOpened}) {
             })}
           </div>
         </div>
-        <div className="conversationsBottom">
-          <img src="" alt="Profile picture" />
-          <button className="mic">Mic</button>
-          <button className="headset">Headset</button>
-          <button className="settings">Settings</button>
-        </div>
       </div>
-      {openedConversationUserId ? (
+      {openedConversationUser ? (
         <div className={styles.conversationDisplayer}>
-          <div className="conversationTop">
-            <div>User conversation name and its picture if valid</div>
+          <div className={styles.conversationTop}>
+            <UserPicture imgUrl={openedConversationUser.imgUrl}></UserPicture>
+            <div className="fullName">{openedConversationUser.fullName}</div>
           </div>
           <div
             className={styles.conversationMiddle}
@@ -267,14 +259,14 @@ function Conversations({isOpened}) {
                       message.reciever.id === user.id ||
                       message.sender.id === user.id
                   )}
-                  isOpened={user.id === openedConversationUserId}
+                  isOpened={user.id === openedConversationUser.id}
                 ></Conversation>
               );
             })}
           </div>
           <div className={styles.conversationBottom}>
             <MessageSender
-              recieverId={openedConversationUserId}
+              recieverId={openedConversationUser.id}
             ></MessageSender>
           </div>
         </div>

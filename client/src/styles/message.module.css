@@ -20,6 +20,8 @@
 
 .senderName {
   font-weight: bold;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .messageSendDate {
@@ -35,4 +37,6 @@
 .messageContent {
   margin: 0;
   font-family: Roboto, serif;
+  white-space: pre-wrap;
+  word-break: break-all;
 }

@@ -25,8 +25,8 @@ async function populateDatabaseTables() {
       count: minUsersCount - usersCount,
     });
 
-    const usersCount = await userDB.addUsers(usersData);
-    console.log("Num of generated fake users: ", usersCount);
+    const addedUsersCount = await userDB.addUsers(usersData);
+    console.log("Num of generated fake users: ", addedUsersCount);
     await createRandomPosts();
   }
 }

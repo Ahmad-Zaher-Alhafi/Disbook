@@ -9,10 +9,12 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
 }
 
 .disbook {
   height: 100%;
+  width: 100%;
 }
 
 .header {
@@ -28,6 +30,7 @@ body {
   display: flex;
   flex: 1;
   height: 97%;
+  max-width: 100%;
 }
 
 .leftBar {
@@ -35,14 +38,15 @@ body {
   flex-direction: column;
   flex: 1;
   background-color: #1e1f22;
-  max-width: 50px;
+  max-width: 5%;
   padding: 10px;
   gap: 10px;
 }
 
 .displayer {
   display: flex;
-  flex: 2;
+  flex: 1;
+  max-width: 95%;
 }
 
 .conversations {

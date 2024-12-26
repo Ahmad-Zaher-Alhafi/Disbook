@@ -47,6 +47,8 @@
 
 .content {
   font-family: Roboto, arial;
+
+  white-space: pre-wrap; /* Makes sure white space and line breaks are preserved but wraps */
 }
 
 .footer {

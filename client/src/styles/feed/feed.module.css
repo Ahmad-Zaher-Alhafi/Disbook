@@ -9,6 +9,7 @@
   position: relative;
   align-items: center;
   font-family: Roboto, arial;
+  max-width: 100%;
 }
 
 .feedTop {
@@ -31,6 +32,7 @@
 .postsContainer {
   flex: 1;
   overflow: hidden auto;
+  padding-right: 10px;
 }
 
 .middleLeft {

@@ -33,7 +33,7 @@ async function populateDatabaseTables() {
 
 async function createRandomPosts() {
   const users = await userDB.getUsers();
-  const postsCount = 0;
+  let postsCount = 0;
 
   users.forEach(async (user) => {
     const numOfPostsToCreateForUser = (Math.random() + 1) * 3;

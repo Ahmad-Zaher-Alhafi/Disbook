@@ -36,7 +36,11 @@ function Posts({
             setCommentLike={setCommentLike}
             removeCommentLike={removeCommentLike}
             removeComment={removeComment}
-            onCreaterPictureClicked={() => showProfile(post.user.id)}
+            onCreaterPictureClicked={() => {
+              if (showProfile) {
+                showProfile(post.user.id);
+              }
+            }}
           ></Post>
         );
       })}

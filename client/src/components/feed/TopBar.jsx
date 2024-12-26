@@ -3,11 +3,12 @@ import { Tabs } from "../../tabs";
 import UserPicture from "./UserPicutre";
 
 import styles from "/src/styles/feed/topBar.module.css";
+import disbookLogo from "/src/assets/disbookLogo.png";
 
 function TopBar({ setOpenedTap, onPictureClick }) {
   return (
     <div className={styles.topBar}>
-      <div className={styles.left}>Disbook logo</div>
+      <img className={styles.left} src={disbookLogo} alt="disbook logo" />
 
       <div className={styles.middle}>
         <button

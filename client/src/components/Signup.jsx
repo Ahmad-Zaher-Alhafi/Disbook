@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as storage from "../storage";
+import { get } from "../disbookServerFetcher";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -48,6 +49,21 @@ function Signup() {
     }).catch((err) => {
       throw new Error("Could not signup", err);
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      setSignupError(error.message);
+      return;
+    }
+
+    const token = (await response.json()).token;
+    storage.setToken(token);
+
+    navigate("/");
+  };
+
+  const handleGuestSubmit = async () => {
+    const response = await get("/users/signup/guest");
 
     if (!response.ok) {
       const error = await response.json();
@@ -119,6 +135,8 @@ function Signup() {
       {signupError !== undefined ? (
         <div className="signupError">{signupError}</div>
       ) : null}
+
+      <button onClick={handleGuestSubmit}>Continue as a guest</button>
 
       <div>
         Already have an account? <Link to={"/login"}>Login</Link>

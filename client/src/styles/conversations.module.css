@@ -1,3 +1,16 @@
+.conversations {
+  display: flex;
+  flex: 1;
+}
+
+.conversationsSection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #2b2d31;
+  border-radius: 20px 0;
+}
+
 .conversationDisplayer {
   display: flex;
   flex-direction: column;

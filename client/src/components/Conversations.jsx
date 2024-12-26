@@ -200,8 +200,8 @@ function Conversations({ isOpened }) {
   if (!isOpened) return;
 
   return (
-    <div className="conversations">
-      <div className="conversationsSection">
+    <div className={styles.conversations}>
+      <div className={styles.conversationsSection}>
         <div className={styles.conversationsTop}>Direct conversations</div>
         <div className="conversationsMiddle">
           <div className="directConversations">

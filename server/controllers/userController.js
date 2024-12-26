@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const axios = require("axios");
+const { createGuestUser } = require("../fakeUserGenerator");
 
 const jwtSecret = "Falafel";
 const jwtExpiresIn = "1d";
@@ -126,6 +127,18 @@ async function signup(req, res) {
 
   const user = await userDB
     .addUser(username, hasedPassword, fullName, email, imageUrl)
+    .catch((err) => console.log(err));
+
+  const token = generateToken(user.id);
+  res.json({ token });
+}
+
+async function signupAsGuest(req, res) {
+  const { username, password, fullName, email } = createGuestUser();
+  const hasedPassword = await bcrypt.hash(password, 10);
+
+  const user = await userDB
+    .addUser(username, hasedPassword, fullName, email)
     .catch((err) => console.log(err));
 
   const token = generateToken(user.id);
@@ -302,6 +315,7 @@ async function getUsersToDiscover(req, res) {
 module.exports = {
   signup,
   login,
+  signupAsGuest,
 
   getUserById,
   getUserByUsername,

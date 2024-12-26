@@ -13,7 +13,15 @@ function createRandomUser() {
     username: faker.internet.username(),
     email: faker.internet.email(),
     password: faker.internet.password(),
-    imgUrl: faker.image.avatar(),
+  };
+}
+
+function createGuestUser() {
+  return {
+    fullName: "Guest",
+    username: crypto.randomUUID(),
+    email: crypto.randomUUID(),
+    password: crypto.randomUUID(),
   };
 }
 
@@ -52,3 +60,5 @@ async function createRandomPosts() {
 }
 
 populateDatabaseTables();
+
+module.exports = { createGuestUser };

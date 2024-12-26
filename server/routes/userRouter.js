@@ -81,4 +81,6 @@ userRouter.delete(
   userController.removeFriend
 );
 
+userRouter.get("/signup/guest", userController.signupAsGuest);
+
 module.exports = userRouter;

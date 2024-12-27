@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as storage from "../storage";
+import styles from "/src/styles/login.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -11,6 +14,7 @@ function Login() {
   });
 
   const [loginError, setLoginError] = useState();
+  const formRef = useRef();
 
   const navigate = useNavigate();
 
@@ -50,37 +54,60 @@ function Login() {
   };
 
   return (
-    <div className="login">
-      <div>Login</div>
+    <div className={styles.login}>
+      <header className={styles.header}>
+        <div className="title">Disbook</div>
+      </header>
 
-      <form onSubmit={handleLoginSubmit}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          onChange={handleInputChange}
-        />
+      <div className={styles.container}>
+        <div className={styles.welcome}>Welcome to Disbook</div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          onChange={handleInputChange}
-        />
+        <form
+          className={styles.form}
+          onSubmit={handleLoginSubmit}
+          ref={formRef}
+        >
+          <div className={styles.field}>
+            <label htmlFor="username">Username</label>
+            <input
+              className={styles.input}
+              type="text"
+              id="username"
+              name="username"
+              required
+              onChange={handleInputChange}
+              placeholder="e.g myUsername123"
+            />
+          </div>
 
-        <button>Login</button>
-      </form>
+          <div className={styles.field}>
+            <label htmlFor="password">Password</label>
+            <input
+              className={styles.input}
+              type="password"
+              id="password"
+              name="password"
+              required
+              onChange={handleInputChange}
+            />
+          </div>
+        </form>
 
-      {loginError !== undefined ? (
-        <div className="loginError">{loginError}</div>
-      ) : null}
+        <div
+          className={styles.button}
+          onClick={() => formRef.current.requestSubmit()}
+        >
+          Login
+          <FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon>
+        </div>
 
-      <div>
-        Or crete a new account <Link to={"/signup"}>Create account</Link>
+        {loginError !== undefined ? (
+          <div className={styles.loginError}>{loginError}</div>
+        ) : null}
+
+        <div>
+          Or crete a new account <Link to={"/signup"}>Create account</Link>
+        </div>
       </div>
     </div>
   );

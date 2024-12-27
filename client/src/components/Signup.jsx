@@ -2,6 +2,13 @@ import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as storage from "../storage";
 import { get } from "../disbookServerFetcher";
+import styles from "/src/styles/signup.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGlasses,
+  faUserPlus,
+  faArrowRightToBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
 
@@ -15,6 +22,8 @@ function Signup() {
   });
 
   const [signupError, setSignupError] = useState();
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  const formRef = useRef();
 
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
@@ -78,68 +87,114 @@ function Signup() {
   };
 
   return (
-    <div className="signup">
-      <div>Sign up</div>
+    <div className={styles.signup}>
+      <header className={styles.header}>
+        <div className="title">Disbook</div>
+      </header>
 
-      <form onSubmit={handleSignupSubmit}>
-        <label htmlFor="fullName">Full name</label>
-        <input
-          type="text"
-          id="fullName"
-          name="fullName"
-          required
-          onChange={handleInputChange}
-        />
+      <div className={styles.container}>
+        <div className={styles.welcome}>Welcome to Disbook</div>
 
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          required
-          onChange={handleInputChange}
-        />
+        <div className={styles.button} onClick={handleGuestSubmit}>
+          Continue as a guest
+          <FontAwesomeIcon icon={faGlasses}></FontAwesomeIcon>
+        </div>
+        {!isCreatingAccount && (
+          <div
+            className={styles.button}
+            onClick={() => setIsCreatingAccount((pre) => !pre)}
+          >
+            Create new account
+            <FontAwesomeIcon icon={faUserPlus}></FontAwesomeIcon>
+          </div>
+        )}
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          onChange={handleInputChange}
-        />
+        {isCreatingAccount && (
+          <form
+            className={styles.form}
+            onSubmit={handleSignupSubmit}
+            ref={formRef}
+          >
+            <div className={styles.field}>
+              <label htmlFor="fullName">Full name</label>
+              <input
+                className={styles.input}
+                type="text"
+                id="fullName"
+                name="fullName"
+                required
+                onChange={handleInputChange}
+                placeholder="e.g Ahmad Zaher Alhafi"
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="username">Username</label>
+              <input
+                className={styles.input}
+                type="text"
+                id="username"
+                name="username"
+                required
+                onChange={handleInputChange}
+                placeholder="e.g myUsername123"
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="email">Email</label>
+              <input
+                className={styles.input}
+                type="email"
+                id="email"
+                name="email"
+                required
+                onChange={handleInputChange}
+                placeholder="e.g example@hotmail.com"
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="password">Password</label>
+              <input
+                className={styles.input}
+                ref={passwordRef}
+                type="password"
+                id="password"
+                name="password"
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="confirmPassword">Confirm password</label>
+              <input
+                className={styles.input}
+                ref={confirmPasswordRef}
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+          </form>
+        )}
 
-        <label htmlFor="password">Password</label>
-        <input
-          ref={passwordRef}
-          type="password"
-          id="password"
-          name="password"
-          required
-          onChange={handleInputChange}
-        />
+        {isCreatingAccount && (
+          <div
+            className={styles.button}
+            onClick={() => formRef.current.requestSubmit()}
+          >
+            Signup
+            <FontAwesomeIcon icon={faArrowRightToBracket}></FontAwesomeIcon>
+          </div>
+        )}
 
-        <label htmlFor="confirmPassword">Confirm password</label>
-        <input
-          ref={confirmPasswordRef}
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          required
-          onChange={handleInputChange}
-        />
+        {signupError !== undefined ? (
+          <div className={styles.signupError}>{signupError}</div>
+        ) : null}
 
-        <button>Signup</button>
-      </form>
-
-      {signupError !== undefined ? (
-        <div className="signupError">{signupError}</div>
-      ) : null}
-
-      <button onClick={handleGuestSubmit}>Continue as a guest</button>
-
-      <div>
-        Already have an account? <Link to={"/login"}>Login</Link>
+        <div className={styles.logInHint}>
+          Already have an account? <Link to={"/login"}>Login</Link>
+        </div>
       </div>
     </div>
   );

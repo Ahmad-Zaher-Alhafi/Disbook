@@ -1,0 +1,92 @@
+.signup {
+  background-color: #1e1f22;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+  padding: 0 0 20px 0;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1f22;
+  height: 3%;
+  width: 100%;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  background-color: #313338;
+  max-width: fit-content;
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.welcome {
+  color: #0866ff;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.form {
+  padding-top: 10px;
+  border-top: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  height: fit-content;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: x-large;
+  width: 100%;
+}
+
+.input {
+  background-color: #1e1f22;
+  height: 40px;
+  border: 3px solid white;
+  border-radius: 20px;
+  font-size: large;
+  padding: 7px 10px;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 400px;
+  height: 50px;
+  border: 3px solid white;
+  border-radius: 20px;
+  font-size: x-large;
+}
+
+.button:hover {
+  background-color: #0866ff;
+  cursor: pointer;
+}
+
+.signupError {
+  color: orange;
+}

@@ -10,7 +10,11 @@ import Feed from "./components/feed/Feed";
 import { MainTabs } from "./tabs";
 import { myInfo, reset, setMyInfo } from "./myInfo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComments,
+  faGlobe,
+  faDoorOpen,
+} from "@fortawesome/free-solid-svg-icons";
 import disbookLogo from "/src/assets/disbookLogo.png";
 
 const disbookApiUrl = import.meta.env.VITE_Disbook_API_URL;
@@ -95,18 +99,37 @@ function Disbook() {
         <div className="leftBar">
           <img className="disbookLogo" src={disbookLogo} alt="disbook logo" />
 
-          <FontAwesomeIcon
-            className="icon"
-            icon={faGlobe}
-            onClick={() => setOpenedTap(MainTabs.Feed)}
-            color={openedTap === MainTabs.Feed ? "#0866FF" : "none"}
-          ></FontAwesomeIcon>
-          <FontAwesomeIcon
-            className="icon"
-            icon={faComments}
-            onClick={() => setOpenedTap(MainTabs.Chat)}
-            color={openedTap === MainTabs.Chat ? "#0866FF" : "none"}
-          ></FontAwesomeIcon>
+          <div className="logoutIcon">
+            <FontAwesomeIcon
+              className="icon"
+              icon={faGlobe}
+              onClick={() => setOpenedTap(MainTabs.Feed)}
+              color={openedTap === MainTabs.Feed ? "#0866FF" : "none"}
+            ></FontAwesomeIcon>
+            Feed
+          </div>
+
+          <div className="logoutIcon">
+            <FontAwesomeIcon
+              className="icon"
+              icon={faComments}
+              onClick={() => setOpenedTap(MainTabs.Chat)}
+              color={openedTap === MainTabs.Chat ? "#0866FF" : "none"}
+            ></FontAwesomeIcon>
+            Chat
+          </div>
+
+          <div className="logoutIcon">
+            <FontAwesomeIcon
+              className="icon logOut"
+              icon={faDoorOpen}
+              onClick={() => {
+                storage.clear();
+                navigate("/login");
+              }}
+            ></FontAwesomeIcon>
+            Logout
+          </div>
         </div>
         <div className="displayer">
           <SocketProvider>

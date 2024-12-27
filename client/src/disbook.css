@@ -39,6 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   background-color: #1e1f22;
   width: 75px;
   padding: 10px;
@@ -76,15 +77,19 @@ body {
   cursor: pointer;
 }
 
-.logoutIcon {
+.iconHolder {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
 }
 
+.logOutIconHolder {
+  margin-top: auto;
+}
+
 .logOut:hover {
-  color: #ff0825
+  color: #ff0825;
 }
 
 .disbookLogo {

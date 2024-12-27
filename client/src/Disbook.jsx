@@ -99,7 +99,7 @@ function Disbook() {
         <div className="leftBar">
           <img className="disbookLogo" src={disbookLogo} alt="disbook logo" />
 
-          <div className="logoutIcon">
+          <div className="iconHolder">
             <FontAwesomeIcon
               className="icon"
               icon={faGlobe}
@@ -109,7 +109,7 @@ function Disbook() {
             Feed
           </div>
 
-          <div className="logoutIcon">
+          <div className="iconHolder">
             <FontAwesomeIcon
               className="icon"
               icon={faComments}
@@ -119,7 +119,7 @@ function Disbook() {
             Chat
           </div>
 
-          <div className="logoutIcon">
+          <div className="iconHolder logOutIconHolder">
             <FontAwesomeIcon
               className="icon logOut"
               icon={faDoorOpen}

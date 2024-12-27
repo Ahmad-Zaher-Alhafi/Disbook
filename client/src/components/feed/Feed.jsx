@@ -260,6 +260,8 @@ function Feed({ isOpened }) {
               <div>Friends</div>
             </div>
 
+            {friends?.length === 0 && <div>You have no friends currently</div>}
+
             <div className={styles.middleLeftContent}>
               <Friends
                 friends={friends}
